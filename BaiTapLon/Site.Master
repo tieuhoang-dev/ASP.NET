@@ -1,0 +1,288 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="BaiTapLon.SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - Web Bán Sách</title>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0; padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #343a40;
+            padding: 10px 20px;
+            color: white;
+        }
+        .header .logo {
+            display: flex;
+            align-items: center;
+        }
+        .header .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .header .search-box {
+            flex-grow: 1;
+            max-width: 500px;
+            margin: 0 20px;
+        }
+        .header .search-box input {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 20px;
+            border: none;
+        }
+        .header .actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+        .header .actions i {
+            font-size: 18px;
+            cursor: pointer;
+            color: white;
+        }
+        .header .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .user-menu {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background: white;
+            color: black;
+            border-radius: 5px;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            min-width: 150px;
+        }
+        .user-menu a {
+            padding: 10px;
+            text-decoration: none;
+            color: black;
+            border-bottom: 1px solid #eee;
+        }
+        .user-menu a:hover {
+            background-color: #f1f1f1;
+        }
+        .show-menu {
+            display: flex !important;
+        }
+        .main-menu {
+            background-color: #495057;
+            padding: 0;
+        }
+        .main-menu ul {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            list-style: none;
+            justify-content: center;
+        }
+        .main-menu ul li {
+            margin: 0;
+        }
+        .main-menu ul li a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+        .main-menu ul li a i {
+            margin-right: 8px;
+        }
+        .main-menu ul li a:hover {
+            background-color: #6c757d;
+        }
+        /* BỐ CỤC CHÍNH */
+        .main-content {
+            display: flex;
+            height: calc(100vh - 50px);
+            gap: 20px;
+            padding: 10px 20px;
+            box-sizing: border-box;
+        }
+        .col {
+            background: #f7f7f7;
+            padding: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow-y: auto;
+        }
+        .col-2 {
+            flex: 2;
+            max-height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .col-6 {
+            flex: 6;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: 100%;
+        }
+        .row {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            padding: 10px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+        .row-3 {
+            flex: 3;
+        }
+        .row-1-5 {
+            flex: 1.5;
+        }
+        .row-5 {
+            flex: 5;
+        }
+        .row-2 {
+            flex: 2;
+        }
+        .row-2-5 {
+            flex: 2.5;
+        }
+    </style>
+</head>
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+            </Scripts>
+        </asp:ScriptManager>
+
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <img src="~/Images/logo.png" alt="Logo" />
+                <span style="font-weight: bold; font-size: 20px;">Web Bán Sách</span>
+            </div>
+
+            <div class="search-box">
+                <input type="text" placeholder="Tìm kiếm sách..." />
+            </div>
+
+            <div class="actions">
+                <i class="fas fa-shopping-cart"></i>
+                <i class="fas fa-bell"></i>
+                <img src="~/Images/user.jpg" class="user-avatar" onclick="toggleUserMenu()" />
+                <div id="userMenu" class="user-menu">
+                    <a href="#">Thông tin người dùng</a>
+                    <a href="#">Đăng xuất</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu ngang -->
+        <div class="main-menu">
+            <ul>
+                <li><a href="~/Default.aspx"><i class="fas fa-home"></i> Trang chủ</a></li>
+                <li><a href="~/DanhSachSach.aspx"><i class="fas fa-book"></i> Sách</a></li>
+                <li><a href="~/DanhMucTheLoai.aspx"><i class="fas fa-th-list"></i> Thể loại</a></li>
+                <li><a href="~/TacGia.aspx"><i class="fas fa-user-pen"></i> Tác giả</a></li>
+                <li><a href="~/GioHang.aspx"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a></li>
+            </ul>
+        </div>
+
+        <!-- BỐ CỤC CHÍNH FLEX -->
+        <div class="main-content">
+            <!-- PHẦN 1: Chủ đề sách -->
+            <div class="col col-2">
+                <asp:ContentPlaceHolder ID="phChuDeSach" runat="server" />
+            </div>
+
+            <!-- PHẦN 2: Sách mới, Quảng cáo 1, Nội dung chính -->
+            <div class="col col-6">
+                <div class="row row-3">
+                    <asp:PlaceHolder ID="phSachMoi" runat="server" />
+                </div>
+                <div class="row row-1-5">
+                    <asp:PlaceHolder ID="phQuangCao1" runat="server" />
+                </div>
+                <div class="row row-5">
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+                </div>
+            </div>
+
+            <!-- PHẦN 3: Giỏ hàng, Quảng cáo 2, Sách bán chạy -->
+            <div class="col col-2">
+                <div class="row row-2">
+                    <asp:PlaceHolder ID="phGioHang" runat="server" />
+                </div>
+                <div class="row row-1-5">
+                    <asp:PlaceHolder ID="phQuangCao2" runat="server" />
+                </div>
+                <div class="row row-2-5">
+                    <asp:PlaceHolder ID="phSachBanChay" runat="server" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/Scripts/bootstrap.js") %>
+    </asp:PlaceHolder>
+
+    <script type="text/javascript">
+        function toggleUserMenu() {
+            var menu = document.getElementById('userMenu');
+            if (menu.classList.contains('show-menu')) {
+                menu.classList.remove('show-menu');
+            } else {
+                menu.classList.add('show-menu');
+            }
+        }
+        // Đóng menu khi click ra ngoài
+        document.addEventListener('click', function (event) {
+            var menu = document.getElementById('userMenu');
+            var avatar = document.querySelector('.user-avatar');
+            if (!menu.contains(event.target) && !avatar.contains(event.target)) {
+                menu.classList.remove('show-menu');
+            }
+        });
+    </script>
+</body>
+</html>
