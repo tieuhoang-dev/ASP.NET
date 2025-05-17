@@ -124,7 +124,7 @@
         /* BỐ CỤC CHÍNH */
         .main-content {
             display: flex;
-            height: calc(100vh - 50px);
+            height: 1200px;
             gap: 20px;
             padding: 10px 20px;
             box-sizing: border-box;
@@ -174,6 +174,54 @@
         .row-2-5 {
             flex: 2.5;
         }
+
+        .search-box {
+            position: relative;  
+            width: 100%;
+            max-width: 300px;
+        }
+       .search-input {
+            width: 100%;
+            padding: 8px 40px 8px 12px;
+            border-radius: 20px;
+            border: none;
+            box-sizing: border-box;
+            font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.5); 
+            color: #333;
+        }
+
+        .search-input::placeholder {
+            color: rgba(0, 0, 0, 0.3); 
+            font-style: italic;
+        }
+        .btn-search {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 18px;
+            color: #555;
+            line-height: 28px;
+            text-align: center;
+            z-index: 10;
+            margin-right:220px;
+        }
+        .btn-search::before {
+            content: "\f002"; 
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+        }
+        .btn-search:hover {
+            color: #000;
+        }
     </style>
 </head>
 <body>
@@ -201,10 +249,10 @@
                 <span style="font-weight: bold; font-size: 20px;">Web Bán Sách</span>
             </div>
 
-            <div class="search-box">
-                <input type="text" placeholder="Tìm kiếm sách..." />
-            </div>
-
+        <div class="search-box">
+            <input type="text" id="txtSearchMaster" name="txtSearchMaster" class="search-input" placeholder="Tìm Kiếm sách" />
+            <button type="submit" id="btnSearchMaster" name="btnSearchMaster" class="btn-search"></button>
+        </div>
             <div class="actions">
                 <i class="fas fa-shopping-cart"></i>
                 <i class="fas fa-bell"></i>
@@ -236,10 +284,10 @@
 
             <!-- PHẦN 2: Sách mới, Quảng cáo 1, Nội dung chính -->
             <div class="col col-6">
-                <div class="row row-3">
+                <div class="row row-1-7">
                     <asp:PlaceHolder ID="phSachMoi" runat="server" />
                 </div>
-                <div class="row row-1-5">
+                <div class="row row-2">
                     <asp:PlaceHolder ID="phQuangCao1" runat="server" />
                 </div>
                 <div class="row row-5">
