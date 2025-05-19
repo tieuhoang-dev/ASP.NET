@@ -66,28 +66,31 @@
 
 <div class="books-wrapper">
     <asp:Repeater ID="rptBooks" runat="server">
-        <ItemTemplate>
-            <div class="book-card">
+<ItemTemplate>
+    <a href='<%# Eval("MaSach", "BookDetail.aspx?ms={0}") %>' style="text-decoration: none; color: inherit;">
+        <div class="book-card">
+            <div>
+                <img src='<%# Eval("Hinh_minh_hoa") %>' alt="Hình sách" />
+            </div>
+            <div class="book-info">
                 <div>
-                    <img src='<%# Eval("Hinh_minh_hoa") %>' alt="Hình sách" />
+                    <h4><%# Eval("Ten_sach") %></h4>
+                    <p>Tác giả: <%# Eval("TenTacGia") %></p>
+                    <p>Chủ đề: <%# Eval("TenChuDe") %></p>
                 </div>
-                <div class="book-info">
-                    <div>
-                        <h4><%# Eval("Ten_sach") %></h4>
-                        <p>Tác giả: <%# Eval("TenTacGia") %></p>
-                        <p>Chủ đề: <%# Eval("TenChuDe") %></p>
-                    </div>
-                    <div class="book-footer">
-                        <span style="color: #e91e63; font-weight: bold;">
-                            <%# String.Format("{0:N0} VNĐ", Eval("Don_gia")) %>
-                        </span>
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <span><i class="fa fa-eye"></i> <%# Eval("So_lan_xem") %></span>
-                            <span><i class="fa fa-shopping-cart"></i> <%# Eval("So_luong_ban") %></span>
-                        </div>
+                <div class="book-footer">
+                    <span style="color: #e91e63; font-weight: bold;">
+                        <%# String.Format("{0:N0} VNĐ", Eval("Don_gia")) %>
+                    </span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <span><i class="fa fa-eye"></i> <%# Eval("So_lan_xem") %></span>
+                        <span><i class="fa fa-shopping-cart"></i> <%# Eval("So_luong_ban") %></span>
                     </div>
                 </div>
             </div>
-        </ItemTemplate>
+        </div>
+    </a>
+</ItemTemplate>
+
     </asp:Repeater>
 </div>

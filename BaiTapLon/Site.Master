@@ -256,18 +256,31 @@
             <div class="actions">
                 <i class="fas fa-shopping-cart"></i>
                 <i class="fas fa-bell"></i>
-                <img src="~/Images/user.jpg" class="user-avatar" onclick="toggleUserMenu()" />
-                <div id="userMenu" class="user-menu">
-                    <a href="#">Thông tin người dùng</a>
-                    <a href="#">Đăng xuất</a>
-                </div>
+
+                <!-- Liên kết đăng nhập/đăng ký -->
+                <asp:PlaceHolder ID="phNotLoggedIn" runat="server">
+                    <div style="color: white;">
+                        <a href="DangKy.aspx" style="color:white; margin-right: 10px;">Đăng ký</a> |
+                        <a href="Login.aspx" style="color:white; margin-left: 10px;">Đăng nhập</a>
+                    </div>
+                </asp:PlaceHolder>
+
+                <!-- Menu người dùng -->
+                <asp:PlaceHolder ID="phLoggedIn" runat="server" Visible="false">
+                    <img src="~/Images/user.jpg" class="user-avatar" onclick="toggleUserMenu()" />
+                    <div id="userMenu" class="user-menu">
+                        <asp:Label ID="lblUserName" runat="server" Text="User"></asp:Label>
+                        <a href="Default.aspx?action=logout">Đăng xuất</a>
             </div>
+    </asp:PlaceHolder>
+</div>
+
         </div>
 
         <!-- Menu ngang -->
         <div class="main-menu">
             <ul>
-                <li><a href="~/Default.aspx"><i class="fas fa-home"></i> Trang chủ</a></li>
+                <li><a href="/Default.aspx"><i class="fas fa-home"></i> Trang chủ</a></li>
                 <li><a href="~/DanhSachSach.aspx"><i class="fas fa-book"></i> Sách</a></li>
                 <li><a href="~/DanhMucTheLoai.aspx"><i class="fas fa-th-list"></i> Thể loại</a></li>
                 <li><a href="~/TacGia.aspx"><i class="fas fa-user-pen"></i> Tác giả</a></li>

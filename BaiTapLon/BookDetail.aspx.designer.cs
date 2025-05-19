@@ -11,97 +11,88 @@ namespace BaiTapLon
 {
 
 
-    public partial class SiteMaster
+    public partial class BookDetail
     {
 
         /// <summary>
-        /// phNotLoggedIn control.
+        /// form1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phNotLoggedIn;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// phLoggedIn control.
+        /// imgBook control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phLoggedIn;
+        protected global::System.Web.UI.WebControls.Image imgBook;
 
         /// <summary>
-        /// lblUserName control.
+        /// lblTenSach control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUserName;
+        protected global::System.Web.UI.WebControls.Label lblTenSach;
 
         /// <summary>
-        /// phChuDeSach control.
+        /// lblTacGia control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder phChuDeSach;
+        protected global::System.Web.UI.WebControls.Label lblTacGia;
 
         /// <summary>
-        /// phSachMoi control.
+        /// lblChuDe control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phSachMoi;
+        protected global::System.Web.UI.WebControls.Label lblChuDe;
 
         /// <summary>
-        /// phQuangCao1 control.
+        /// lblDonGia control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phQuangCao1;
+        protected global::System.Web.UI.WebControls.Label lblDonGia;
 
         /// <summary>
-        /// MainContent control.
+        /// lblMoTa control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+        protected global::System.Web.UI.WebControls.Label lblMoTa;
 
         /// <summary>
-        /// phGioHang control.
+        /// lblXem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phGioHang;
+        protected global::System.Web.UI.WebControls.Label lblXem;
 
         /// <summary>
-        /// phQuangCao2 control.
+        /// lblBan control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phQuangCao2;
-
-        /// <summary>
-        /// phSachBanChay control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phSachBanChay;
+        protected global::System.Web.UI.WebControls.Label lblBan;
     }
 }

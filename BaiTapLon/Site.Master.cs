@@ -7,7 +7,29 @@ namespace BaiTapLon
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Xử lý sự kiện tìm kiếm
+            // Xử lý logout khi có query string action=logout
+            if (Request.QueryString["action"] == "logout")
+            {
+                Session["UserName"] = null;  // Xóa session đăng nhập
+                Session["Password"] = null;
+                Response.Redirect(Request.Url.AbsolutePath); // Reload lại trang hiện tại không query string
+                return;
+            }
+
+            // Hiển thị menu user hoặc link đăng nhập/đăng ký
+            if (Session["UserName"] != null)
+            {
+                phLoggedIn.Visible = true;
+                phNotLoggedIn.Visible = false;
+                lblUserName.Text = Session["UserName"].ToString();
+            }
+            else
+            {
+                phLoggedIn.Visible = false;
+                phNotLoggedIn.Visible = true;
+            }
+
+            // Xử lý phần tìm kiếm và các controls khác như bạn đã có
             if (IsPostBack && Request.Form["btnSearchMaster"] != null)
             {
                 btnSearchMaster_Click(sender, e);
@@ -37,9 +59,12 @@ namespace BaiTapLon
                 phQuangCao1.Controls.Clear();
                 phQuangCao1.Controls.Add(QCControl);
 
+                var TopsellingControl = (TopSellingBooks)LoadControl("~/TopSellingBooks.ascx");
+                phSachBanChay.Controls.Clear();
+                phSachBanChay.Controls.Add(TopsellingControl);
+
                 Session["searchKeyword"] = null;
                 Session["ChuDeDuocChon"] = null;
-
             }
             else if (!string.IsNullOrEmpty(chuDeDuocChon))
             {
@@ -61,6 +86,10 @@ namespace BaiTapLon
                 phQuangCao1.Controls.Clear();
                 phQuangCao1.Controls.Add(QCControl);
 
+                var TopsellingControl = (TopSellingBooks)LoadControl("~/TopSellingBooks.ascx");
+                phSachBanChay.Controls.Clear();
+                phSachBanChay.Controls.Add(TopsellingControl);
+
                 Session["ChuDeDuocChon"] = null;
             }
             else
@@ -79,7 +108,11 @@ namespace BaiTapLon
 
                 var QCControl = (QuangCao)LoadControl("~/QuangCao.ascx");
                 phQuangCao1.Controls.Clear();
-                phQuangCao1 .Controls.Add(QCControl);
+                phQuangCao1.Controls.Add(QCControl);
+
+                var TopsellingControl = (TopSellingBooks)LoadControl("~/TopSellingBooks.ascx");
+                phSachBanChay.Controls.Clear();
+                phSachBanChay.Controls.Add(TopsellingControl);
             }
         }
 

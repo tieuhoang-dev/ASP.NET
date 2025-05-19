@@ -31,9 +31,20 @@ namespace BaiTapLon
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
 
-                rptSearchResults.DataSource = dt;
-                rptSearchResults.DataBind();
+                if (dt.Rows.Count == 0)
+                {
+                    rptSearchResults.DataSource = null;
+                    rptSearchResults.DataBind();
+                    lblNoResults.Visible = true;
+                }
+                else
+                {
+                    lblNoResults.Visible = false;
+                    rptSearchResults.DataSource = dt;
+                    rptSearchResults.DataBind();
+                }
             }
         }
+
     }
 }

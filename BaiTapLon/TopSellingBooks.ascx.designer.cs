@@ -11,25 +11,16 @@ namespace BaiTapLon
 {
 
 
-    public partial class Search
+    public partial class TopSellingBooks
     {
 
         /// <summary>
-        /// lblNoResults control.
+        /// rptTopBooks control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblNoResults;
-
-        /// <summary>
-        /// rptSearchResults control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptSearchResults;
+        protected global::System.Web.UI.WebControls.Repeater rptTopBooks;
     }
 }
