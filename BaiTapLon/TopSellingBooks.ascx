@@ -6,6 +6,7 @@
     <div id="bookCarouselWrapper">
         <asp:Repeater ID="rptTopBooks" runat="server">
             <ItemTemplate>
+                <a href='<%# Eval("Ma_sach", "BookDetail.aspx?ms={0}") %>' style="text-decoration: none; color: inherit;">
                 <div class="book-banner book-carousel-item">
                     <img src='<%# Eval("Hinh_minh_hoa") %>' alt="Ảnh sách" />
                     <div class="book-caption">
@@ -13,6 +14,7 @@
                         <p><%# Eval("Mo_ta").ToString().Length > 100 ? Eval("Mo_ta").ToString().Substring(0, 100) + "..." : Eval("Mo_ta") %></p>
                     </div>
                 </div>
+                </a>
             </ItemTemplate>
         </asp:Repeater>
 

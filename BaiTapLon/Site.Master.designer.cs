@@ -15,31 +15,13 @@ namespace BaiTapLon
     {
 
         /// <summary>
-        /// phNotLoggedIn control.
+        /// phHeader control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phNotLoggedIn;
-
-        /// <summary>
-        /// phLoggedIn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phLoggedIn;
-
-        /// <summary>
-        /// lblUserName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUserName;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder phHeader;
 
         /// <summary>
         /// phChuDeSach control.
@@ -78,22 +60,22 @@ namespace BaiTapLon
         protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
 
         /// <summary>
-        /// phGioHang control.
+        /// GioHangControl control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phGioHang;
+        protected global::BaiTapLon.GioHang GioHangControl;
 
         /// <summary>
-        /// phQuangCao2 control.
+        /// lblid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phQuangCao2;
+        protected global::System.Web.UI.WebControls.Label lblid;
 
         /// <summary>
         /// phSachBanChay control.

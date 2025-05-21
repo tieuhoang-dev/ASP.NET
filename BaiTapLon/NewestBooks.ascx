@@ -88,6 +88,7 @@
 
     <asp:Repeater ID="rptNewestBooks" runat="server">
         <ItemTemplate>
+            <a href='<%# Eval("MaSach", "BookDetail.aspx?ms={0}") %>' style="text-decoration: none; color: inherit;">
             <div class="carousel-item">
                 <img src='<%# Eval("Hinh_minh_hoa") %>' alt="Hình sách" />
                 <div class="book-info">
@@ -105,6 +106,7 @@
                     </div>
                 </div>
             </div>
+            </a>
         </ItemTemplate>
     </asp:Repeater>
 </div>

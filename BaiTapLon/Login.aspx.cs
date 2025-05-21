@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace BaiTapLon
 {
@@ -13,8 +10,10 @@ namespace BaiTapLon
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            lblError.Visible = false;
+            Session.Clear();
         }
+
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             string username = txtUsername.Text.Trim();
@@ -43,7 +42,15 @@ namespace BaiTapLon
                     Session["user_name"] = reader["Ho_ten"];
                     Session["username"] = username;
 
-                    Response.Redirect("Default.aspx");
+                    string returnUrl = Request.QueryString["returnUrl"];
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        Response.Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        Response.Redirect("Default.aspx"); 
+                    }
                 }
                 else
                 {
@@ -52,6 +59,7 @@ namespace BaiTapLon
                 }
 
                 reader.Close();
+                
             }
         }
     }

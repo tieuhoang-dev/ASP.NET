@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.UI;
+using BaiTapLon.Models;
 
 namespace BaiTapLon
 {
@@ -7,34 +8,6 @@ namespace BaiTapLon
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Xử lý logout khi có query string action=logout
-            if (Request.QueryString["action"] == "logout")
-            {
-                Session["UserName"] = null;  // Xóa session đăng nhập
-                Session["Password"] = null;
-                Response.Redirect(Request.Url.AbsolutePath); // Reload lại trang hiện tại không query string
-                return;
-            }
-
-            // Hiển thị menu user hoặc link đăng nhập/đăng ký
-            if (Session["UserName"] != null)
-            {
-                phLoggedIn.Visible = true;
-                phNotLoggedIn.Visible = false;
-                lblUserName.Text = Session["UserName"].ToString();
-            }
-            else
-            {
-                phLoggedIn.Visible = false;
-                phNotLoggedIn.Visible = true;
-            }
-
-            // Xử lý phần tìm kiếm và các controls khác như bạn đã có
-            if (IsPostBack && Request.Form["btnSearchMaster"] != null)
-            {
-                btnSearchMaster_Click(sender, e);
-                return;
-            }
 
             string keyword = Session["searchKeyword"] as string;
             string chuDeDuocChon = Session["ChuDeDuocChon"] as string;
@@ -63,6 +36,10 @@ namespace BaiTapLon
                 phSachBanChay.Controls.Clear();
                 phSachBanChay.Controls.Add(TopsellingControl);
 
+                var HeaderControl = (Header)LoadControl("~/Header.ascx");
+                phHeader.Controls.Clear();
+                phHeader.Controls.Add(HeaderControl);
+
                 Session["searchKeyword"] = null;
                 Session["ChuDeDuocChon"] = null;
             }
@@ -90,6 +67,10 @@ namespace BaiTapLon
                 phSachBanChay.Controls.Clear();
                 phSachBanChay.Controls.Add(TopsellingControl);
 
+                var HeaderControl = (Header)LoadControl("~/Header.ascx");
+                phHeader.Controls.Clear();
+                phHeader.Controls.Add(HeaderControl);
+
                 Session["ChuDeDuocChon"] = null;
             }
             else
@@ -113,23 +94,14 @@ namespace BaiTapLon
                 var TopsellingControl = (TopSellingBooks)LoadControl("~/TopSellingBooks.ascx");
                 phSachBanChay.Controls.Clear();
                 phSachBanChay.Controls.Add(TopsellingControl);
+
+                var HeaderControl = (Header)LoadControl("~/Header.ascx");
+                phHeader.Controls.Clear();
+                phHeader.Controls.Add(HeaderControl);
+                string userid = Session["user_id"] as string;
+                lblid.Text = userid;
             }
         }
 
-        protected void btnSearchMaster_Click(object sender, EventArgs e)
-        {
-            string keyword = Request.Form["txtSearchMaster"]?.Trim() ?? "";
-
-            if (!string.IsNullOrEmpty(keyword))
-            {
-                Session["searchKeyword"] = keyword;
-                Response.Redirect(Request.RawUrl);
-            }
-            else
-            {
-                Session["searchKeyword"] = null;
-                Response.Redirect(Request.RawUrl);
-            }
-        }
     }
 }

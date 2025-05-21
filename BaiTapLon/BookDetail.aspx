@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="BookDetail.aspx.cs" Inherits="BaiTapLon.BookDetail" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="BookDetail.aspx.cs" EnableSessionState="True" Inherits="BaiTapLon.BookDetail" %>
 
 <!DOCTYPE html>
 
@@ -8,9 +8,11 @@
         <webopt:bundlereference runat="server" path="~/Content/css" />
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
 
     <style>
-        .book-detail-container {
+         .book-detail-container {
             width: 800px;
             margin: 40px auto;
             display: flex;
@@ -20,6 +22,7 @@
             padding: 20px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             font-family: Arial, sans-serif;
+            margin-top:70px;
         }
 
         .book-image img {
@@ -37,208 +40,145 @@
         .book-info p {
             margin: 6px 0;
         }
-
-        .label {
-            font-weight: bold;
-        }
-                .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: #343a40;
-            padding: 10px 20px;
+         .add-to-cart-btn {
+            background-color: #28a745;
             color: white;
-        }
-        .header .logo {
-            display: flex;
-            align-items: center;
-        }
-        .header .logo img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        .header .search-box {
-            flex-grow: 1;
-            max-width: 500px;
-            margin: 0 20px;
-        }
-        .header .search-box input {
-            width: 100%;
-            padding: 8px 12px;
-            border-radius: 20px;
             border: none;
-        }
-        .header .actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            position: relative;
-        }
-        .header .actions i {
-            font-size: 18px;
+            padding: 10px 14px;
+            border-radius: 6px;
             cursor: pointer;
-            color: white;
+            font-size: 16px;
+            margin-top: 10px;
         }
-        .header .user-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
+        .add-to-cart-btn i {
+            margin-right: 6px;
         }
-        .user-menu {
-            position: absolute;
-            top: 45px;
-            right: 0;
-            background: white;
-            color: black;
-            border-radius: 5px;
+        .cart-dialog {
             display: none;
-            flex-direction: column;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            z-index: 999;
-            min-width: 150px;
+            position: fixed;
+            z-index: 9999;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
         }
-        .user-menu a {
-            padding: 10px;
-            text-decoration: none;
-            color: black;
-            border-bottom: 1px solid #eee;
+        .dialog-content {
+            background-color: white;
+            width: 320px;
+            margin: 100px auto;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
         }
-        .user-menu a:hover {
-            background-color: #f1f1f1;
+        .dialog-content h3 {
+            margin-top: 0;
         }
-        .show-menu {
-            display: flex !important;
+        .dialog-content input[type="number"] {
+            width: 80px;
+            padding: 5px;
+            margin: 10px 0;
         }
-        .main-menu {
-            background-color: #495057;
-            padding: 0;
+        .dialog-actions button {
+            padding: 8px 12px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
-        .main-menu ul {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            list-style: none;
-            justify-content: center;
-        }
-        .main-menu ul li {
-            margin: 0;
-        }
-        .main-menu ul li a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
+        .dialog-actions button:first-child {
+            background-color: #007bff;
             color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.2s ease;
         }
-        .main-menu ul li a i {
-            margin-right: 8px;
-        }
-        .main-menu ul li a:hover {
+        .dialog-actions button:last-child {
             background-color: #6c757d;
+            color: white;
         }
 
-         .search-box {
-             position: relative;  
-             width: 100%;
-             max-width: 300px;
-         }
-        .search-input {
-             width: 100%;
-             padding: 8px 40px 8px 12px;
-             border-radius: 20px;
-             border: none;
-             box-sizing: border-box;
-             font-size: 16px;
-             background-color: rgba(255, 255, 255, 0.5); 
-             color: #333;
-         }
-
-         .search-input::placeholder {
-             color: rgba(0, 0, 0, 0.3); 
-             font-style: italic;
-         }
-         .btn-search {
-             position: absolute;
-             right: 10px;
-             top: 50%;
-             transform: translateY(-50%);
-             width: 28px;
-             height: 28px;
-             border: none;
-             background: transparent;
-             cursor: pointer;
-             font-family: "Font Awesome 6 Free";
-             font-weight: 900;
-             font-size: 18px;
-             color: #555;
-             line-height: 28px;
-             text-align: center;
-             z-index: 10;
-             margin-right:220px;
-         }
-         .btn-search::before {
-             content: "\f002"; 
-             font-family: "Font Awesome 6 Free";
-             font-weight: 900;
-         }
-         .btn-search:hover {
-             color: #000;
-         }
     </style>
 </head>
 <body>
-    <form id="form1" runat="server">
-        <!-- Header -->
+<form id="form1" runat="server">
         <div class="header">
-            <div class="logo">
-                <img src="~/Images/logo.png" alt="Logo" />
-                <span style="font-weight: bold; font-size: 20px;">Web Bán Sách</span>
-            </div>
-
-        <div class="search-box">
-            <input type="text" id="txtSearchMaster" name="txtSearchMaster" class="search-input" placeholder="Tìm Kiếm sách" />
-            <button type="submit" id="btnSearchMaster" name="btnSearchMaster" class="btn-search"></button>
-        </div>
-            <div class="actions">
-                <i class="fas fa-shopping-cart"></i>
-                <i class="fas fa-bell"></i>
-                <img src="~/Images/user.jpg" class="user-avatar" onclick="toggleUserMenu()" />
-                <div id="userMenu" class="user-menu">
-                    <a href="#">Thông tin người dùng</a>
-                    <a href="#">Đăng xuất</a>
-                </div>
-            </div>
+            <asp:PlaceHolder ID="phHeader" runat="server" />
         </div>
 
-        <!-- Menu ngang -->
-        <div class="main-menu">
-            <ul>
-                <li><a href="/Default.aspx"><i class="fas fa-home"></i> Trang chủ</a></li>
-                <li><a href="~/DanhSachSach.aspx"><i class="fas fa-book"></i> Sách</a></li>
-                <li><a href="~/DanhMucTheLoai.aspx"><i class="fas fa-th-list"></i> Thể loại</a></li>
-                <li><a href="~/TacGia.aspx"><i class="fas fa-user-pen"></i> Tác giả</a></li>
-                <li><a href="~/GioHang.aspx"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a></li>
-            </ul>
+    <div class="book-detail-container">
+        <div class="book-image">
+            <asp:Image ID="imgBook" runat="server" />
         </div>
-        <div class="book-detail-container">
-             
-            <div class="book-image">
-                <asp:Image ID="imgBook" runat="server" />
-            </div>
-            <div class="book-info">
-                <h2><asp:Label ID="lblTenSach" runat="server" /></h2>
-                <p><span class="label">Tác giả:</span> <asp:Label ID="lblTacGia" runat="server" /></p>
-                <p><span class="label">Thể loại:</span> <asp:Label ID="lblChuDe" runat="server" /></p>
-                <p><span class="label">Giá:</span> <asp:Label ID="lblDonGia" runat="server" /></p>
-                <p><span class="label">Mô tả:</span><br /><asp:Label ID="lblMoTa" runat="server" /></p>
-                <p><span class="label">Lượt xem:</span> <asp:Label ID="lblXem" runat="server" /> | <span class="label">Đã bán:</span> <asp:Label ID="lblBan" runat="server" /></p>
+        <div class="book-info">
+            <h2><asp:Label ID="lblTenSach" runat="server" /></h2>
+            <p><span class="label">Tác giả:</span> <asp:Label ID="lblTacGia" runat="server" /></p>
+            <p><span class="label">Thể loại:</span> <asp:Label ID="lblChuDe" runat="server" /></p>
+            <p><span class="label">Giá:</span> <asp:Label ID="lblDonGia" runat="server" /></p>
+            <p><span class="label">Mô tả:</span><br /><asp:Label ID="lblMoTa" runat="server" /></p>
+            <p><span class="label">Lượt xem:</span> <asp:Label ID="lblXem" runat="server" /> | <span class="label">Đã bán:</span> <asp:Label ID="lblBan" runat="server" /></p>
+            <!-- Nút mở dialog -->
+            <button type="button" class="add-to-cart-btn" onclick="openCartDialog()">
+                <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
+            </button>
+            <p><asp:Label ID="lblCartCount" runat="server" ForeColor="Red" /></p>
+            <p><asp:Label ID="lblDebugCart" runat="server" ForeColor="Blue" /></p>
+
+            <!-- Nút ẩn submit để postback -->
+            <asp:Button ID="btnAddToCart" runat="server" OnClick="btnAddToCart_Click" Style="display:none" />
+            <asp:HiddenField ID="hfQuantity" runat="server" />
+            <asp:HiddenField ID="hfMaSach" runat="server" />
+        </div>
+    </div>
+
+    <!-- Dialog thêm giỏ hàng -->
+    <div id="cartDialog" class="cart-dialog" style="display:none;">
+        <div class="dialog-content">
+            <h3 id="dialogBookTitle">Tên sách</h3>
+            <p>Giá: <span id="dialogBookPrice"></span> VND</p>
+            <label for="quantity">Số lượng:</label>
+            <input type="number" id="quantity" value="1" min="1" onchange="updateTotal()" />
+            <p>Thành tiền: <span id="totalPrice"></span> VND</p>
+            <div class="dialog-actions">
+                <button type="button" onclick="confirmAddToCart()">Thêm vào giỏ hàng</button>
+                <button type="button" onclick="closeCartDialog()">Hủy</button>
             </div>
         </div>
-    </form>
+    </div>
+</form>
+
+<script type="text/javascript">
+    // Hàm mở dialog, thiết lập thông tin
+    function openCartDialog() {
+        var title = document.getElementById('<%= lblTenSach.ClientID %>').innerText;
+        var price = document.getElementById('<%= lblDonGia.ClientID %>').innerText.replace(/[^\d]/g, '');
+
+        document.getElementById('dialogBookTitle').innerText = title;
+        document.getElementById('dialogBookPrice').innerText = price;
+        document.getElementById('quantity').value = 1;
+        document.getElementById('totalPrice').innerText = price;
+
+        document.getElementById('cartDialog').style.display = 'block';
+    }
+
+    function closeCartDialog() {
+        document.getElementById('cartDialog').style.display = 'none';
+    }
+
+    function updateTotal() {
+        var price = parseFloat(document.getElementById('dialogBookPrice').innerText);
+        var qty = parseInt(document.getElementById('quantity').value);
+        document.getElementById('totalPrice').innerText = (price * qty).toLocaleString();
+    }
+
+    // Hàm gọi khi nhấn thêm vào giỏ hàng (postback)
+    function confirmAddToCart() {
+        var ms = '<%= Request.QueryString["ms"] %>';
+        var qty = parseInt(document.getElementById('quantity').value);
+
+        // Lưu dữ liệu vào hidden fields
+        document.getElementById('<%= hfMaSach.ClientID %>').value = ms;
+        document.getElementById('<%= hfQuantity.ClientID %>').value = qty;
+
+        // Submit button ẩn để postback
+        document.getElementById('<%= btnAddToCart.ClientID %>').click();
+    }
+</script>
+
 </body>
 </html>

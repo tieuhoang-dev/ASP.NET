@@ -1,4 +1,5 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="BaiTapLon.SiteMaster" %>
+<%@ Register Src="~/GioHang.ascx" TagPrefix="uc" TagName="GioHang" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,106 +21,6 @@
             height: 100%;
             margin: 0; padding: 0;
             font-family: Arial, sans-serif;
-        }
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: #343a40;
-            padding: 10px 20px;
-            color: white;
-        }
-        .header .logo {
-            display: flex;
-            align-items: center;
-        }
-        .header .logo img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        .header .search-box {
-            flex-grow: 1;
-            max-width: 500px;
-            margin: 0 20px;
-        }
-        .header .search-box input {
-            width: 100%;
-            padding: 8px 12px;
-            border-radius: 20px;
-            border: none;
-        }
-        .header .actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            position: relative;
-        }
-        .header .actions i {
-            font-size: 18px;
-            cursor: pointer;
-            color: white;
-        }
-        .header .user-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-        .user-menu {
-            position: absolute;
-            top: 45px;
-            right: 0;
-            background: white;
-            color: black;
-            border-radius: 5px;
-            display: none;
-            flex-direction: column;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            z-index: 999;
-            min-width: 150px;
-        }
-        .user-menu a {
-            padding: 10px;
-            text-decoration: none;
-            color: black;
-            border-bottom: 1px solid #eee;
-        }
-        .user-menu a:hover {
-            background-color: #f1f1f1;
-        }
-        .show-menu {
-            display: flex !important;
-        }
-        .main-menu {
-            background-color: #495057;
-            padding: 0;
-        }
-        .main-menu ul {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            list-style: none;
-            justify-content: center;
-        }
-        .main-menu ul li {
-            margin: 0;
-        }
-        .main-menu ul li a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.2s ease;
-        }
-        .main-menu ul li a i {
-            margin-right: 8px;
-        }
-        .main-menu ul li a:hover {
-            background-color: #6c757d;
         }
         /* BỐ CỤC CHÍNH */
         .main-content {
@@ -243,37 +144,8 @@
         </asp:ScriptManager>
 
         <!-- Header -->
-        <div class="header">
-            <div class="logo">
-                <img src="~/Images/logo.png" alt="Logo" />
-                <span style="font-weight: bold; font-size: 20px;">Web Bán Sách</span>
-            </div>
-
-        <div class="search-box">
-            <input type="text" id="txtSearchMaster" name="txtSearchMaster" class="search-input" placeholder="Tìm Kiếm sách" />
-            <button type="submit" id="btnSearchMaster" name="btnSearchMaster" class="btn-search"></button>
-        </div>
-            <div class="actions">
-                <i class="fas fa-shopping-cart"></i>
-                <i class="fas fa-bell"></i>
-
-                <!-- Liên kết đăng nhập/đăng ký -->
-                <asp:PlaceHolder ID="phNotLoggedIn" runat="server">
-                    <div style="color: white;">
-                        <a href="DangKy.aspx" style="color:white; margin-right: 10px;">Đăng ký</a> |
-                        <a href="Login.aspx" style="color:white; margin-left: 10px;">Đăng nhập</a>
-                    </div>
-                </asp:PlaceHolder>
-
-                <!-- Menu người dùng -->
-                <asp:PlaceHolder ID="phLoggedIn" runat="server" Visible="false">
-                    <img src="~/Images/user.jpg" class="user-avatar" onclick="toggleUserMenu()" />
-                    <div id="userMenu" class="user-menu">
-                        <asp:Label ID="lblUserName" runat="server" Text="User"></asp:Label>
-                        <a href="Default.aspx?action=logout">Đăng xuất</a>
-            </div>
-    </asp:PlaceHolder>
-</div>
+        <div>
+                <asp:ContentPlaceHolder ID="phHeader" runat="server" />
 
         </div>
 
@@ -311,10 +183,10 @@
             <!-- PHẦN 3: Giỏ hàng, Quảng cáo 2, Sách bán chạy -->
             <div class="col col-2">
                 <div class="row row-2">
-                    <asp:PlaceHolder ID="phGioHang" runat="server" />
+                    <uc:GioHang ID="GioHangControl" runat="server" />                
                 </div>
                 <div class="row row-1-5">
-                    <asp:PlaceHolder ID="phQuangCao2" runat="server" />
+                    <asp:Label ID="lblid" runat="server" />
                 </div>
                 <div class="row row-2-5">
                     <asp:PlaceHolder ID="phSachBanChay" runat="server" />

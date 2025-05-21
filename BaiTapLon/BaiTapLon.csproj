@@ -135,7 +135,9 @@
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Genre.ascx" />
+    <Content Include="GioHang.ascx" />
     <Content Include="Global.asax" />
+    <Content Include="Header.ascx" />
     <Content Include="Login.aspx" />
     <Content Include="NewestBooks.ascx" />
     <Content Include="QuangCao.ascx" />
@@ -233,6 +235,7 @@
     <Compile Include="BookOfGenre.ascx.designer.cs">
       <DependentUpon>BookOfGenre.ascx</DependentUpon>
     </Compile>
+    <Compile Include="CartItem.cs" />
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -261,8 +264,22 @@
     <Compile Include="Genre.ascx.designer.cs">
       <DependentUpon>Genre.ascx</DependentUpon>
     </Compile>
+    <Compile Include="GioHang.ascx.cs">
+      <DependentUpon>GioHang.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GioHang.ascx.designer.cs">
+      <DependentUpon>GioHang.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Header.ascx.cs">
+      <DependentUpon>Header.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Header.ascx.designer.cs">
+      <DependentUpon>Header.ascx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
@@ -325,6 +342,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
