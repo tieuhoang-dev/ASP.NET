@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Web.UI.WebControls.WebParts;
 using BaiTapLon.Models;
 using System.Web.UI.WebControls;
+using System.Web.Caching;
 
 namespace BaiTapLon
 {
@@ -17,6 +18,9 @@ namespace BaiTapLon
             if (!IsPostBack)
             {
                 LoadBooks();
+                bool isLoggedIn = Session["user_id"] != null;
+                string script = $"<script>var isLoggedIn = {(isLoggedIn.ToString().ToLower())};</script>";
+                Page.ClientScript.RegisterStartupScript(this.GetType(), "LoginCheck", script);
             }
 
 
@@ -27,11 +31,20 @@ namespace BaiTapLon
             string connectionString = ConfigurationManager.ConnectionStrings["QLbansachConnectionString"].ConnectionString;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT S.*, C.Ten_chu_de AS TenChuDe, TG.Ten_tac_gia AS TenTacGia " +
-                               "FROM vw_ThongTinSach S " +
-                               "LEFT JOIN dbo.THAM_GIA TGIA ON S.MaSach = TGIA.Ms " +
-                               "LEFT JOIN dbo.TAC_GIA TG ON TG.Mtg = TGIA.Mtg " +
-                               "LEFT JOIN dbo.CHU_DE C ON S.MaChuDe = C.Mcd";
+                 string query = @"
+            SELECT 
+                S.MaSach, S.Ten_sach, S.Hinh_minh_hoa, S.Don_gia, S.So_lan_xem, S.So_luong_ban, S.MaChuDe,
+                C.Ten_chu_de AS TenChuDe,
+                STRING_AGG(TG.Ten_tac_gia, ', ') AS TenTacGia
+            FROM 
+                vw_ThongTinSach S
+            LEFT JOIN dbo.THAM_GIA TGIA ON S.MaSach = TGIA.Ms
+            LEFT JOIN dbo.TAC_GIA TG ON TG.Mtg = TGIA.Mtg
+            LEFT JOIN dbo.CHU_DE C ON S.MaChuDe = C.Mcd
+            GROUP BY 
+                S.MaSach, S.Ten_sach, S.Hinh_minh_hoa, S.Don_gia, S.So_lan_xem, S.So_luong_ban, S.MaChuDe,
+                C.Ten_chu_de;
+        ";
 
                 SqlDataAdapter da = new SqlDataAdapter(query, conn);
                 DataTable dt = new DataTable();
@@ -40,70 +53,14 @@ namespace BaiTapLon
                 rptBooks.DataBind();
             }
         }
-        protected void BuyNow_Click(object sender, EventArgs e)
+        protected string GetOnClientClick(string maSach, string tenSach, decimal donGia, string functionName)
         {
-            LinkButton btn = (LinkButton)sender;
-            string maSach = btn.CommandArgument;
-
-            
+            // Escape chuỗi tenSach cho JS
+            tenSach = tenSach.Replace("\"", "\\\"").Replace("'", "\\'");
+            return $"{functionName}(\"{maSach}\", \"{tenSach}\", {donGia}); return false;";
         }
-        protected void btnConfirmOrder_Click(object sender, EventArgs e)
-        {
-            string maSach = hfMaSach.Value; 
-            litMaSach.Text = maSach;
-            if (string.IsNullOrEmpty(maSach))
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Không lấy được mã sách.');", true);
-                return;
-            }
-
-            string user_id = Session["user_id"]?.ToString();
-            if (string.IsNullOrEmpty(user_id))
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Vui lòng đăng nhập.');", true);
-                return;
-            }
-
-            int maKhachHang = int.Parse(user_id);
-            int ms = int.Parse(maSach);
-
-            if (!int.TryParse(txtQuantity.Text, out int soLuong) || soLuong <= 0)
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Số lượng không hợp lệ');", true);
-                return;
-            }
-
-            string diaChiGiaoHang = txtAddress.Text.Trim();
-            if (string.IsNullOrEmpty(diaChiGiaoHang))
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Vui lòng nhập địa chỉ giao hàng');", true);
-                return;
-            }
-
-            DataTable dtSachMua = new DataTable();
-            dtSachMua.Columns.Add("Ms", typeof(int));
-            dtSachMua.Columns.Add("So_luong", typeof(int));
-            dtSachMua.Rows.Add(ms, soLuong);
-
-            string connStr = ConfigurationManager.ConnectionStrings["QLbansachConnectionString"].ConnectionString;
-            using (SqlConnection conn = new SqlConnection(connStr))
-            using (SqlCommand cmd = new SqlCommand("DatDonHang_TheoMkh", conn))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Mkh", maKhachHang);
-
-                var tvpParam = cmd.Parameters.AddWithValue("@DanhSachSach", dtSachMua);
-                tvpParam.SqlDbType = SqlDbType.Structured;
-                tvpParam.TypeName = "dbo.SachMuaType";
-
-                conn.Open();
-                cmd.ExecuteNonQuery();
-            }
-
-            ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Đặt hàng thành công!'); closeModal();", true);
-
-            Response.Redirect("Default.aspx");
-        }
-
     }
+
 }
+
+

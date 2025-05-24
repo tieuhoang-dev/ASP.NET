@@ -116,6 +116,7 @@
             <button type="button" class="add-to-cart-btn" onclick="openCartDialog()">
                 <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
             </button>
+
             <p><asp:Label ID="lblCartCount" runat="server" ForeColor="Red" /></p>
             <p><asp:Label ID="lblDebugCart" runat="server" ForeColor="Blue" /></p>
 

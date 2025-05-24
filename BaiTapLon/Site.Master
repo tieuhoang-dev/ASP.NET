@@ -123,6 +123,61 @@
         .btn-search:hover {
             color: #000;
         }
+        .modal-content {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .modal-content h3 {
+            margin: 0;
+            font-size: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 8px;
+        }
+
+        .modal-content label {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .modal-content input[type="text"],
+        .modal-content textarea,
+        .modal-content select {
+            padding: 8px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .modal-content .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .modal-content .actions button,
+        .modal-content .actions input[type="submit"] {
+            padding: 8px 16px;
+            font-size: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .modal-content .actions .btn-confirm {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .modal-content .actions .btn-cancel {
+            background-color: #ccc;
+            color: #333;
+}
+
     </style>
 </head>
 <body>
@@ -192,6 +247,69 @@
                     <asp:PlaceHolder ID="phSachBanChay" runat="server" />
                 </div>
             </div>
+           <div id="buyNowModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%);
+             background:white; padding:20px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.3); z-index:1000; width:400px;">
+            <div class="modal-content">
+                <h3>Mua sách</h3>
+
+                <asp:HiddenField ID="hfMaSach" runat="server" />
+                <label>Tên sách:</label>
+                <span id="lblTenSach">Sách ABC</span>
+
+                <label>Mã sách:</label>
+                <span id="lblMaSach">123</span>
+
+                <div>
+                    <strong>Đơn giá:</strong> <span id="lblDonGia" style="color:#d9534f; font-weight:bold;"></span> VNĐ
+                </div>
+
+                <label>Số lượng:</label>
+                <asp:TextBox ID="txtQuantity" runat="server" Text="1" CssClass="form-control" />
+
+                <label>Địa chỉ giao hàng:</label>
+                <asp:TextBox ID="txtAddress" runat="server" TextMode="SingleLine" CssClass="form-control" />
+
+                <label>Phương thức thanh toán:</label>
+                <div>
+                    <input type="radio" id="cod" name="paymentMethod" value="COD" checked />
+                    <label for="cod">Thanh toán khi nhận hàng</label><br />
+                   <input type="radio" id="bank" name="paymentMethod" value="Bank" disabled />
+                   <label for="bank" style="opacity: 0.5; cursor: not-allowed;">Chuyển khoản ngân hàng (Tạm thời không khả dụng)</label>
+                </div>
+
+                <label>Thành tiền:</label>
+                <span id="lblThanhTien">0đ</span>
+
+                <div class="actions">
+                    <asp:Button ID="btnConfirmOrder" runat="server" Text="Mua" CssClass="btn-confirm" OnClick="btnConfirmOrder_Click" />
+                    <button type="button" class="btn-cancel" onclick="closeModal()">Hủy</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+             background:rgba(0,0,0,0.5); z-index:999;" onclick="closeModal()">
+
+        </div>
+            <!-- Dialog thêm giỏ hàng (dùng chung) -->
+        <div id="cartDialog" class="cart-dialog" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.3); z-index:1000;">
+            <div class="dialog-content">
+                <h3 id="dialogBookTitle">Tên sách</h3>
+                <p>Giá: <span id="dialogBookPrice"></span> VND</p>
+                <label for="quantity">Số lượng:</label>
+                <input type="number" id="quantity" value="1" min="1" onchange="updateTotal()" />
+                <p>Thành tiền: <span id="totalPrice"></span> VND</p>
+                <div class="dialog-actions">
+                    <button type="button" onclick="confirmAddToCart()">Thêm vào giỏ hàng</button>
+                    <button type="button" onclick="closeCartDialog()">Hủy</button>
+                </div>
+            </div>
+        </div>
+
+        <asp:Button ID="btnAddToCart" runat="server" Style="display:none" OnClick="btnAddToCart_Click" />
+        <asp:HiddenField ID="hfMaSach_AddToCart" runat="server" />
+        <asp:HiddenField ID="hfQuantity_AddToCart" runat="server" />
+
         </div>
     </form>
 
@@ -216,6 +334,72 @@
                 menu.classList.remove('show-menu');
             }
         });
+        function openModal(maSach, tenSach, donGia) {
+            document.getElementById('<%= hfMaSach.ClientID %>').value = maSach;
+            document.getElementById('lblMaSach').innerText = maSach;
+            document.getElementById('lblTenSach').innerText = tenSach;
+            document.getElementById('lblDonGia').innerText = donGia.toLocaleString();
+
+            const quantityInput = document.getElementById('<%= txtQuantity.ClientID %>');
+            quantityInput.value = 1;
+            updateThanhTien(quantityInput.value, donGia);
+
+            quantityInput.oninput = function () {
+                updateThanhTien(this.value, donGia);
+            };
+
+            document.getElementById('buyNowModal').style.display = 'block';
+            document.getElementById('modalOverlay').style.display = 'block';
+        }
+
+        function updateThanhTien(sl, donGia) {
+            let soLuong = parseInt(sl) || 0;
+            let tongTien = soLuong * donGia;
+            document.getElementById("lblThanhTien").innerText = tongTien.toLocaleString() + " đ";
+        }
+
+
+        function closeModal() {
+            document.getElementById("buyNowModal").style.display = "none";
+            document.getElementById("modalOverlay").style.display = "none";
+        }
+
+        function confirmOrder() {
+            var maSach = document.getElementById("hfMaSach").value;
+            var soLuong = document.getElementById("txtQuantity").value;
+            var diaChi = document.getElementById("txtAddress").value;
+
+            alert("Đặt mua sách mã: " + maSach + "\nSố lượng: " + soLuong + "\nĐịa chỉ: " + diaChi);
+            closeModal();
+        }
+        function openCartDialog(maSach, tenSach, donGia) {
+            document.getElementById('dialogBookTitle').innerText = tenSach;
+            document.getElementById('dialogBookPrice').innerText = donGia;
+            document.getElementById('quantity').value = 1;
+            document.getElementById('totalPrice').innerText = parseInt(donGia).toLocaleString();
+
+            // Gán dữ liệu cho hidden
+            document.getElementById('<%= hfMaSach_AddToCart.ClientID %>').value = maSach;
+
+            document.getElementById('cartDialog').style.display = 'block';
+        }
+
+        function closeCartDialog() {
+            document.getElementById('cartDialog').style.display = 'none';
+        }
+
+        function updateTotal() {
+            var price = parseInt(document.getElementById('dialogBookPrice').innerText);
+            var qty = parseInt(document.getElementById('quantity').value);
+            document.getElementById('totalPrice').innerText = (price * qty).toLocaleString();
+        }
+
+        function confirmAddToCart() {
+            var qty = parseInt(document.getElementById('quantity').value);
+            document.getElementById('<%= hfQuantity_AddToCart.ClientID %>').value = qty;
+            document.getElementById('<%= btnAddToCart.ClientID %>').click();
+        }
+
     </script>
 </body>
 </html>

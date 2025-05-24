@@ -12,6 +12,7 @@ namespace BaiTapLon
 {
     public partial class BookDetail : System.Web.UI.Page
     {
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -22,8 +23,8 @@ namespace BaiTapLon
 
             var HeaderControl = (Header)LoadControl("~/Header.ascx");
             phHeader.Controls.Clear();
-            phHeader.Controls.Add(HeaderControl);  
-            
+            phHeader.Controls.Add(HeaderControl);
+           
         }
 
         private void LoadBookDetail(string maSach)
@@ -115,6 +116,6 @@ namespace BaiTapLon
             script = "document.getElementById('cartDialog').style.display = 'none';";
             ScriptManager.RegisterStartupScript(this, this.GetType(), "closeDialog", script, true);
         }
-
+        
     }
 }

@@ -81,6 +81,29 @@
         text-decoration: none;
         color: white;
     }
+    .btn-add-to-cart {
+        background-color: #2196F3; 
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        font-size: 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+    }
+
+    .btn-add-to-cart:hover {
+        background-color: #1976D2;
+        color: white;
+    }
+    .book-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 8px;
+    }
 
 </style>
 
@@ -108,57 +131,50 @@
                     </div>
  
                 </div>
-                <asp:LinkButton runat="server" 
-                    OnClientClick='<%# "openModal(\"" + Eval("MaSach") + "\"); return false;" %>' 
-                    CssClass="btn-buy-now" CommandArgument='<%# Eval("MaSach") %>'>
+                </a>
+    <div class="book-actions">
+               <asp:LinkButton runat="server" CssClass="btn-buy-now" 
+                    data-masach='<%# Eval("MaSach") %>' 
+                    data-tensach='<%# Eval("Ten_sach").ToString().Replace("\"", "\\\"") %>' 
+                    data-dongia='<%# String.Format("{0:0}", Eval("Don_gia")) %>'
+                    OnClientClick="openModal(this.getAttribute('data-masach'), this.getAttribute('data-tensach'), this.getAttribute('data-dongia')); return false;">
                     <i class="fa fa-credit-card"></i> Mua ngay
                 </asp:LinkButton>
+                
+                 <asp:LinkButton runat="server"
+                     CssClass="btn-add-to-cart"
+                     data-masach='<%# Eval("MaSach") %>'
+                     data-tensach='<%# Eval("Ten_sach").ToString().Replace("\"", "\\\"") %>'
+                     data-dongia='<%# String.Format("{0:0}", Eval("Don_gia")) %>'>
+                     <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
+                 </asp:LinkButton>
+        </div>
             </div>
         </div>
-    </a>
+    
 </ItemTemplate>
+</asp:Repeater>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.btn-buy-now').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const maSach = this.getAttribute('data-masach');
+                    const tenSach = this.getAttribute('data-tensach');
+                    const donGia = parseInt(this.getAttribute('data-dongia'));
+                    openModal(maSach, tenSach, donGia);
+                });
+            });
 
-
-    </asp:Repeater>
-
-    <!-- Modal dialog -->
-        <div id="buyNowModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%);
-            background:white; padding:20px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.3); z-index:1000;">
-            <h3>Mua sách</h3>
-            <div style="margin-bottom:10px;">
-                <strong>Mã sách:</strong> <asp:Literal ID="litMaSach" runat="server" />
-            </div>
-            <asp:HiddenField ID="hfMaSach" runat="server" />
-            <div>
-                <label>Số lượng:</label>
-                <asp:TextBox ID="txtQuantity" runat="server" Text="1" Width="50px"></asp:TextBox>
-            </div>
-            <div style="margin-top:10px;">
-                <label>Địa chỉ giao hàng:</label><br />
-                <asp:TextBox ID="txtAddress" runat="server" TextMode="MultiLine" Rows="3" Columns="30"></asp:TextBox>
-            </div>
-            <div style="margin-top:15px; text-align:right;">
-            <asp:LinkButton ID="lnkMua" runat="server" Text="Mua" CommandArgument='<%# Eval("MaSach") %>' OnClick="btnConfirmOrder_Click" />
-                <button type="button" onclick="closeModal()">Hủy</button>
-            </div>
-        </div>
-
-        <!-- Overlay -->
-        <div id="modalOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
-            background:rgba(0,0,0,0.5); z-index:999;" onclick="closeModal()"></div>
-
-        <script type="text/javascript">
-            function openModal(maSach) {
-                alert("Mở modal với mã sách: " + maSach);
-                document.getElementById('<%= hfMaSach.ClientID %>').value = maSach;
-                document.getElementById('buyNowModal').style.display = 'block';
-                document.getElementById('modalOverlay').style.display = 'block';
-            }
-
-            function closeModal() {
-                document.getElementById('buyNowModal').style.display = 'none';
-                document.getElementById('modalOverlay').style.display = 'none';
-            }
-        </script>
-
+            document.querySelectorAll('.btn-add-to-cart').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const maSach = this.getAttribute('data-masach');
+                    const tenSach = this.getAttribute('data-tensach');
+                    const donGia = parseInt(this.getAttribute('data-dongia'));
+                    openCartDialog(maSach, tenSach, donGia);
+                });
+            });
+        });
+    </script>
 </div>

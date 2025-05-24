@@ -1,3 +1,5 @@
+C:\Users\asus\source\repos\BaiTapLon\BaiTapLon\obj\Debug\BaiTapLon.csproj.AssemblyReference.cache
+C:\Users\asus\source\repos\BaiTapLon\BaiTapLon\obj\Debug\BaiTapLon.csproj.CoreCompileInputs.cache
 C:\Users\asus\source\repos\BaiTapLon\BaiTapLon\bin\BaiTapLon.dll.config
 C:\Users\asus\source\repos\BaiTapLon\BaiTapLon\bin\BaiTapLon.dll
 C:\Users\asus\source\repos\BaiTapLon\BaiTapLon\bin\BaiTapLon.pdb
@@ -71,8 +73,6 @@ C:\Users\asus\source\repos\BaiTapLon\BaiTapLon\bin\Newtonsoft.Json.xml
 C:\Users\asus\source\repos\BaiTapLon\BaiTapLon\bin\Antlr3.Runtime.pdb
 C:\Users\asus\source\repos\BaiTapLon\BaiTapLon\bin\Microsoft.AspNet.FriendlyUrls.xml
 C:\Users\asus\source\repos\BaiTapLon\BaiTapLon\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\asus\source\repos\BaiTapLon\BaiTapLon\obj\Debug\BaiTapLon.csproj.AssemblyReference.cache
-C:\Users\asus\source\repos\BaiTapLon\BaiTapLon\obj\Debug\BaiTapLon.csproj.CoreCompileInputs.cache
 C:\Users\asus\source\repos\BaiTapLon\BaiTapLon\obj\Debug\BaiTapLon.csproj.Up2Date
 C:\Users\asus\source\repos\BaiTapLon\BaiTapLon\obj\Debug\BaiTapLon.dll
 C:\Users\asus\source\repos\BaiTapLon\BaiTapLon\obj\Debug\BaiTapLon.pdb

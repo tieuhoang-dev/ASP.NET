@@ -57,7 +57,7 @@ namespace BaiTapLon
                     }
                 }
 
-                BindGioHang(); // Refresh lại
+                Response.Redirect("~/Default.aspx");
             }
         }
     }
