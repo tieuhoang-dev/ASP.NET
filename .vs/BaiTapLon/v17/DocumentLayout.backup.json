@@ -7,20 +7,16 @@
       "RelativeMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|solutionrelative:baitaplon\\site.master||{B30AFBFF-D992-43B7-B62D-2642580A2883}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|c:\\users\\asus\\source\\repos\\baitaplon\\baitaplon\\bookdetail.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|solutionrelative:baitaplon\\bookdetail.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|c:\\users\\asus\\source\\repos\\baitaplon\\baitaplon\\bookdetail.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|solutionrelative:baitaplon\\bookdetail.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|C:\\Users\\asus\\source\\repos\\BaiTapLon\\baitaplon\\allbook.ascx||{F390D63C-F7D8-4E74-AA04-57C1ECF53D4D}",
       "RelativeMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|solutionrelative:baitaplon\\allbook.ascx||{F390D63C-F7D8-4E74-AA04-57C1ECF53D4D}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|C:\\Users\\asus\\source\\repos\\BaiTapLon\\baitaplon\\bookofgenre.ascx||{F390D63C-F7D8-4E74-AA04-57C1ECF53D4D}",
-      "RelativeMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|solutionrelative:baitaplon\\bookofgenre.ascx||{F390D63C-F7D8-4E74-AA04-57C1ECF53D4D}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|C:\\Users\\asus\\source\\repos\\BaiTapLon\\baitaplon\\search.ascx||{F390D63C-F7D8-4E74-AA04-57C1ECF53D4D}",
-      "RelativeMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|solutionrelative:baitaplon\\search.ascx||{F390D63C-F7D8-4E74-AA04-57C1ECF53D4D}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|C:\\Users\\asus\\source\\repos\\BaiTapLon\\baitaplon\\newestbooks.ascx||{F390D63C-F7D8-4E74-AA04-57C1ECF53D4D}",
-      "RelativeMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|solutionrelative:baitaplon\\newestbooks.ascx||{F390D63C-F7D8-4E74-AA04-57C1ECF53D4D}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|C:\\Users\\asus\\source\\repos\\BaiTapLon\\baitaplon\\site.master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -34,47 +30,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "NewestBooks.ascx",
-              "DocumentMoniker": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\NewestBooks.ascx",
-              "RelativeDocumentMoniker": "BaiTapLon\\NewestBooks.ascx",
-              "ToolTip": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\NewestBooks.ascx",
-              "RelativeToolTip": "BaiTapLon\\NewestBooks.ascx",
-              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003302|",
-              "WhenOpened": "2025-05-24T01:26:16.687Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "search.ascx",
-              "DocumentMoniker": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\search.ascx",
-              "RelativeDocumentMoniker": "BaiTapLon\\search.ascx",
-              "ToolTip": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\search.ascx",
-              "RelativeToolTip": "BaiTapLon\\search.ascx",
-              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003302|",
-              "WhenOpened": "2025-05-24T01:18:17.972Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "BookOfGenre.ascx",
-              "DocumentMoniker": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\BookOfGenre.ascx",
-              "RelativeDocumentMoniker": "BaiTapLon\\BookOfGenre.ascx",
-              "ToolTip": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\BookOfGenre.ascx",
-              "RelativeToolTip": "BaiTapLon\\BookOfGenre.ascx",
+              "Title": "BookDetail.aspx",
+              "DocumentMoniker": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\BookDetail.aspx",
+              "RelativeDocumentMoniker": "BaiTapLon\\BookDetail.aspx",
+              "ToolTip": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\BookDetail.aspx",
+              "RelativeToolTip": "BaiTapLon\\BookDetail.aspx",
               "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003302|",
-              "WhenOpened": "2025-05-24T01:17:10.502Z"
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-05-24T19:15:38.832Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "BookDetail.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\BookDetail.aspx.cs",
+              "RelativeDocumentMoniker": "BaiTapLon\\BookDetail.aspx.cs",
+              "ToolTip": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\BookDetail.aspx.cs",
+              "RelativeToolTip": "BaiTapLon\\BookDetail.aspx.cs",
+              "ViewState": "AgIAAL0AAAAAAAAAAADwv8AAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-24T19:15:31.675Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Allbook.ascx",
               "DocumentMoniker": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\Allbook.ascx",
               "RelativeDocumentMoniker": "BaiTapLon\\Allbook.ascx",
@@ -82,19 +68,21 @@
               "RelativeToolTip": "BaiTapLon\\Allbook.ascx",
               "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003302|",
-              "WhenOpened": "2025-05-24T00:06:19.455Z"
+              "WhenOpened": "2025-05-24T00:06:19.455Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "Site.Master.cs",
               "DocumentMoniker": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\Site.Master.cs",
               "RelativeDocumentMoniker": "BaiTapLon\\Site.Master.cs",
               "ToolTip": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\Site.Master.cs",
               "RelativeToolTip": "BaiTapLon\\Site.Master.cs",
-              "ViewState": "AgIAAEsAAAAAAAAAAAAIwFYAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAAAG0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-23T21:50:33.192Z"
+              "WhenOpened": "2025-05-23T21:50:33.192Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

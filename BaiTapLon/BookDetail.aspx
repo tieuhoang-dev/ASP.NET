@@ -1,185 +1,228 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="BookDetail.aspx.cs" EnableSessionState="True" Inherits="BaiTapLon.BookDetail" %>
 
 <!DOCTYPE html>
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-   <title>Chi Tiết Sách</title>
-        <webopt:bundlereference runat="server" path="~/Content/css" />
-        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-
+    <title>Chi Tiết Sách</title>
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-         .book-detail-container {
-            width: 800px;
-            margin: 40px auto;
+        .book-detail-container {
+            max-width: 900px;
+            margin: 70px auto 40px;
             display: flex;
-            gap: 20px;
-            border: 1px solid #ccc;
+            gap: 25px;
+            border: 1px solid #ddd;
             border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             font-family: Arial, sans-serif;
-            margin-top:70px;
         }
-
         .book-image img {
-            width: 200px;
-            height: 280px;
+            width: 220px;
+            height: 300px;
             object-fit: cover;
-            border-radius: 6px;
+            border-radius: 8px;
         }
-
         .book-info h2 {
-            margin-top: 0;
-            color: #e91e63;
+            color: #d6336c;
         }
-
         .book-info p {
-            margin: 6px 0;
+            margin: 8px 0;
         }
-         .add-to-cart-btn {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 10px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px;
+        .btn-open-modal {
+            margin-right: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
-        .add-to-cart-btn i {
-            margin-right: 6px;
-        }
-        .cart-dialog {
+        /* Modal chung */
+        #buyNowModal, #cartModal {
             display: none;
             position: fixed;
-            z-index: 9999;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+            width: 400px;
+        }
+        #modalOverlay {
+            display: none;
+            position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
         }
-        .dialog-content {
-            background-color: white;
-            width: 320px;
-            margin: 100px auto;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
+        /* Modal content */
+        .modal-content h3 {
+            margin-bottom: 15px;
         }
-        .dialog-content h3 {
-            margin-top: 0;
+        .modal-content label {
+            font-weight: 600;
         }
-        .dialog-content input[type="number"] {
-            width: 80px;
-            padding: 5px;
-            margin: 10px 0;
+        .modal-content .actions {
+            margin-top: 20px;
         }
-        .dialog-actions button {
-            padding: 8px 12px;
-            margin: 5px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .dialog-actions button:first-child {
-            background-color: #007bff;
-            color: white;
-        }
-        .dialog-actions button:last-child {
-            background-color: #6c757d;
-            color: white;
-        }
-
     </style>
 </head>
 <body>
-<form id="form1" runat="server">
-        <div class="header">
-            <asp:PlaceHolder ID="phHeader" runat="server" />
-        </div>
+    <form id="form1" runat="server">
+        <asp:PlaceHolder ID="phHeader" runat="server" />
 
-    <div class="book-detail-container">
-        <div class="book-image">
-            <asp:Image ID="imgBook" runat="server" />
-        </div>
-        <div class="book-info">
-            <h2><asp:Label ID="lblTenSach" runat="server" /></h2>
-            <p><span class="label">Tác giả:</span> <asp:Label ID="lblTacGia" runat="server" /></p>
-            <p><span class="label">Thể loại:</span> <asp:Label ID="lblChuDe" runat="server" /></p>
-            <p><span class="label">Giá:</span> <asp:Label ID="lblDonGia" runat="server" /></p>
-            <p><span class="label">Mô tả:</span><br /><asp:Label ID="lblMoTa" runat="server" /></p>
-            <p><span class="label">Lượt xem:</span> <asp:Label ID="lblXem" runat="server" /> | <span class="label">Đã bán:</span> <asp:Label ID="lblBan" runat="server" /></p>
-            <!-- Nút mở dialog -->
-            <button type="button" class="add-to-cart-btn" onclick="openCartDialog()">
-                <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
-            </button>
-
-            <p><asp:Label ID="lblCartCount" runat="server" ForeColor="Red" /></p>
-            <p><asp:Label ID="lblDebugCart" runat="server" ForeColor="Blue" /></p>
-
-            <!-- Nút ẩn submit để postback -->
-            <asp:Button ID="btnAddToCart" runat="server" OnClick="btnAddToCart_Click" Style="display:none" />
-            <asp:HiddenField ID="hfQuantity" runat="server" />
-            <asp:HiddenField ID="hfMaSach" runat="server" />
-        </div>
-    </div>
-
-    <!-- Dialog thêm giỏ hàng -->
-    <div id="cartDialog" class="cart-dialog" style="display:none;">
-        <div class="dialog-content">
-            <h3 id="dialogBookTitle">Tên sách</h3>
-            <p>Giá: <span id="dialogBookPrice"></span> VND</p>
-            <label for="quantity">Số lượng:</label>
-            <input type="number" id="quantity" value="1" min="1" onchange="updateTotal()" />
-            <p>Thành tiền: <span id="totalPrice"></span> VND</p>
-            <div class="dialog-actions">
-                <button type="button" onclick="confirmAddToCart()">Thêm vào giỏ hàng</button>
-                <button type="button" onclick="closeCartDialog()">Hủy</button>
+        <div class="book-detail-container">
+            <div class="book-image">
+                <asp:Image ID="imgBook" runat="server" CssClass="img-fluid" />
+            </div>
+            <div class="book-info flex-grow-1">
+                <h2><asp:Label ID="lblTenSach" runat="server" /></h2>
+                <p><b>Tác giả:</b> <asp:Label ID="lblTacGia" runat="server" /></p>
+                <p><b>Thể loại:</b> <asp:Label ID="lblChuDe" runat="server" /></p>
+                <p><b>Giá:</b> <asp:Label ID="lblDonGia" runat="server" /></p>
+                <p><b>Mô tả:</b><br /><asp:Label ID="lblMoTa" runat="server" /></p>
+                <p>
+                    <b>Lượt xem:</b> <asp:Label ID="lblXem" runat="server" /> |
+                    <b>Đã bán:</b> <asp:Label ID="lblBan" runat="server" />
+                </p>
+                <asp:LinkButton ID="btnShowOrderModal" runat="server" CssClass="btn btn-success btn-open-modal" OnClientClick="showOrderModal(); return false;">
+                    <i class="fas fa-credit-card"></i> Đặt hàng ngay
+                </asp:LinkButton>
+                <asp:LinkButton ID="btnShowCartModal" runat="server" CssClass="btn btn-primary btn-open-modal" OnClientClick="showCartModal(); return false;">
+                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng
+                </asp:LinkButton>
+                <p><asp:Label ID="lblCartCount" runat="server" ForeColor="Red" /></p>
+                <p><asp:Label ID="lblDebugCart" runat="server" ForeColor="Blue" /></p>
             </div>
         </div>
-    </div>
-</form>
 
-<script type="text/javascript">
-    // Hàm mở dialog, thiết lập thông tin
-    function openCartDialog() {
-        var title = document.getElementById('<%= lblTenSach.ClientID %>').innerText;
-        var price = document.getElementById('<%= lblDonGia.ClientID %>').innerText.replace(/[^\d]/g, '');
+        <!-- Modal giỏ hàng thủ công -->
+        <div id="cartModal">
+            <div class="modal-content">
+                <h3>Thêm vào giỏ hàng</h3>
+                <h6 id="cartBookTitle"></h6>
+                <p>Giá: <span id="cartBookPrice"></span> VNĐ</p>
+                <label for="cartQuantity">Số lượng:</label>
+                <input type="number" id="cartQuantity" class="form-control" value="1" min="1" />
+                <p>Thành tiền: <strong id="cartTotalPrice"></strong> VNĐ</p>
+                <div class="actions text-end mt-3">
+                    <asp:HiddenField ID="hfQuantityCart" runat="server" />
+                    <asp:HiddenField ID="hfMaSachCart" runat="server" />
+                    <asp:Button ID="btnAddToCart" runat="server" Text="Thêm vào giỏ hàng" CssClass="btn btn-success" OnClick="btnAddToCart_Click" />
+                    <button type="button" class="btn btn-secondary" onclick="closeCartModal()">Hủy</button>
+                </div>
+            </div>
+        </div>
 
-        document.getElementById('dialogBookTitle').innerText = title;
-        document.getElementById('dialogBookPrice').innerText = price;
-        document.getElementById('quantity').value = 1;
-        document.getElementById('totalPrice').innerText = price;
+        <!-- Modal mua ngay -->
+        <div id="buyNowModal">
+            <div class="modal-content">
+                <h3>Mua sách</h3>
+                <asp:HiddenField ID="hfMaSachOrder" runat="server" />
+                <label>Tên sách:</label>
+                <span id="lblOrderBookTitle"></span>
+                <br />
+                <label>Mã sách:</label>
+                <span id="lblOrderMaSach"></span>
+                <br />
+                <label>Đơn giá:</label>
+                <span id="lblOrderDonGia" style="color:red;font-weight:bold;"></span> VNĐ
+                <br /><br />
+                <label for="txtQuantityOrder">Số lượng:</label>
+                <asp:TextBox ID="txtQuantityOrder" runat="server" CssClass="form-control" Text="1" />
+                <label for="txtAddressOrder">Địa chỉ giao hàng:</label>
+                <asp:TextBox ID="txtAddressOrder" runat="server" CssClass="form-control" />
+                <label>Phương thức thanh toán:</label>
+                <div>
+                    <input type="radio" name="paymentMethod" value="COD" checked /> Thanh toán khi nhận hàng<br />
+                    <input type="radio" disabled /> Chuyển khoản (Tạm thời không khả dụng)
+                </div>
+                <label>Thành tiền:</label>
+                <span id="lblThanhTien">0đ</span>
+                <div class="actions text-end mt-3">
+                    <asp:Button ID="btnConfirmOrder" runat="server" Text="Mua" CssClass="btn btn-success" OnClick="btnConfirmOrder_Click" />
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Hủy</button>
+                </div>
+            </div>
+        </div>
 
-        document.getElementById('cartDialog').style.display = 'block';
-    }
+        <div id="modalOverlay" onclick="closeModal(); closeCartModal();"></div>
+    </form>
 
-    function closeCartDialog() {
-        document.getElementById('cartDialog').style.display = 'none';
-    }
+    <script type="text/javascript">
+        function showCartModal() {
+            const title = $('#<%= lblTenSach.ClientID %>').text();
+            const priceText = $('#<%= lblDonGia.ClientID %>').text();
+            const price = parseInt(priceText.replace(/[^\d]/g, '')) || 0;
 
-    function updateTotal() {
-        var price = parseFloat(document.getElementById('dialogBookPrice').innerText);
-        var qty = parseInt(document.getElementById('quantity').value);
-        document.getElementById('totalPrice').innerText = (price * qty).toLocaleString();
-    }
+            $('#cartBookTitle').text(title);
+            $('#cartBookPrice').text(price.toLocaleString());
+            $('#cartQuantity').val(1);
+            $('#cartTotalPrice').text(price.toLocaleString());
+            $('#<%= hfMaSachCart.ClientID %>').val('<%= Request.QueryString["ms"] ?? "" %>');
 
-    // Hàm gọi khi nhấn thêm vào giỏ hàng (postback)
-    function confirmAddToCart() {
-        var ms = '<%= Request.QueryString["ms"] %>';
-        var qty = parseInt(document.getElementById('quantity').value);
+            $('#cartModal').show();
+            $('#modalOverlay').show();
+        }
 
-        // Lưu dữ liệu vào hidden fields
-        document.getElementById('<%= hfMaSach.ClientID %>').value = ms;
-        document.getElementById('<%= hfQuantity.ClientID %>').value = qty;
+        function closeCartModal() {
+            $('#cartModal').hide();
+            $('#modalOverlay').hide();
+        }
 
-        // Submit button ẩn để postback
-        document.getElementById('<%= btnAddToCart.ClientID %>').click();
-    }
-</script>
+        $('#cartQuantity').on('input', function () {
+            const price = parseInt($('#cartBookPrice').text().replace(/[^\d]/g, '')) || 0;
+            const qty = parseInt($(this).val());
+            if (!isNaN(qty) && qty > 0) {
+                $('#cartTotalPrice').text((price * qty).toLocaleString());
+            } else {
+                $('#cartTotalPrice').text('0');
+            }
+        });
 
+        $('#<%= btnAddToCart.ClientID %>').click(function (e) {
+            e.preventDefault();
+            const qty = parseInt($('#cartQuantity').val()) || 1;
+            $('#<%= hfQuantityCart.ClientID %>').val(qty);
+            $('#<%= form1.ClientID %>').submit();
+        });
+
+        function showOrderModal() {
+            const title = $('#<%= lblTenSach.ClientID %>').text();
+            const priceText = $('#<%= lblDonGia.ClientID %>').text();
+            const price = parseInt(priceText.replace(/[^\d]/g, '')) || 0;
+
+            $('#lblOrderBookTitle').text(title);
+            $('#lblOrderMaSach').text('<%= Request.QueryString["ms"] ?? "" %>');
+            $('#lblOrderDonGia').text(price.toLocaleString());
+            $('#<%= hfMaSachOrder.ClientID %>').val('<%= Request.QueryString["ms"] ?? "" %>');
+
+            $('#<%= txtQuantityOrder.ClientID %>').val("1");
+            $('#<%= txtAddressOrder.ClientID %>').val("");
+            $('#lblThanhTien').text(price.toLocaleString() + "đ");
+
+            $('#buyNowModal').show();
+            $('#modalOverlay').show();
+
+            $('#<%= txtQuantityOrder.ClientID %>').off('input').on('input', function () {
+                const qty = parseInt($(this).val());
+                if (!isNaN(qty) && qty >= 1) {
+                    $('#lblThanhTien').text((price * qty).toLocaleString() + "đ");
+                } else {
+                    $('#lblThanhTien').text("0đ");
+                }
+            });
+        }
+
+        // Đóng modal mua ngay
+        function closeModal() {
+            $('#buyNowModal').hide();
+            $('#modalOverlay').hide();
+        }
+    </script>
 </body>
 </html>

@@ -291,16 +291,17 @@
              background:rgba(0,0,0,0.5); z-index:999;" onclick="closeModal()">
 
         </div>
-            <!-- Dialog thêm giỏ hàng (dùng chung) -->
-        <div id="cartDialog" class="cart-dialog" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.3); z-index:1000;">
+            <!-- Dialog thêm giỏ hàng  -->
+        <div id="cartDialog" class="cart-dialog" style="display:none; width:300px; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.3); z-index:1000;">
             <div class="dialog-content">
-                <h3 id="dialogBookTitle">Tên sách</h3>
+                <h4><strong>Thêm Vào Giỏ Hàng</strong></h4>
+                <h6 id="dialogBookTitle">Tên sách</h6>
                 <p>Giá: <span id="dialogBookPrice"></span> VND</p>
                 <label for="quantity">Số lượng:</label>
                 <input type="number" id="quantity" value="1" min="1" onchange="updateTotal()" />
                 <p>Thành tiền: <span id="totalPrice"></span> VND</p>
                 <div class="dialog-actions">
-                    <button type="button" onclick="confirmAddToCart()">Thêm vào giỏ hàng</button>
+                    <button type="button" onclick="confirmAddToCart()" style="background-color:green">Thêm vào giỏ hàng</button>
                     <button type="button" onclick="closeCartDialog()">Hủy</button>
                 </div>
             </div>

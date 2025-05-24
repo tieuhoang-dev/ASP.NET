@@ -105,6 +105,24 @@ namespace BaiTapLon
         protected global::System.Web.UI.WebControls.Label lblBan;
 
         /// <summary>
+        /// btnShowOrderModal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnShowOrderModal;
+
+        /// <summary>
+        /// btnShowCartModal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnShowCartModal;
+
+        /// <summary>
         /// lblCartCount control.
         /// </summary>
         /// <remarks>
@@ -123,6 +141,24 @@ namespace BaiTapLon
         protected global::System.Web.UI.WebControls.Label lblDebugCart;
 
         /// <summary>
+        /// hfQuantityCart control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfQuantityCart;
+
+        /// <summary>
+        /// hfMaSachCart control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfMaSachCart;
+
+        /// <summary>
         /// btnAddToCart control.
         /// </summary>
         /// <remarks>
@@ -132,21 +168,39 @@ namespace BaiTapLon
         protected global::System.Web.UI.WebControls.Button btnAddToCart;
 
         /// <summary>
-        /// hfQuantity control.
+        /// hfMaSachOrder control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfQuantity;
+        protected global::System.Web.UI.WebControls.HiddenField hfMaSachOrder;
 
         /// <summary>
-        /// hfMaSach control.
+        /// txtQuantityOrder control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfMaSach;
+        protected global::System.Web.UI.WebControls.TextBox txtQuantityOrder;
+
+        /// <summary>
+        /// txtAddressOrder control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAddressOrder;
+
+        /// <summary>
+        /// btnConfirmOrder control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnConfirmOrder;
     }
 }
