@@ -44,7 +44,15 @@ namespace BaiTapLon
                     lblMoTa.Text = reader["Mo_ta"].ToString();
                     lblXem.Text = reader["So_lan_xem"].ToString();
                     lblBan.Text = reader["So_luong_ban"].ToString();
-                    imgBook.ImageUrl = reader["Hinh_minh_hoa"].ToString();
+                    var hinh = reader["Hinh_minh_hoa"]?.ToString();
+                    if (!string.IsNullOrEmpty(hinh))
+                    {
+                        imgBook.ImageUrl = ResolveUrl("~/Images/" + hinh);
+                    }
+                    else
+                    {
+                        imgBook.ImageUrl = ResolveUrl("~/Images/default.jpg"); // ảnh mặc định
+                    }
                 }
                 reader.Close();
             }
@@ -54,7 +62,7 @@ namespace BaiTapLon
         {
             string maSach = hfMaSachCart.Value;
             int soLuong;
-            if (!int.TryParse(Request.Form["cartQuantity"], out soLuong) || soLuong < 1)
+            if (!int.TryParse(hfQuantityCart.Value, out soLuong) || soLuong < 1)
             {
                 soLuong = 1;
             }
@@ -108,9 +116,6 @@ namespace BaiTapLon
             }
 
             Session["Cart"] = cart;
-
-            lblCartCount.Text = $"Giỏ hàng hiện có {cart.Sum(i => i.SoLuong)} sản phẩm.";
-
             // Hiển thị alert thành công và đóng modal giỏ hàng Bootstrap
             string script = @"
         alert('Thêm vào giỏ hàng thành công!');
@@ -194,7 +199,6 @@ namespace BaiTapLon
     }
 
 
-    // Mẫu đối tượng CartItem để lưu trong Session giỏ hàng
     public class CartItem
     {
         public string MaSach { get; set; }

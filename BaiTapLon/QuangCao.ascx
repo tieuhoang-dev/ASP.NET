@@ -6,7 +6,7 @@
             <a href='<%# Eval("HREF") %>' target="_blank" style="text-decoration: none; color: inherit;">
                 <div class="ad-box ad-carousel-item">
                     <div class="ad-banner">
-                        <img src='<%# Eval("Hinh_Minh_Hoa") %>' alt="Quảng cáo" />
+                        <img src='<%# ResolveUrl("~/Images/") + Eval("Hinh_minh_hoa") %>' alt="Quảng cáo" />
                     </div>
                     <div class="ad-title">
                         <%# Eval("TenCty") %>

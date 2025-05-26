@@ -120,7 +120,7 @@
 
 <div id="carouselContainer">
 
-    <div style="text-align: center; font-weight: bold; font-size: 24px; margin-bottom: 20px;">
+    <div style="text-align: center; font-weight: bold; font-size: 16px; margin-bottom: 20px;">
         SÁCH MỚI ĐĂNG BÁN
     </div>
 
@@ -133,7 +133,7 @@
         <ItemTemplate>
             <a href='<%# Eval("MaSach", "BookDetail.aspx?ms={0}") %>' style="text-decoration: none; color: inherit;">
             <div class="carousel-item">
-                <img src='<%# Eval("Hinh_minh_hoa") %>' alt="Hình sách" />
+                <img src='<%# ResolveUrl("~/Images/") + Eval("Hinh_minh_hoa") %>' alt="Hình sách" />
                 <div class="book-info">
                     <h4 style="margin: 0;"><%# Eval("Ten_sach") %></h4>
                     <p style="margin: 2px 0; font-size: 14px; color: #555;">Tác giả: <%# Eval("DanhSachTacGia") %></p>

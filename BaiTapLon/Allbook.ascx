@@ -26,7 +26,7 @@
     }
 
     .book-card img {
-        height: 100px;
+        height: 140px;
         width: 100px;
         object-fit: cover;
         border-radius: 4px;
@@ -113,7 +113,8 @@
     <a href='<%# Eval("MaSach", "BookDetail.aspx?ms={0}") %>' style="text-decoration: none; color: inherit;">
         <div class="book-card">
             <div>
-                <img src='<%# Eval("Hinh_minh_hoa") %>' alt="Hình sách" />
+            <img src='<%# ResolveUrl("~/Images/") + Eval("Hinh_minh_hoa") %>' alt="Hình sách" />            
+
             </div>
             <div class="book-info">
                 <div>

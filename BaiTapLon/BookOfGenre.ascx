@@ -64,7 +64,7 @@
             <a href='<%# Eval("MaSach", "BookDetail.aspx?ms={0}") %>' style="text-decoration: none; color: inherit;">
             <div style="display: flex; border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 6px;">
                 <div style="flex: 0 0 100px;">
-                    <img src='<%# Eval("Hinh_minh_hoa") %>' alt="Hình sách" style="height: 100px; object-fit: cover; border-radius: 4px;" />
+                    <img src='<%# ResolveUrl("~/Images/") + Eval("Hinh_minh_hoa") %>' alt="Hình sách" style="height: 140px; object-fit: cover; border-radius: 4px;" />
                 </div>
                 <div style="flex: 1; padding-left: 15px; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>

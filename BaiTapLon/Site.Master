@@ -208,7 +208,7 @@
         <div class="main-menu">
             <ul>
                 <li><a href="/Default.aspx"><i class="fas fa-home"></i> Trang chủ</a></li>
-                <li><a href="~/DanhSachSach.aspx"><i class="fas fa-book"></i> Sách</a></li>
+                <li><a href="/Default.aspx"><i class="fas fa-book"></i> Sách</a></li>
                 <li><a href="~/DanhMucTheLoai.aspx"><i class="fas fa-th-list"></i> Thể loại</a></li>
                 <li><a href="~/TacGia.aspx"><i class="fas fa-user-pen"></i> Tác giả</a></li>
                 <li><a href="~/GioHang.aspx"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a></li>
@@ -274,7 +274,7 @@
                     <input type="radio" id="cod" name="paymentMethod" value="COD" checked />
                     <label for="cod">Thanh toán khi nhận hàng</label><br />
                    <input type="radio" id="bank" name="paymentMethod" value="Bank" disabled />
-                   <label for="bank" style="opacity: 0.5; cursor: not-allowed;">Chuyển khoản ngân hàng (Tạm thời không khả dụng)</label>
+                   <label for="bank" style="opacity: 0.5; cursor: not-allowed;">Chuyển khoản(Tạm thời không khả dụng)</label>
                 </div>
 
                 <label>Thành tiền:</label>

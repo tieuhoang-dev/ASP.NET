@@ -1,14 +1,14 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="TopSellingBooks.ascx.cs" Inherits="BaiTapLon.TopSellingBooks" %>
 
 <div class="top-selling-books">
-    <h2 class="section-title">Sách Bán Chạy</h2>
+    <h4 class="section-title">Sách Bán Chạy</h4>
 
     <div id="bookCarouselWrapper">
         <asp:Repeater ID="rptTopBooks" runat="server">
             <ItemTemplate>
                 <a href='<%# Eval("Ma_sach", "BookDetail.aspx?ms={0}") %>' style="text-decoration: none; color: inherit;">
                 <div class="book-banner book-carousel-item">
-                    <img src='<%# Eval("Hinh_minh_hoa") %>' alt="Ảnh sách" />
+                    <img src='<%# ResolveUrl("~/Images/") + Eval("Hinh_minh_hoa") %>' alt="Ảnh sách" />
                     <div class="book-caption">
                         <h4><%# Eval("Ten_sach") %></h4>
                         <p><%# Eval("Mo_ta").ToString().Length > 100 ? Eval("Mo_ta").ToString().Substring(0, 100) + "..." : Eval("Mo_ta") %></p>

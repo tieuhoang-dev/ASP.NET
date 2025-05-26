@@ -168,7 +168,8 @@ namespace BaiTapLon
 
             ScriptManager.RegisterStartupScript(this, GetType(), "successRedirect", @"
         alert('Đặt hàng thành công!');
-        closeModal();
+        document.getElementById('buyNowModal').style.display = 'none';
+        document.getElementById('modalOverlay').style.display = 'none';
         setTimeout(function() {
             window.location.href = 'Default.aspx';
         }, 1000);
