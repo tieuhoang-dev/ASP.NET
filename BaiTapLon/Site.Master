@@ -1,4 +1,5 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="BaiTapLon.SiteMaster" %>
+
 <%@ Register Src="~/GioHang.ascx" TagPrefix="uc" TagName="GioHang" %>
 
 <!DOCTYPE html>
@@ -12,14 +13,15 @@
         <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>
 
-    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <webopt:BundleReference runat="server" Path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
 
     <style>
         html, body {
             height: 100%;
-            margin: 0; padding: 0;
+            margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
         }
         /* BỐ CỤC CHÍNH */
@@ -30,6 +32,7 @@
             padding: 10px 20px;
             box-sizing: border-box;
         }
+
         .col {
             background: #f7f7f7;
             padding: 15px;
@@ -38,6 +41,7 @@
             border-radius: 4px;
             overflow-y: auto;
         }
+
         .col-2 {
             flex: 2;
             max-height: 100%;
@@ -45,6 +49,7 @@
             flex-direction: column;
             gap: 10px;
         }
+
         .col-6 {
             flex: 6;
             display: flex;
@@ -52,6 +57,7 @@
             gap: 15px;
             max-height: 100%;
         }
+
         .row {
             background: #fff;
             border: 1px solid #ccc;
@@ -60,42 +66,49 @@
             box-sizing: border-box;
             overflow-y: auto;
         }
+
         .row-3 {
             flex: 3;
         }
+
         .row-1-5 {
             flex: 1.5;
         }
+
         .row-5 {
             flex: 5;
         }
+
         .row-2 {
             flex: 2;
         }
+
         .row-2-5 {
             flex: 2.5;
         }
 
         .search-box {
-            position: relative;  
+            position: relative;
             width: 100%;
             max-width: 300px;
         }
-       .search-input {
+
+        .search-input {
             width: 100%;
             padding: 8px 40px 8px 12px;
             border-radius: 20px;
             border: none;
             box-sizing: border-box;
             font-size: 16px;
-            background-color: rgba(255, 255, 255, 0.5); 
+            background-color: rgba(255, 255, 255, 0.5);
             color: #333;
         }
 
-        .search-input::placeholder {
-            color: rgba(0, 0, 0, 0.3); 
-            font-style: italic;
-        }
+            .search-input::placeholder {
+                color: rgba(0, 0, 0, 0.3);
+                font-style: italic;
+            }
+
         .btn-search {
             position: absolute;
             right: 10px;
@@ -113,71 +126,73 @@
             line-height: 28px;
             text-align: center;
             z-index: 10;
-            margin-right:220px;
+            margin-right: 220px;
         }
-        .btn-search::before {
-            content: "\f002"; 
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-        }
-        .btn-search:hover {
-            color: #000;
-        }
+
+            .btn-search::before {
+                content: "\f002";
+                font-family: "Font Awesome 6 Free";
+                font-weight: 900;
+            }
+
+            .btn-search:hover {
+                color: #000;
+            }
+
         .modal-content {
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
 
-        .modal-content h3 {
-            margin: 0;
-            font-size: 20px;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 8px;
-        }
+            .modal-content h3 {
+                margin: 0;
+                font-size: 20px;
+                border-bottom: 1px solid #ccc;
+                padding-bottom: 8px;
+            }
 
-        .modal-content label {
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
+            .modal-content label {
+                font-weight: bold;
+                margin-bottom: 4px;
+            }
 
-        .modal-content input[type="text"],
-        .modal-content textarea,
-        .modal-content select {
-            padding: 8px;
-            width: 100%;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 14px;
-            box-sizing: border-box;
-        }
+            .modal-content input[type="text"],
+            .modal-content textarea,
+            .modal-content select {
+                padding: 8px;
+                width: 100%;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                font-size: 14px;
+                box-sizing: border-box;
+            }
 
-        .modal-content .actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 10px;
-        }
+            .modal-content .actions {
+                display: flex;
+                justify-content: flex-end;
+                gap: 10px;
+                margin-top: 10px;
+            }
 
-        .modal-content .actions button,
-        .modal-content .actions input[type="submit"] {
-            padding: 8px 16px;
-            font-size: 14px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
+                .modal-content .actions button,
+                .modal-content .actions input[type="submit"] {
+                    padding: 8px 16px;
+                    font-size: 14px;
+                    border: none;
+                    border-radius: 6px;
+                    cursor: pointer;
+                }
 
-        .modal-content .actions .btn-confirm {
-            background-color: #28a745;
-            color: white;
-        }
+                .modal-content .actions .btn-confirm {
+                    background-color: #28a745;
+                    color: white;
+                }
 
-        .modal-content .actions .btn-cancel {
-            background-color: #ccc;
-            color: #333;
-}
-
+                .modal-content .actions .btn-cancel {
+                    background-color: #ccc;
+                    color: #333;
+                }
     </style>
 </head>
 <body>
@@ -200,18 +215,17 @@
 
         <!-- Header -->
         <div>
-                <asp:ContentPlaceHolder ID="phHeader" runat="server" />
-
+            <asp:ContentPlaceHolder ID="phHeader" runat="server" />
         </div>
 
         <!-- Menu ngang -->
         <div class="main-menu">
             <ul>
-                <li><a href="/Default.aspx"><i class="fas fa-home"></i> Trang chủ</a></li>
-                <li><a href="/Default.aspx"><i class="fas fa-book"></i> Sách</a></li>
-                <li><a href="~/DanhMucTheLoai.aspx"><i class="fas fa-th-list"></i> Thể loại</a></li>
-                <li><a href="~/TacGia.aspx"><i class="fas fa-user-pen"></i> Tác giả</a></li>
-                <li><a href="~/GioHang.aspx"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a></li>
+                <li><a href="/Default.aspx"><i class="fas fa-home"></i>Trang chủ</a></li>
+                <li><a href="/Default.aspx"><i class="fas fa-book"></i>Sách</a></li>
+                <li><a href="~/DanhMucTheLoai.aspx"><i class="fas fa-th-list"></i>Thể loại</a></li>
+                <li><a href="~/TacGia.aspx"><i class="fas fa-user-pen"></i>Tác giả</a></li>
+                <li><a href="~/GioHang.aspx"><i class="fas fa-shopping-cart"></i>Giỏ hàng</a></li>
             </ul>
         </div>
 
@@ -238,7 +252,7 @@
             <!-- PHẦN 3: Giỏ hàng, Quảng cáo 2, Sách bán chạy -->
             <div class="col col-2">
                 <div class="row row-2">
-                    <uc:GioHang ID="GioHangControl" runat="server" />                
+                    <uc:GioHang ID="GioHangControl" runat="server" />
                 </div>
                 <div class="row row-1-5">
                     <asp:Label ID="lblid" runat="server" />
@@ -247,69 +261,68 @@
                     <asp:PlaceHolder ID="phSachBanChay" runat="server" />
                 </div>
             </div>
-           <div id="buyNowModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%);
-             background:white; padding:20px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.3); z-index:1000; width:400px;">
-            <div class="modal-content">
-                <h3>Mua sách</h3>
+            <!-- Dialog mua hàng  -->
+            <div id="buyNowModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.3); z-index: 1000; width: 400px;">
+                <div class="modal-content">
+                    <h3>Mua sách</h3>
 
-                <asp:HiddenField ID="hfMaSach" runat="server" />
-                <label>Tên sách:</label>
-                <span id="lblTenSach">Sách ABC</span>
+                    <asp:HiddenField ID="hfMaSach" runat="server" />
+                    <label>Tên sách:</label>
+                    <span id="lblTenSach">Sách ABC</span>
 
-                <label>Mã sách:</label>
-                <span id="lblMaSach">123</span>
+                    <label>Mã sách:</label>
+                    <span id="lblMaSach">123</span>
 
-                <div>
-                    <strong>Đơn giá:</strong> <span id="lblDonGia" style="color:#d9534f; font-weight:bold;"></span> VNĐ
-                </div>
+                    <div>
+                        <strong>Đơn giá:</strong> <span id="lblDonGia" style="color: #d9534f; font-weight: bold;"></span>VNĐ
+                    </div>
 
-                <label>Số lượng:</label>
-                <asp:TextBox ID="txtQuantity" runat="server" Text="1" CssClass="form-control" />
+                    <label>Số lượng:</label>
+                    <asp:TextBox ID="txtQuantity" runat="server" Text="1" CssClass="form-control" />
 
-                <label>Địa chỉ giao hàng:</label>
-                <asp:TextBox ID="txtAddress" runat="server" TextMode="SingleLine" CssClass="form-control" />
+                    <label>Địa chỉ giao hàng:</label>
+                    <asp:TextBox ID="txtAddress" runat="server" TextMode="SingleLine" CssClass="form-control" />
 
-                <label>Phương thức thanh toán:</label>
-                <div>
-                    <input type="radio" id="cod" name="paymentMethod" value="COD" checked />
-                    <label for="cod">Thanh toán khi nhận hàng</label><br />
-                   <input type="radio" id="bank" name="paymentMethod" value="Bank" disabled />
-                   <label for="bank" style="opacity: 0.5; cursor: not-allowed;">Chuyển khoản(Tạm thời không khả dụng)</label>
-                </div>
+                    <label>Phương thức thanh toán:</label>
+                    <div>
+                        <input type="radio" id="cod" name="paymentMethod" value="COD" checked />
+                        <label for="cod">Thanh toán khi nhận hàng</label><br />
+                        <input type="radio" id="bank" name="paymentMethod" value="Bank" disabled />
+                        <label for="bank" style="opacity: 0.5; cursor: not-allowed;">Chuyển khoản(Tạm thời không khả dụng)</label>
+                    </div>
 
-                <label>Thành tiền:</label>
-                <span id="lblThanhTien">0đ</span>
+                    <label>Thành tiền:</label>
+                    <span id="lblThanhTien">0đ</span>
 
-                <div class="actions">
-                    <asp:Button ID="btnConfirmOrder" runat="server" Text="Mua" CssClass="btn-confirm" OnClick="btnConfirmOrder_Click" />
-                    <button type="button" class="btn-cancel" onclick="closeModal()">Hủy</button>
+                    <div class="actions">
+                        <asp:Button ID="btnConfirmOrder" runat="server" Text="Mua" CssClass="btn-confirm" OnClick="btnConfirmOrder_Click" />
+                        <button type="button" class="btn-cancel" onclick="closeModal()">Hủy</button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div id="modalOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
-             background:rgba(0,0,0,0.5); z-index:999;" onclick="closeModal()">
-
-        </div>
+            <div id="modalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"
+                onclick="closeModal()">
+            </div>
             <!-- Dialog thêm giỏ hàng  -->
-        <div id="cartDialog" class="cart-dialog" style="display:none; width:300px; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.3); z-index:1000;">
-            <div class="dialog-content">
-                <h4><strong>Thêm Vào Giỏ Hàng</strong></h4>
-                <h6 id="dialogBookTitle">Tên sách</h6>
-                <p>Giá: <span id="dialogBookPrice"></span> VND</p>
-                <label for="quantity">Số lượng:</label>
-                <input type="number" id="quantity" value="1" min="1" onchange="updateTotal()" />
-                <p>Thành tiền: <span id="totalPrice"></span> VND</p>
-                <div class="dialog-actions">
-                    <button type="button" onclick="confirmAddToCart()" style="background-color:green">Thêm vào giỏ hàng</button>
-                    <button type="button" onclick="closeCartDialog()">Hủy</button>
+            <div id="cartDialog" class="cart-dialog" style="display: none; width: 300px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.3); z-index: 1000;">
+                <div class="dialog-content">
+                    <h4><strong>Thêm Vào Giỏ Hàng</strong></h4>
+                    <h6 id="dialogBookTitle">Tên sách</h6>
+                    <p>Giá: <span id="dialogBookPrice"></span>VND</p>
+                    <label for="quantity">Số lượng:</label>
+                    <input type="number" id="quantity" value="1" min="1" onchange="updateTotal()" />
+                    <p>Thành tiền: <span id="totalPrice"></span>VND</p>
+                    <div class="dialog-actions">
+                        <button type="button" onclick="confirmAddToCart()" style="background-color: green">Thêm vào giỏ hàng</button>
+                        <button type="button" onclick="closeCartDialog()">Hủy</button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <asp:Button ID="btnAddToCart" runat="server" Style="display:none" OnClick="btnAddToCart_Click" />
-        <asp:HiddenField ID="hfMaSach_AddToCart" runat="server" />
-        <asp:HiddenField ID="hfQuantity_AddToCart" runat="server" />
+            <asp:Button ID="btnAddToCart" runat="server" Style="display: none" OnClick="btnAddToCart_Click" />
+            <asp:HiddenField ID="hfMaSach_AddToCart" runat="server" />
+            <asp:HiddenField ID="hfQuantity_AddToCart" runat="server" />
 
         </div>
     </form>

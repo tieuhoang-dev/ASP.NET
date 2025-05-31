@@ -9,44 +9,48 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-.book-detail-container {
-    max-width: 1300px; 
-    margin: 70px auto 40px;
-    display: flex;
-    gap: 25px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 25px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    font-family: Arial, sans-serif;
+        .book-detail-container {
+            max-width: 1300px; 
+            margin: 70px auto 40px;
+            display: flex;
+            gap: 25px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-family: Arial, sans-serif;
+            min-width: 325px; 
+            align-items: flex-start;
+        }
 
-    min-width: 325px; 
-}
+        .book-image img {
+            width: 300px;
+            height: 450px;
+            object-fit: cover;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
 
-.book-image img {
-    width: 600px;        
-    height: 450px;       
-    object-fit: cover;
-    border-radius: 8px;
-    flex-shrink: 0;      
-}
+        .book-info {
+            flex-grow: 1;
+            overflow-wrap: break-word;
+        }
 
-.book-info {
-    flex-grow: 1;
-    overflow-wrap: break-word;
-}
         .book-info h2 {
             color: #d6336c;
         }
+
         .book-info p {
             margin: 8px 0;
         }
+
         .btn-open-modal {
             margin-right: 12px;
             display: inline-flex;
             align-items: center;
             gap: 6px;
         }
+
         #buyNowModal, #cartModal {
             display: none;
             position: fixed;
@@ -59,6 +63,7 @@
             z-index: 1000;
             width: 400px;
         }
+
         #modalOverlay {
             display: none;
             position: fixed;
@@ -67,12 +72,15 @@
             background: rgba(0,0,0,0.5);
             z-index: 999;
         }
+
         .modal-content h3 {
             margin-bottom: 15px;
         }
+
         .modal-content label {
             font-weight: 600;
         }
+
         .modal-content .actions {
             margin-top: 20px;
         }
@@ -84,7 +92,7 @@
 
         <div class="book-detail-container">
             <div class="book-image">
-                <asp:Image ID="imgBook" runat="server" CssClass="img-fluid" />
+                <asp:Image ID="imgBook" runat="server" />
             </div>
             <div class="book-info flex-grow-1">
                 <h2><asp:Label ID="lblTenSach" runat="server" /></h2>
@@ -105,6 +113,7 @@
             </div>
         </div>
 
+        <!-- Modal Giỏ hàng -->
         <div id="cartModal">
             <div class="modal-content">
                 <h3>Thêm vào giỏ hàng</h3>
@@ -122,21 +131,16 @@
             </div>
         </div>
 
-        <!-- Modal mua ngay -->
+        <!-- Modal Mua ngay -->
         <div id="buyNowModal">
             <div class="modal-content">
                 <h3>Mua sách</h3>
                 <asp:HiddenField ID="hfMaSachOrder" runat="server" />
                 <label>Tên sách:</label>
-                <span id="lblOrderBookTitle"></span>
-                <br />
+                <span id="lblOrderBookTitle"></span><br />
                 <label>Mã sách:</label>
-                <span id="lblOrderMaSach"></span>
-                <br />
-                <div>
-                <strong>Đơn giá:</strong> <span id="lblOrderDonGia" style="color:#d9534f; font-weight:bold;"></span> VNĐ
-                </div>
-                <br /><br />
+                <span id="lblOrderMaSach"></span><br />
+                <div><strong>Đơn giá:</strong> <span id="lblOrderDonGia" style="color:#d9534f; font-weight:bold;"></span> VNĐ</div><br />
                 <label for="txtQuantityOrder">Số lượng:</label>
                 <asp:TextBox ID="txtQuantityOrder" runat="server" CssClass="form-control" Text="1" />
                 <label for="txtAddressOrder">Địa chỉ giao hàng:</label>
@@ -145,8 +149,8 @@
                 <div>
                     <input type="radio" id="cod" name="paymentMethod" value="COD" checked />
                     <label for="cod">Thanh toán khi nhận hàng</label><br />
-                   <input type="radio" id="bank" name="paymentMethod" value="Bank" disabled />
-                   <label for="bank" style="opacity: 0.5; cursor: not-allowed;">Chuyển khoản(Tạm thời không khả dụng)</label>
+                    <input type="radio" id="bank" name="paymentMethod" value="Bank" disabled />
+                    <label for="bank" style="opacity: 0.5; cursor: not-allowed;">Chuyển khoản (Tạm thời không khả dụng)</label>
                 </div>
                 <label>Thành tiền:</label>
                 <span id="lblThanhTien">0đ</span>
@@ -163,14 +167,14 @@
     <script type="text/javascript">
         function showCartModal() {
             const title = $('#<%= lblTenSach.ClientID %>').text();
-        const priceText = $('#<%= lblDonGia.ClientID %>').text();
-        const price = parseInt(priceText.replace(/[^\d]/g, '')) || 0;
+            const priceText = $('#<%= lblDonGia.ClientID %>').text();
+            const price = parseInt(priceText.replace(/[^\d]/g, '')) || 0;
 
-        $('#cartBookTitle').text(title);
-        $('#cartBookPrice').text(price.toLocaleString());
-        $('#cartQuantity').val(1);
-        $('#cartTotalPrice').text(price.toLocaleString());
-        $('#<%= hfMaSachCart.ClientID %>').val('<%= Request.QueryString["ms"] ?? "" %>');
+            $('#cartBookTitle').text(title);
+            $('#cartBookPrice').text(price.toLocaleString());
+            $('#cartQuantity').val(1);
+            $('#cartTotalPrice').text(price.toLocaleString());
+            $('#<%= hfMaSachCart.ClientID %>').val('<%= Request.QueryString["ms"] ?? "" %>');
 
             $('#cartModal').show();
             $('#modalOverlay').show();
@@ -184,53 +188,43 @@
         $('#cartQuantity').on('input', function () {
             const price = parseInt($('#cartBookPrice').text().replace(/[^\d]/g, '')) || 0;
             const qty = parseInt($(this).val());
-            if (!isNaN(qty) && qty > 0) {
-                $('#cartTotalPrice').text((price * qty).toLocaleString());
-            } else {
-                $('#cartTotalPrice').text('0');
-            }
+            $('#cartTotalPrice').text(!isNaN(qty) && qty > 0 ? (price * qty).toLocaleString() : '0');
         });
 
         $('#<%= btnAddToCart.ClientID %>').click(function (e) {
             e.preventDefault();
             const qty = parseInt($('#cartQuantity').val()) || 1;
             $('#<%= hfQuantityCart.ClientID %>').val(qty);
-        __doPostBack('<%= btnAddToCart.UniqueID %>', '');
-    });
+            __doPostBack('<%= btnAddToCart.UniqueID %>', '');
+        });
 
         function showOrderModal() {
             const title = $('#<%= lblTenSach.ClientID %>').text();
-        const priceText = $('#<%= lblDonGia.ClientID %>').text();
-        const price = parseInt(priceText.replace(/[^\d]/g, '')) || 0;
+            const priceText = $('#<%= lblDonGia.ClientID %>').text();
+            const price = parseInt(priceText.replace(/[^\d]/g, '')) || 0;
 
-        $('#lblOrderBookTitle').text(title);
-        $('#lblOrderMaSach').text('<%= Request.QueryString["ms"] ?? "" %>');
-        $('#lblOrderDonGia').text(price.toLocaleString());
-        $('#<%= hfMaSachOrder.ClientID %>').val('<%= Request.QueryString["ms"] ?? "" %>');
+            $('#lblOrderBookTitle').text(title);
+            $('#lblOrderMaSach').text('<%= Request.QueryString["ms"] ?? "" %>');
+            $('#lblOrderDonGia').text(price.toLocaleString());
+            $('#<%= hfMaSachOrder.ClientID %>').val('<%= Request.QueryString["ms"] ?? "" %>');
 
-        $('#<%= txtQuantityOrder.ClientID %>').val("1");
-        $('#<%= txtAddressOrder.ClientID %>').val("");
-        $('#lblThanhTien').text(price.toLocaleString() + "đ");
+            $('#<%= txtQuantityOrder.ClientID %>').val("1");
+            $('#<%= txtAddressOrder.ClientID %>').val("");
+            $('#lblThanhTien').text(price.toLocaleString() + "đ");
 
-        $('#buyNowModal').show();
-        $('#modalOverlay').show();
+            $('#buyNowModal').show();
+            $('#modalOverlay').show();
 
-        $('#<%= txtQuantityOrder.ClientID %>').off('input').on('input', function () {
+            $('#<%= txtQuantityOrder.ClientID %>').off('input').on('input', function () {
                 const qty = parseInt($(this).val());
-                if (!isNaN(qty) && qty >= 1) {
-                    $('#lblThanhTien').text((price * qty).toLocaleString() + "đ");
-                } else {
-                    $('#lblThanhTien').text("0đ");
-                }
+                $('#lblThanhTien').text(!isNaN(qty) && qty >= 1 ? (price * qty).toLocaleString() + "đ" : "0đ");
             });
         }
 
-        // Đóng modal mua ngay
         function closeModal() {
             $('#buyNowModal').hide();
             $('#modalOverlay').hide();
         }
     </script>
-
 </body>
 </html>
