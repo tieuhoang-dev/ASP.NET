@@ -2,9 +2,11 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace Lab05
 {
@@ -15,7 +17,14 @@ namespace Lab05
             if (!IsPostBack)
             {
                 Load_Khach_Hang();
+                Load_Sach();
+                LoadChuDe();
+                hfSection.Value = "khachhang";
             }
+
+            string activeSection = hfSection.Value;
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "showSection", $"showSection('{activeSection}');", true);
+
         }
 
         private void Load_Khach_Hang()
@@ -31,7 +40,20 @@ namespace Lab05
                 GrV_Kh.DataBind();
             }
         }
+        private void Load_Sach()
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["QLbansachConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = @"SELECT * FROM dbo.vw_ThongTinSach";
+                SqlDataAdapter da = new SqlDataAdapter(query, con);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+               Grv_Sach.DataSource = dt;
+                Grv_Sach.DataBind();
+            }
 
+        }
         protected void btnSave_Click(object sender, EventArgs e)
         {
             int mkh = int.Parse(hfMkh.Value); // hidden field trong modal sửa
@@ -77,6 +99,103 @@ namespace Lab05
             }
 
             Load_Khach_Hang();
+        }
+
+        protected void btnSave1_Click(object sender, EventArgs e)
+        {
+            int ms = int.Parse(hf_ms.Value);
+            string ts = txt_ts.Text.Trim();
+            decimal dg = 0;
+            decimal.TryParse(txt_dg.Text.Trim(), out dg);
+            string mt = txt_mt.Text.Trim();
+            DateTime ngaycapnhat = DateTime.Now;
+
+            int chude = int.Parse(drl_cd.SelectedValue);
+            string connectionString = ConfigurationManager.ConnectionStrings["QLbansachConnectionString"].ConnectionString;
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+
+                // 1. Cập nhật thông tin sách
+                string sqlUpdateSach = @"
+            UPDATE dbo.SACH SET 
+                Ten_sach = @Ten_Sach,
+                Don_gia = @Don_Gia,
+                Mo_ta = @Mo_ta,
+                Mcd = @Mcd,
+                Ngay_cap_nhat = @Ngay_cap_nhat
+            WHERE Ms = @Ms";
+
+                using (SqlCommand cmd = new SqlCommand(sqlUpdateSach, con))
+                {
+                    cmd.Parameters.AddWithValue("@Ten_Sach", ts);
+                    cmd.Parameters.AddWithValue("@Don_Gia", dg);
+                    cmd.Parameters.AddWithValue("@Mo_ta", mt);
+                    cmd.Parameters.AddWithValue("@Mcd", chude);
+                    cmd.Parameters.AddWithValue("@Ngay_cap_nhat", ngaycapnhat);
+                    cmd.Parameters.AddWithValue("@Ms", ms);
+                    cmd.ExecuteNonQuery();
+                }
+
+                // 2. Xử lý danh sách tác giả
+                string[] tacgiaList = txt_tg.Text.Trim()
+                    .Split(',')
+                    .Select(t => t.Trim())
+                    .Where(t => !string.IsNullOrEmpty(t))
+                    .ToArray();
+
+                // 3. Xóa liên kết cũ trong bảng THAM_GIA
+                string sqlDeleteOldTG = "DELETE FROM dbo.THAM_GIA WHERE Ms = @Ms";
+                using (SqlCommand cmdDeleteTG = new SqlCommand(sqlDeleteOldTG, con))
+                {
+                    cmdDeleteTG.Parameters.AddWithValue("@Ms", ms);
+                    cmdDeleteTG.ExecuteNonQuery();
+                }
+
+                // 4. Duyệt từng tác giả, kiểm tra - thêm nếu chưa có - rồi liên kết vào bảng THAM_GIA
+                foreach (string tg in tacgiaList)
+                {
+                    int mtg = 0;
+
+                    // Kiểm tra xem tác giả đã tồn tại chưa
+                    string sqlCheckTacGia = "SELECT Mtg FROM dbo.TAC_GIA WHERE Ten_tac_gia = @TenTacGia";
+                    using (SqlCommand cmdCheck = new SqlCommand(sqlCheckTacGia, con))
+                    {
+                        cmdCheck.Parameters.AddWithValue("@TenTacGia", tg);
+                        object result = cmdCheck.ExecuteScalar();
+                        if (result != null)
+                        {
+                            mtg = Convert.ToInt32(result);
+                        }
+                        else
+                        {
+                            string sqlInsertTacGia = @"
+                        INSERT INTO dbo.TAC_GIA (Ten_tac_gia, Dia_chi, Dien_thoai)
+                        VALUES (@TenTacGia, '', '');
+                        SELECT CAST(scope_identity() AS int)";
+                            using (SqlCommand cmdInsert = new SqlCommand(sqlInsertTacGia, con))
+                            {
+                                cmdInsert.Parameters.AddWithValue("@TenTacGia", tg);
+                                mtg = (int)cmdInsert.ExecuteScalar();
+                            }
+                        }
+                    }
+
+                    // Thêm liên kết vào THAM_GIA
+                    string sqlInsertThamGia = "INSERT INTO dbo.THAM_GIA (Ms, Mtg, Vai_tro) VALUES (@Ms, @Mtg, @VaiTro)";
+                    using (SqlCommand cmdInsertTG = new SqlCommand(sqlInsertThamGia, con))
+                    {
+                        cmdInsertTG.Parameters.AddWithValue("@Ms", ms);
+                        cmdInsertTG.Parameters.AddWithValue("@Mtg", mtg);
+                        cmdInsertTG.Parameters.AddWithValue("@VaiTro", "Tác giả");
+                        cmdInsertTG.ExecuteNonQuery();
+                    }
+                }
+            }
+
+            Load_Sach();
+            LoadChuDe();
         }
 
 
@@ -167,6 +286,7 @@ namespace Lab05
 
             Load_Khach_Hang();
         }
+
         private string HashPassword(string password)
         {
             using (SHA256 sha256 = SHA256.Create())
@@ -193,6 +313,27 @@ namespace Lab05
                 int count = (int)cmd.ExecuteScalar();
 
                 return count > 0;
+            }
+        }
+
+            private void LoadChuDe()
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["QLbansachConnectionString"].ConnectionString;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT Mcd, Ten_chu_de FROM CHU_DE";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                drl_cd.DataSource = dt;
+                drl_cd.DataTextField = "Ten_chu_de";
+                drl_cd.DataValueField = "Mcd";
+                drl_cd.DataBind();
+
+                drl_cd.Items.Insert(0, new ListItem("-- Chọn chủ đề --", "")); 
             }
         }
     }

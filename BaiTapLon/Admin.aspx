@@ -4,143 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Admin</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            margin: 0; padding: 0;
-        }
-        .treeview {
-            width: 200px;
-            float: left;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 20px;
-            background: white;
-        }
-        .treeview ul {
-            list-style: none;
-            padding-left: 10px;
-            margin: 0;
-        }
-        .treeview li {
-            margin: 15px 0;
-            font-weight: bold;
-            cursor: pointer;
-            color: #333;
-            transition: 0.3s;
-        }
-        .treeview li:hover {
-            color: #007BFF;
-            transform: translateX(5px);
-        }
-        .content {
-            margin-left: 250px;
-            padding: 20px;
-            background: white;
-            margin-top: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 8px rgba(0,0,0,0.1);
-            min-height: 600px;
-        }
-        .btn {
-            margin: 0 5px 15px 0;
-            cursor: pointer;
-            background-color: #007BFF;
-            border: none;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-        .btn:hover {
-            background-color: #0056b3;
-        }
-        table.table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table.table th, table.table td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        table.table th {
-            background-color: #007BFF;
-            color: white;
-        }
-        a {
-            color: #007BFF;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        #Panel1, #Panel2 {
-            display: none;
-            position: fixed;
-            top: 15%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 450px;
-            background-color: white;
-            padding: 25px 30px;
-            border: 2px solid #007BFF;
-            border-radius: 10px;
-            z-index: 9999;
-            box-shadow: 0 0 20px rgba(0,0,0,0.25);
-        }
-        .modal-header {
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 15px;
-            position: relative;
-        }
-        .close-btn {
-            position: absolute;
-            right: 0;
-            top: 0;
-            font-weight: bold;
-            color: red;
-            cursor: pointer;
-            font-size: 22px;
-            user-select: none;
-        }
-        .modal-footer {
-            margin-top: 20px;
-            text-align: right;
-        }
-        input[type="text"], input[type="email"], input[type="password"], select {
-            width: 100%;
-            padding: 8px 10px;
-            margin: 6px 0 14px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-        button, input[type="submit"] {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-        button:hover, input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-        button[type="button"] {
-            background-color: #6c757d;
-        }
-        button[type="button"]:hover {
-            background-color: #565e64;
-        }
-    </style>
+        <link href="Admin.css" rel="stylesheet" type="text/css" />    
     <script>
         function openEditModal(mkh, hoten, diachi, dienthoai, ngaysinh, gioitinh, email) {
             document.getElementById("hfMkh").value = mkh;
@@ -157,7 +21,17 @@
         function openAddModal() {
             document.getElementById("Panel2").style.display = 'block';
         }
+        function OpenEditBookModal(masach, tensach, tentacgia, mota, dongia) {
+            var formattedPrice = parseFloat(dongia).toString();
+            document.getElementById("hf_ms").value = masach;
+            document.getElementById("txt_ms").value = masach;
+            document.getElementById("txt_ts").value = tensach;
+            document.getElementById("txt_dg").value = formattedPrice;
+            document.getElementById("txt_mt").value = mota;
+            document.getElementById("txt_tg").value = tentacgia;
 
+            document.getElementById("Panel_suasach").style.display = 'block';
+        }
         function closeModal(id) {
             document.getElementById(id).style.display = 'none';
         }
@@ -177,23 +51,35 @@
                     break;
             }
         }
+        function showSection(sectionName) {
+            document.getElementById("khachHangSection").style.display = "none";
+            document.getElementById("SachSection").style.display = "none";
+
+            if (sectionName === "khachhang")
+                document.getElementById("khachHangSection").style.display = "block";
+            else if (sectionName === "sach")
+                document.getElementById("SachSection").style.display = "block";
+        }
     </script>
 </head>
 <body>
     <form id="form1" runat="server">
         <div class="treeview">
             <ul>
-                <li onclick="document.getElementById('khachHangSection').scrollIntoView()">Quản lý khách hàng</li>
-                <li>Quản lý sách</li>
+                <li onclick="showSection('khachhang'); document.getElementById('hfSection').value = 'khachhang';">Quản lý khách hàng</li>
+                <li onclick="showSection('sach'); document.getElementById('hfSection').value = 'sach';">Quản lý sách</li>
                 <li>Quản lý đơn hàng</li>
                 <li onclick="navigate('logout')">Đăng xuất</li>
             </ul>
         </div>
 
         <div class="content">
-            <div id="khachHangSection">
+            <div id="khachHangSection" runat="server">
+                <div style="position: sticky; top: 0; background: white; padding: 15px; border-bottom: 1px solid #ddd; z-index: 10;">
                 <h2>Quản lý khách hàng</h2>
                 <asp:Button ID="btnAddCustomer" runat="server" Text="Thêm mới khách hàng" CssClass="btn" OnClientClick="openAddModal(); return false;" />
+                </div>
+                <div style="max-height: 700px; overflow-y: auto;">
                 <asp:GridView ID="GrV_Kh" runat="server" AutoGenerateColumns="false" CssClass="table">
                     <Columns>
                         <asp:BoundField DataField="Mkh" HeaderText="Mã KH" />
@@ -223,10 +109,55 @@
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
+                </div>
             </div>
+            <div id="SachSection" runat="server" style="display:none;">
+            <div style="position: sticky; top: 0; background: white; padding: 15px; border-bottom: 1px solid #ddd; z-index: 10;">
+            <h2>Quản lý Sách</h2>
+            <asp:Button ID="Button1" runat="server" Text="Thêm Sách Mới" CssClass="btn" OnClientClick="openAddModal(); return false;" />
+            </div>
+            <div style="max-height: 500px; overflow-y: auto;">
+            <asp:GridView ID="Grv_Sach" runat="server" AutoGenerateColumns="false" CssClass="table">
+                <Columns>
+                    <asp:BoundField DataField="MaSach" HeaderText="Mã Sách " />
+                    <asp:BoundField DataField="Ten_sach" HeaderText="Tên Sách" />
+                    <asp:TemplateField HeaderText="Đơn Giá (VND)">
+                        <ItemTemplate>
+                            <%# String.Format("{0:N0} ", Eval("Don_gia")) %>
+                        </ItemTemplate>
+                    </asp:TemplateField> 
+                    <asp:BoundField DataField="Mo_ta" HeaderText="Mô Tả" />
+                    <asp:BoundField DataField="TenChuDe" HeaderText="Thể Loại" />
+                    <asp:BoundField DataField="Ngay_cap_nhat" HeaderText="Ngày Cập Nhật" DataFormatString="{0:dd-MM-yyyy}" />
+                    <asp:BoundField DataField="TenTacGia" HeaderText="Tác Giả" />
+                    <asp:TemplateField HeaderText="Số Lượng Bán">
+                        <ItemTemplate>
+                            <%# String.Format("{0:N0} ", Eval("So_luong_ban")) %>
+                        </ItemTemplate>
+                    </asp:TemplateField> 
+                    <asp:BoundField DataField="So_lan_xem" HeaderText="Lượt Xem" />
+                    <asp:TemplateField HeaderText="Thao tác">
+                    <ItemTemplate>
+                        <a href="javascript:void(0)" 
+                           onclick='OpenEditBookModal(
+                                "<%# Eval("MaSach") %>", 
+                                "<%# Eval("Ten_sach").ToString().Replace("\"", "\\\"") %>", 
+                                "<%# Eval("TenTacGia").ToString().Replace("\"", "\\\"") %>", 
+                                "<%# Eval("Mo_ta").ToString().Replace("\"", "\\\"") %>", 
+                                "<%# Eval("Don_gia") %>"
+                            )'>Sửa</a> |<asp:LinkButton ID="lnkXoa" runat="server" Text="Xóa"
+                            CommandArgument='<%# Eval("MaSach") %>'
+                            OnClientClick='<%# "return confirmDelete(" + Eval("MaSach") + ", \"" + Eval("Ten_sach") + "\")" %>'
+                            OnClick="btnXoa_Click" />
+                    </ItemTemplate>
+                </asp:TemplateField>
+                </Columns>
+            </asp:GridView>
+        </div>
+        </div>
         </div>
 
-        <!-- Modal sửa -->
+        <!-- Modal sửa khách hàng-->
         <div id="Panel1">
             <div class="modal-header">Sửa khách hàng <span class="close-btn" onclick="closeModal('Panel1')">×</span></div>
             <asp:HiddenField ID="hfMkh" runat="server" ClientIDMode="Static" />
@@ -242,8 +173,8 @@
             <asp:Button ID="btnSave" runat="server" Text="Lưu" CssClass="btn" OnClick="btnSave_Click" />
             <button type="button" onclick="closeModal('Panel1')">Hủy</button>
         </div>
-
-        <!-- Modal thêm -->
+        <asp:HiddenField ID="hfMkhDelete" runat="server" />
+        <!-- Modal thêm khách hàng-->
         <div id="Panel2">
             <div class="modal-header">Thêm khách hàng <span class="close-btn" onclick="closeModal('Panel2')">×</span></div>
             <asp:TextBox ID="hoten" runat="server" placeholder="Họ tên" /><br />
@@ -261,8 +192,22 @@
                 <asp:Button ID="btnadd" runat="server" Text="Thêm" CssClass="btn" OnClick="btnadd_Click" />
                 <button type="button" onclick="closeModal('Panel2')">Hủy</button>
             </div>
+            </div>
+        <!-- Modal sửa thông tin sách -->
+        <div id="Panel_suasach">
+            <div class="modal-header">Sửa thông tin sách  <span class="close-btn" onclick="closeModal('Panel_suasach')">×</span></div>
+            <asp:HiddenField ID="hf_ms" runat="server" ClientIDMode="Static" />
+            <asp:TextBox ID="txt_ms" runat="server" placeholder="Mã Sách " ClientIDMode="Static" ReadOnly="true" /><br />
+            <asp:TextBox ID="txt_ts" runat="server" placeholder="Tên Sách" ClientIDMode="Static" /><br />
+            <asp:TextBox ID="txt_dg" runat="server" placeholder="Đơn Giá" ClientIDMode="Static" /><br />
+            <asp:TextBox ID="txt_mt" runat="server" placeholder="Mô Tả" ClientIDMode="Static" TextMode="MultiLine" Rows="5" Columns="58"/><br />
+            <asp:DropDownList ID="drl_cd" runat="server" ClientIDMode="Static">
+            </asp:DropDownList><br />
+            <asp:TextBox ID="txt_tg" runat="server" placeholder="Tác Giả " ClientIDMode="Static" /><br />
+            <asp:Button ID="btn_save" runat="server" Text="Lưu" CssClass="btn" OnClick="btnSave1_Click" />
+            <button type="button" onclick="closeModal('Panel_suasach')">Hủy</button>
         </div>
-        <asp:HiddenField ID="hfMkhDelete" runat="server" />
+        <asp:HiddenField ID="hfSection" runat="server" ClientIDMode="Static" />
 
     </form>
 </body>
