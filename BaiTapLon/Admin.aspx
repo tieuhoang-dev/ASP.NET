@@ -21,6 +21,9 @@
         function openAddModal() {
             document.getElementById("Panel2").style.display = 'block';
         }
+        function openAddBookModal() {
+            document.getElementById("Panel3").style.display = 'block';
+        }
         function OpenEditBookModal(masach, tensach, tentacgia, mota, dongia) {
             var formattedPrice = parseFloat(dongia).toString();
             document.getElementById("hf_ms").value = masach;
@@ -114,7 +117,7 @@
             <div id="SachSection" runat="server" style="display:none;">
             <div style="position: sticky; top: 0; background: white; padding: 15px; border-bottom: 1px solid #ddd; z-index: 10;">
             <h2>Quản lý Sách</h2>
-            <asp:Button ID="Button1" runat="server" Text="Thêm Sách Mới" CssClass="btn" OnClientClick="openAddModal(); return false;" />
+            <asp:Button ID="Button1" runat="server" Text="Thêm Sách Mới" CssClass="btn" OnClientClick="openAddBookModal(); return false;" />
             </div>
             <div style="max-height: 500px; overflow-y: auto;">
             <asp:GridView ID="Grv_Sach" runat="server" AutoGenerateColumns="false" CssClass="table">
@@ -148,7 +151,7 @@
                             )'>Sửa</a> |<asp:LinkButton ID="lnkXoa" runat="server" Text="Xóa"
                             CommandArgument='<%# Eval("MaSach") %>'
                             OnClientClick='<%# "return confirmDelete(" + Eval("MaSach") + ", \"" + Eval("Ten_sach") + "\")" %>'
-                            OnClick="btnXoa_Click" />
+                            OnClick="btnXoaSach_Click" />
                     </ItemTemplate>
                 </asp:TemplateField>
                 </Columns>
@@ -208,6 +211,35 @@
             <button type="button" onclick="closeModal('Panel_suasach')">Hủy</button>
         </div>
         <asp:HiddenField ID="hfSection" runat="server" ClientIDMode="Static" />
+        <!-- Modal Thêm Sách -->
+        <div id="Panel3">
+    <div class="modal-header">
+        Thêm Sách  
+        <span class="close-btn" onclick="closeModal('Panel3')">×</span>
+    </div>
+
+    <asp:TextBox ID="txt_tensach" runat="server" placeholder="Tên Sách" CssClass="input" /><br />
+
+    <asp:TextBox ID="txt_dongia" runat="server" placeholder="Đơn Giá" CssClass="input" /><br />
+
+    <asp:TextBox ID="txt_mota" runat="server" placeholder="Mô Tả" 
+        TextMode="MultiLine" Rows="5" Columns="58" CssClass="input" /><br />
+
+    <asp:TextBox ID="txt_tacgia" runat="server" placeholder="Tác Giả" 
+        ClientIDMode="Static" CssClass="input" /><br />
+
+    <asp:DropDownList ID="ddl_Theloai" runat="server" CssClass="input">
+    </asp:DropDownList><br />
+
+    <label>Hình minh họa:</label><br />
+    <asp:FileUpload ID="fu_hinh" runat="server" CssClass="input" /><br /><br />
+
+    <div class="modal-footer">
+        <asp:Button ID="Btn_addSach" runat="server" Text="Thêm" 
+            CssClass="btn" OnClick="btnThem_Click" />
+        <button type="button" onclick="closeModal('Panel3')">Hủy</button>
+    </div>
+</div>
 
     </form>
 </body>

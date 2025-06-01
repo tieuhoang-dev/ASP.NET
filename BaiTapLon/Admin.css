@@ -86,7 +86,7 @@ a {
         text-decoration: underline;
     }
 
-#Panel1, #Panel2 ,#Panel_suasach{
+#Panel1, #Panel2, #Panel_suasach, #Panel3 {
     display: none;
     position: fixed;
     top: 15%;
@@ -156,3 +156,21 @@ button, input[type="submit"] {
         button[type="button"]:hover {
             background-color: #565e64;
         }
+.input {
+    width: 90%;
+    padding: 6px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.btn {
+    padding: 6px 16px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+    .btn:hover {
+        background-color: #0056b3;
+    }

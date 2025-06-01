@@ -3,11 +3,15 @@
   "WorkspaceRootPath": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|C:\\Users\\asus\\source\\repos\\BaiTapLon\\baitaplon\\admin.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|c:\\users\\asus\\source\\repos\\baitaplon\\baitaplon\\admin.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|solutionrelative:baitaplon\\admin.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|c:\\users\\asus\\source\\repos\\baitaplon\\baitaplon\\admin.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "AbsoluteMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|c:\\users\\asus\\source\\repos\\baitaplon\\baitaplon\\admin.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|solutionrelative:baitaplon\\admin.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|C:\\Users\\asus\\source\\repos\\BaiTapLon\\baitaplon\\admin.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
       "RelativeMoniker": "D:0:0:{AD4F3AC8-741C-4D1C-AA24-ED821500C560}|BaiTapLon\\BaiTapLon.csproj|solutionrelative:baitaplon\\admin.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
     },
     {
@@ -22,24 +26,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Admin.css",
+              "DocumentMoniker": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\Admin.css",
+              "RelativeDocumentMoniker": "BaiTapLon\\Admin.css",
+              "ToolTip": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\Admin.css",
+              "RelativeToolTip": "BaiTapLon\\Admin.css",
+              "ViewState": "AgIAAJcAAAAAAAAAAAAwwLAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-06-01T05:50:31.029Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Admin.aspx.cs",
               "DocumentMoniker": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\Admin.aspx.cs",
               "RelativeDocumentMoniker": "BaiTapLon\\Admin.aspx.cs",
-              "ToolTip": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\Admin.aspx.cs*",
-              "RelativeToolTip": "BaiTapLon\\Admin.aspx.cs*",
-              "ViewState": "AgIAALQAAAAAAAAAAAAtwMUAAAAYAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\Admin.aspx.cs",
+              "RelativeToolTip": "BaiTapLon\\Admin.aspx.cs",
+              "ViewState": "AgIAAHUBAAAAAAAAAAAwwH8BAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-31T18:50:24.792Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Admin.aspx",
               "DocumentMoniker": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\Admin.aspx",
               "RelativeDocumentMoniker": "BaiTapLon\\Admin.aspx",
@@ -52,7 +69,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Login.aspx.cs",
               "DocumentMoniker": "C:\\Users\\asus\\source\\repos\\BaiTapLon\\BaiTapLon\\Login.aspx.cs",
               "RelativeDocumentMoniker": "BaiTapLon\\Login.aspx.cs",
