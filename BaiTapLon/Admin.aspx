@@ -4,7 +4,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Admin</title>
-        <link href="Admin.css" rel="stylesheet" type="text/css" />    
+        <link href="Admin.css" rel="stylesheet" type="text/css" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
     <script>
         function openEditModal(mkh, hoten, diachi, dienthoai, ngaysinh, gioitinh, email) {
             document.getElementById("hfMkh").value = mkh;
@@ -57,11 +59,21 @@
         function showSection(sectionName) {
             document.getElementById("khachHangSection").style.display = "none";
             document.getElementById("SachSection").style.display = "none";
+            document.getElementById("Section_Don_Hang").style.display = "none";
 
             if (sectionName === "khachhang")
                 document.getElementById("khachHangSection").style.display = "block";
             else if (sectionName === "sach")
                 document.getElementById("SachSection").style.display = "block";
+            else if (sectionName == "donhang")
+                document.getElementById("Section_Don_Hang").style.display = "block";
+        }
+        function confirmGiao(ma) {
+            return confirm("Xác nhận đơn hàng #" + ma + " đã được giao?");
+        }
+
+        function confirmHuy(ma) {
+            return confirm("Bạn thật sự muốn hủy đơn hàng #" + ma + "?");
         }
     </script>
 </head>
@@ -71,7 +83,7 @@
             <ul>
                 <li onclick="showSection('khachhang'); document.getElementById('hfSection').value = 'khachhang';">Quản lý khách hàng</li>
                 <li onclick="showSection('sach'); document.getElementById('hfSection').value = 'sach';">Quản lý sách</li>
-                <li>Quản lý đơn hàng</li>
+                <li onclick="showSection('donhang'); document.getElementById('hfSection').value = 'donhang';">Quản lý đơn hàng</li>
                 <li onclick="navigate('logout')">Đăng xuất</li>
             </ul>
         </div>
@@ -80,9 +92,13 @@
             <div id="khachHangSection" runat="server">
                 <div style="position: sticky; top: 0; background: white; padding: 15px; border-bottom: 1px solid #ddd; z-index: 10;">
                 <h2>Quản lý khách hàng</h2>
-                <asp:Button ID="btnAddCustomer" runat="server" Text="Thêm mới khách hàng" CssClass="btn" OnClientClick="openAddModal(); return false;" />
+                <asp:LinkButton ID="LinkButton1" runat="server" CssClass="btn btn-primary"
+                    OnClientClick="openAddModal(); return false;">
+                    <i class="fas fa-plus"></i> Thêm Khách Hàng Mới 
+                </asp:LinkButton>
+
                 </div>
-                <div style="max-height: 700px; overflow-y: auto;">
+                <div style="max-height: 620px; overflow-y: auto;">
                 <asp:GridView ID="GrV_Kh" runat="server" AutoGenerateColumns="false" CssClass="table">
                     <Columns>
                         <asp:BoundField DataField="Mkh" HeaderText="Mã KH" />
@@ -103,8 +119,8 @@
                                        "<%# Eval("Ngay_sinh", "{0:yyyy-MM-dd}") %>", 
                                        "<%# Eval("Gioi_tinh") %>", 
                                        "<%# Eval("Email").ToString().Replace("\"", "\\\"") %>"
-                                   )'>Sửa</a> | 
-                                <asp:LinkButton ID="lnkXoa" runat="server" Text="Xóa"
+                                   )'><i class="fas fa-edit"></i></a> | 
+                                <asp:LinkButton ID="lnkXoa" runat="server" CssClass="fas fa-trash"
                                     CommandArgument='<%# Eval("Mkh") %>'
                                     OnClientClick='<%# "return confirmDelete(" + Eval("Mkh") + ", \"" + Eval("Ho_ten") + "\")" %>'
                                     OnClick="btnXoa_Click" />
@@ -117,7 +133,10 @@
             <div id="SachSection" runat="server" style="display:none;">
             <div style="position: sticky; top: 0; background: white; padding: 15px; border-bottom: 1px solid #ddd; z-index: 10;">
             <h2>Quản lý Sách</h2>
-            <asp:Button ID="Button1" runat="server" Text="Thêm Sách Mới" CssClass="btn" OnClientClick="openAddBookModal(); return false;" />
+            <asp:LinkButton ID="btnThemSach" runat="server" CssClass="btn btn-primary"
+                OnClientClick="openAddBookModal(); return false;">
+                <i class="fas fa-plus"></i> Thêm Sách Mới
+            </asp:LinkButton>
             </div>
             <div style="max-height: 500px; overflow-y: auto;">
             <asp:GridView ID="Grv_Sach" runat="server" AutoGenerateColumns="false" CssClass="table">
@@ -148,7 +167,7 @@
                                 "<%# Eval("TenTacGia").ToString().Replace("\"", "\\\"") %>", 
                                 "<%# Eval("Mo_ta").ToString().Replace("\"", "\\\"") %>", 
                                 "<%# Eval("Don_gia") %>"
-                            )'>Sửa</a> |<asp:LinkButton ID="lnkXoa" runat="server" Text="Xóa"
+                            )'><i class="fas fa-edit"></i></a> |<asp:LinkButton ID="lnkXoa" CssClass="fa fa-trash" runat="server" 
                             CommandArgument='<%# Eval("MaSach") %>'
                             OnClientClick='<%# "return confirmDelete(" + Eval("MaSach") + ", \"" + Eval("Ten_sach") + "\")" %>'
                             OnClick="btnXoaSach_Click" />
@@ -158,8 +177,51 @@
             </asp:GridView>
         </div>
         </div>
+            <div id="Section_Don_Hang" runat="server" style="display:none;">
+            <div style="position: sticky; top: 0; background: white; padding: 15px; border-bottom: 1px solid #ddd; z-index: 10;">
+            <h2>Quản lý đơn đặt hàng</h2>
+            </div>
+            <div style="max-height: 500px; overflow-y: auto;">
+            <asp:GridView ID="Grv_don_hang" runat="server" AutoGenerateColumns="false" CssClass="table" OnRowDataBound="gvDonHang_RowDataBound">
+                <Columns>
+                    <asp:BoundField DataField="Sdh" HeaderText="Số Đơn Hàng  " />
+                    <asp:BoundField DataField="Ten_khach_hang" HeaderText="Tên Khách Hàng " />
+                    <asp:BoundField DataField="Ngay_dat_hang" HeaderText="Ngày Đặt Hàng " DataFormatString="{0:dd-MM-yyyy}" />
+                    <asp:BoundField DataField="Trang_thai_giao_hang" HeaderText="Trạng Thái Giao Hàng" />
+                    <asp:BoundField DataField="Ngay_giao_hang" HeaderText="Ngày Giao Hàng" DataFormatString="{0:dd-MM-yyyy}" />
+                    <asp:TemplateField HeaderText="Chi Tiết Hàng">
+                        <ItemTemplate>
+                            <%# Eval("Chi_tiet_hang").ToString().Replace(";", "<br/>") %>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Tổng Tiền  (VND)">
+                        <ItemTemplate>
+                            <%# String.Format("{0:N0} ", Eval("Tri_gia")) %>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Thao tác">
+                    <ItemTemplate>
+                        <!-- Nút xác nhận giao hàng -->
+                        <asp:LinkButton ID="lnkGiaoHang" runat="server"
+                            CommandArgument='<%# Eval("Sdh") %>'
+                            OnClientClick='<%# Convert.ToInt32(Eval("Da_giao_hang")) == 0 ? "return confirmGiao(\"Xác nhận đơn hàng #" + Eval("Sdh") + " đã được giao?\")" : "return false;" %>'
+                            OnClick="btnXacNhanGiao_Click"
+                            CssClass='<%# Convert.ToInt32(Eval("Da_giao_hang")) == 0 ? "fa fa-truck btn-active" : "fa fa-truck btn-disabled" %>' />
+                        |
+                        <!-- Nút hủy đơn hàng -->
+                        <asp:LinkButton ID="lnkHuyDon" runat="server"
+                            CommandArgument='<%# Eval("Sdh") %>'
+                            OnClientClick='<%# Convert.ToInt32(Eval("Da_giao_hang")) == 0 ? "return confirmHuy(\"Bạn chắc muốn HỦY đơn hàng #" + Eval("Sdh") + "?\")" : "return false;" %>'
+                            OnClick="btnHuyDon_Click"
+                            CssClass='<%# Convert.ToInt32(Eval("Da_giao_hang")) == 0 ? "fa fa-trash btn-active" : "fa fa-trash btn-disabled" %>' />
+                    </ItemTemplate>
+                </asp:TemplateField>
+         
+                </Columns>
+            </asp:GridView>
         </div>
-
+        </div>
+        </div>
         <!-- Modal sửa khách hàng-->
         <div id="Panel1">
             <div class="modal-header">Sửa khách hàng <span class="close-btn" onclick="closeModal('Panel1')">×</span></div>

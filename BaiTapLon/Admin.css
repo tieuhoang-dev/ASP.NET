@@ -174,3 +174,15 @@ button, input[type="submit"] {
     .btn:hover {
         background-color: #0056b3;
     }
+.btn-active {
+    color: #007bff; 
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-disabled {
+    color: gray;
+    cursor: default;
+    pointer-events: none;
+    opacity: 0.5; 
+}

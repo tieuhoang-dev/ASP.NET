@@ -33,13 +33,13 @@ namespace Lab05
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl khachHangSection;
 
         /// <summary>
-        /// btnAddCustomer control.
+        /// LinkButton1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddCustomer;
+        protected global::System.Web.UI.WebControls.LinkButton LinkButton1;
 
         /// <summary>
         /// GrV_Kh control.
@@ -60,13 +60,13 @@ namespace Lab05
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl SachSection;
 
         /// <summary>
-        /// Button1 control.
+        /// btnThemSach control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.LinkButton btnThemSach;
 
         /// <summary>
         /// Grv_Sach control.
@@ -76,6 +76,24 @@ namespace Lab05
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView Grv_Sach;
+
+        /// <summary>
+        /// Section_Don_Hang control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Section_Don_Hang;
+
+        /// <summary>
+        /// Grv_don_hang control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView Grv_don_hang;
 
         /// <summary>
         /// hfMkh control.

@@ -20,6 +20,7 @@ namespace Lab05
                 Load_Khach_Hang();
                 Load_Sach();
                 LoadChuDe();
+                load_don_hang();
                 hfSection.Value = "khachhang";
             }
 
@@ -474,6 +475,74 @@ namespace Lab05
             }
 
             Load_Sach(); // Load lại danh sách sau khi thêm
+        }
+        private void load_don_hang()
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["QLbansachConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = @"SELECT * FROM dbo.V_DON_HANG_TONG_HOP";
+                SqlDataAdapter da = new SqlDataAdapter(query, con);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                Grv_don_hang.DataSource = dt;
+                Grv_don_hang.DataBind();
+            }
+        }
+        protected void btnXacNhanGiao_Click(object sender, EventArgs e)
+        {
+            LinkButton btn = (LinkButton)sender;
+            int sdh = int.Parse(btn.CommandArgument);
+            string connectionString = ConfigurationManager.ConnectionStrings["QLbansachConnectionString"].ConnectionString;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("UPDATE DON_DAT_HANG SET Da_giao_hang = 1, Ngay_giao_hang = GETDATE() WHERE Sdh = @Sdh", conn);
+                cmd.Parameters.AddWithValue("@Sdh", sdh);
+                cmd.ExecuteNonQuery();
+            }
+
+            load_don_hang();
+        }
+
+        protected void btnHuyDon_Click(object sender, EventArgs e)
+        {
+            LinkButton btn = (LinkButton)sender;
+            int sdh = int.Parse(btn.CommandArgument);
+            string connectionString = ConfigurationManager.ConnectionStrings["QLbansachConnectionString"].ConnectionString;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("UPDATE DON_DAT_HANG SET Da_giao_hang = 2 WHERE Sdh = @Sdh", conn);
+                cmd.Parameters.AddWithValue("@Sdh", sdh);
+                cmd.ExecuteNonQuery();
+            }
+
+            load_don_hang();
+        }
+        protected void gvDonHang_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                int daGiaoHang = Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "Da_giao_hang"));
+
+                LinkButton btnXacNhanGiao = (LinkButton)e.Row.FindControl("lnkGiaoHang");
+                LinkButton btnHuyDon = (LinkButton)e.Row.FindControl("lnkHuyDon");
+
+                if (daGiaoHang == 1 || daGiaoHang == 2)
+                {
+                     btnXacNhanGiao.Enabled = false;
+                    btnHuyDon.Enabled = false;
+
+                }
+                else
+                {
+                    btnXacNhanGiao.Visible = true;
+                    btnHuyDon.Visible = true;
+                }
+            }
         }
 
     }
