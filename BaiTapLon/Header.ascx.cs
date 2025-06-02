@@ -60,10 +60,7 @@ namespace BaiTapLon
             phLoggedIn.Visible = isLoggedIn;
             phNotLoggedIn.Visible = !isLoggedIn;
 
-            if (isLoggedIn)
-            {
-                lblUserName.Text = Session["UserName"].ToString();
-            }
+           
         }
 
     }

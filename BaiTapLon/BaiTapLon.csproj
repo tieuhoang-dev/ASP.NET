@@ -201,6 +201,7 @@
     <Content Include="search.ascx" />
     <Content Include="Site.Master" />
     <Content Include="TopSellingBooks.ascx" />
+    <Content Include="User_Info.aspx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -340,6 +341,13 @@
     </Compile>
     <Compile Include="TopSellingBooks.ascx.designer.cs">
       <DependentUpon>TopSellingBooks.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="User_Info.aspx.cs">
+      <DependentUpon>User_Info.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="User_Info.aspx.designer.cs">
+      <DependentUpon>User_Info.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>

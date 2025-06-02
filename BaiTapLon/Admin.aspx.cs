@@ -267,13 +267,13 @@ namespace Lab05
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
-            hoten.Text = "";
-            NgaySINH.Text = "";
-            diachi.Text = "";
-            dienthoai.Text = "";
-            username.Text = "";
-            Password.Text = "";
-            Email.Text = "";
+            hoten.Text = string.Empty;
+            NgaySINH.Text = string.Empty;
+            diachi.Text = string.Empty;
+            dienthoai.Text = string.Empty;
+            username.Text = string.Empty;
+            Password.Text = string.Empty;
+            Email.Text = string.Empty;
             GioTinh.SelectedIndex = 0;
             Load_Khach_Hang();
         }

@@ -33,12 +33,12 @@ namespace BaiTapLon
         protected global::System.Web.UI.WebControls.PlaceHolder phLoggedIn;
 
         /// <summary>
-        /// lblUserName control.
+        /// hlGoToPage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUserName;
+        protected global::System.Web.UI.WebControls.HyperLink hlGoToPage;
     }
 }
