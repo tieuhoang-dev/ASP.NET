@@ -11,7 +11,6 @@ namespace BaiTapLon
         protected void Page_Load(object sender, EventArgs e)
         {
             lblError.Visible = false;
-            Session.Clear();
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)
@@ -48,7 +47,14 @@ namespace BaiTapLon
                         Session["username"] = username;
                         Session["Is_admin"] = false;
 
+                        
                         string returnUrl = Request.QueryString["returnUrl"];
+                        if (string.IsNullOrEmpty(returnUrl))
+                        {
+                            returnUrl = Session["ReturnUrl"] as string;
+                            Session["ReturnUrl"] = null; 
+                        }
+
                         if (!string.IsNullOrEmpty(returnUrl))
                         {
                             Response.Redirect(returnUrl);

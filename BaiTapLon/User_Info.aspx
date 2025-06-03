@@ -147,6 +147,11 @@
                             <Columns>
                                 <asp:BoundField DataField="Sdh" HeaderText="Mã Đơn Hàng" />
                                 <asp:BoundField DataField="Ngay_dat_hang" HeaderText="Ngày Đặt" DataFormatString="{0:dd/MM/yyyy}" />
+                                <asp:TemplateField HeaderText="Chi Tiết Hàng">
+                                    <ItemTemplate>
+                                        <%# Eval("Chi_tiet_hang").ToString().Replace(";", "<br/>") %>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:BoundField DataField="Tri_gia" HeaderText="Trị Giá" DataFormatString="{0:N0}" />
                                 <asp:BoundField DataField="Trang_thai_giao_hang" HeaderText="Trạng Thái" />
                                 <asp:TemplateField HeaderText="Hành Động">

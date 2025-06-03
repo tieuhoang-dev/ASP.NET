@@ -33,15 +33,6 @@ namespace BaiTapLon
         protected global::System.Web.UI.WebControls.Label lblEmpty;
 
         /// <summary>
-        /// lblTongTien control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTongTien;
-
-        /// <summary>
         /// lnkXemGioHang control.
         /// </summary>
         /// <remarks>

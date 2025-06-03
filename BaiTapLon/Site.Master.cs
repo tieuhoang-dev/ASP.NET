@@ -178,52 +178,15 @@ namespace BaiTapLon
         protected void btnAddToCart_Click(object sender, EventArgs e)
         {
             string maSach = hfMaSach_AddToCart.Value;
-            int soLuong = int.TryParse(hfQuantity_AddToCart.Value, out int sl) ? sl : 1;
-
             if (string.IsNullOrEmpty(maSach)) return;
 
-            string connStr = ConfigurationManager.ConnectionStrings["QLbansachConnectionString"].ConnectionString;
-            CartItem item = null;
-
-            using (SqlConnection conn = new SqlConnection(connStr))
-            using (SqlCommand cmd = new SqlCommand("sp_LayThongTinSachTheoMa", conn))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@MaSach", maSach);
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.Read())
-                {
-                    item = new CartItem()
-                    {
-                        MaSach = maSach,
-                        TenSach = reader["Ten_sach"].ToString(),
-                        DonGia = Convert.ToDecimal(reader["Don_gia"]),
-                        SoLuong = soLuong
-                    };
-                }
-                reader.Close();
-            }
-
-            if (item == null) return;
-
-            List<CartItem> cart = Session["Cart"] as List<CartItem> ?? new List<CartItem>();
-
-            var existing = cart.FirstOrDefault(c => c.MaSach == item.MaSach);
-            if (existing != null)
-            {
-                existing.SoLuong += item.SoLuong;
-            }
-            else
-            {
-                cart.Add(item);
-            }
-
+            List<string> cart = Session["Cart"] as List<string> ?? new List<string>();
+            cart.Add(maSach);
             Session["Cart"] = cart;
 
-            string script = $"alert('Đã thêm {item.SoLuong} sản phẩm vào giỏ hàng!');";
+            string script = $"alert('Đã thêm sách mã {maSach} vào giỏ hàng!');";
             ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", script, true);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "closeDialog", "closeCartDialog();", true);
+
             Response.Redirect("Default.aspx");
         }
 

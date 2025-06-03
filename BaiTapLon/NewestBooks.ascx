@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="NewestBooks.ascx.cs" Inherits="BaiTapLon.NewestBooks" %>
 
 <style>
+    /* Giữ nguyên CSS bạn đã có */
     #carouselContainer {
         position: relative;
         width: 800px;
@@ -73,26 +74,28 @@
     .btn-prev:hover, .btn-next:hover {
         background-color: rgba(194, 24, 91, 1);
     }
-     .btn-buy-now {
-     background-color: #4CAF50;
-     color: white;
-     border: none;
-     padding: 5px 10px;
-     font-size: 12px;
-     border-radius: 4px;
-     cursor: pointer;
-     display: inline-flex;
-     align-items: center;
-     gap: 5px;
-     text-decoration: none;
-     }
+    
+    .btn-buy-now {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        font-size: 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+    }
 
-     .btn-buy-now:hover {
-         background-color: #45a049;
-         text-decoration: none;
-         color: white;
-     }
-     .btn-add-to-cart {
+    .btn-buy-now:hover {
+        background-color: #45a049;
+        text-decoration: none;
+        color: white;
+    }
+
+    .btn-add-to-cart {
         background-color: #2196F3; 
         color: white;
         border: none;
@@ -104,18 +107,18 @@
         align-items: center;
         gap: 5px;
         text-decoration: none;
-     }
+    }
 
     .btn-add-to-cart:hover {
         background-color: #1976D2;
         color: white;
     }
+
     .book-actions {
         display: flex;
         gap: 10px;
         margin-top: 8px;
-}
-
+    }
 </style>
 
 <div id="carouselContainer">
@@ -131,44 +134,40 @@
 
     <asp:Repeater ID="rptNewestBooks" runat="server">
         <ItemTemplate>
-            <a href='<%# Eval("MaSach", "BookDetail.aspx?ms={0}") %>' style="text-decoration: none; color: inherit;">
             <div class="carousel-item">
                 <img src='<%# ResolveUrl("~/Images/") + Eval("Hinh_minh_hoa") %>' alt="Hình sách" />
                 <div class="book-info">
-                    <h4 style="margin: 0;"><%# Eval("Ten_sach") %></h4>
-                    <p style="margin: 2px 0; font-size: 14px; color: #555;">Tác giả: <%# Eval("DanhSachTacGia") %></p>
-                    <p style="margin: 2px 0; font-size: 14px; color: #777;">Chủ đề: <%# Eval("TenChuDe") %></p>
-                    <div style="display: flex; justify-content: space-between; align-items: end;">
-                        <span style="font-weight: bold; color: #e91e63;">
-                            <%# String.Format("{0:N0} VNĐ", Eval("Don_gia")) %>
-                        </span>
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <span><i class="fa fa-eye"></i> <%# Eval("So_lan_xem") %></span>
-                            <span><i class="fa fa-shopping-cart"></i> <%# Eval("So_luong_ban") %></span>
+                    <a href='<%# Eval("MaSach", "BookDetail.aspx?ms={0}") %>' style="text-decoration: none; color: inherit;">
+                        <h4 style="margin: 0;"><%# Eval("Ten_sach") %></h4>
+                        <p style="margin: 2px 0; font-size: 14px; color: #555;">Tác giả: <%# Eval("DanhSachTacGia") %></p>
+                        <p style="margin: 2px 0; font-size: 14px; color: #777;">Chủ đề: <%# Eval("TenChuDe") %></p>
+                        <div style="display: flex; justify-content: space-between; align-items: end;">
+                            <span style="font-weight: bold; color: #e91e63;">
+                                <%# String.Format("{0:N0} VNĐ", Eval("Don_gia")) %>
+                            </span>
+                            <div style="display: flex; gap: 10px; align-items: center;">
+                                <span><i class="fa fa-eye"></i> <%# Eval("So_lan_xem") %></span>
+                                <span><i class="fa fa-shopping-cart"></i> <%# Eval("So_luong_ban") %></span>
+                            </div>
                         </div>
-                    </div>
                     </a>
-                        <div class="book-actions">
-                       <asp:LinkButton runat="server" CssClass="btn-buy-now" 
+                    <div class="book-actions">
+                        <asp:LinkButton runat="server" CssClass="btn-buy-now" 
                             data-masach='<%# Eval("MaSach") %>' 
                             data-tensach='<%# Eval("Ten_sach").ToString().Replace("\"", "\\\"") %>' 
                             data-dongia='<%# String.Format("{0:0}", Eval("Don_gia")) %>'
                             OnClientClick="openModal(this.getAttribute('data-masach'), this.getAttribute('data-tensach'), this.getAttribute('data-dongia')); return false;">
                             <i class="fa fa-credit-card"></i> Mua ngay
                         </asp:LinkButton>
-            
+
                         <asp:LinkButton runat="server"
                             CssClass="btn-add-to-cart"
-                            data-masach='<%# Eval("MaSach") %>'
-                            data-tensach='<%# Eval("Ten_sach").ToString().Replace("\"", "\\\"") %>'
-                            data-dongia='<%# String.Format("{0:0}", Eval("Don_gia")) %>'>
+                            OnClientClick='<%# "addToCart(\"" + Eval("MaSach") + "\"); return false;" %>'>
                             <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
                         </asp:LinkButton>
                     </div>
-
                 </div>
             </div>
-            
         </ItemTemplate>
     </asp:Repeater>
 </div>
@@ -222,27 +221,4 @@
         showItem(currentIndex);
         startAutoSlide();
     })();
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.btn-buy-now').forEach(btn => {
-            btn.addEventListener('click', function (e) {
-                e.preventDefault();
-                const maSach = this.getAttribute('data-masach');
-                const tenSach = this.getAttribute('data-tensach');
-                const donGia = parseInt(this.getAttribute('data-dongia'));
-                openModal(maSach, tenSach, donGia);
-            });
-        });
-
-        document.querySelectorAll('.btn-add-to-cart').forEach(btn => {
-            btn.addEventListener('click', function (e) {
-                e.preventDefault();
-                const maSach = this.getAttribute('data-masach');
-                const tenSach = this.getAttribute('data-tensach');
-                const donGia = parseInt(this.getAttribute('data-dongia'));
-                openCartDialog(maSach, tenSach, donGia);
-            });
-        });
-    });
-
-
 </script>

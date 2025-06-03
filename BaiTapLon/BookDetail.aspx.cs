@@ -194,6 +194,7 @@ namespace BaiTapLon
                     window.location.href = 'Default.aspx';
                 }, 1000);
             ", true);
+            LoadBookDetail(Request.QueryString["ms"]);
         }
 
     }

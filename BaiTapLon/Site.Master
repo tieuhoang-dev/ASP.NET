@@ -29,7 +29,7 @@
             display: flex;
             height: 1200px;
             gap: 20px;
-            padding: 10px 20px;
+            padding: 55px 20px;
             box-sizing: border-box;
         }
 
@@ -218,17 +218,6 @@
             <asp:ContentPlaceHolder ID="phHeader" runat="server" />
         </div>
 
-        <!-- Menu ngang -->
-        <div class="main-menu">
-            <ul>
-                <li><a href="/Default.aspx"><i class="fas fa-home"></i>Trang chủ</a></li>
-                <li><a href="/Default.aspx"><i class="fas fa-book"></i>Sách</a></li>
-                <li><a href="~/DanhMucTheLoai.aspx"><i class="fas fa-th-list"></i>Thể loại</a></li>
-                <li><a href="~/TacGia.aspx"><i class="fas fa-user-pen"></i>Tác giả</a></li>
-                <li><a href="~/GioHang.aspx"><i class="fas fa-shopping-cart"></i>Giỏ hàng</a></li>
-            </ul>
-        </div>
-
         <!-- BỐ CỤC CHÍNH FLEX -->
         <div class="main-content">
             <!-- PHẦN 1: Chủ đề sách -->
@@ -304,22 +293,6 @@
             <div id="modalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"
                 onclick="closeModal()">
             </div>
-            <!-- Dialog thêm giỏ hàng  -->
-            <div id="cartDialog" class="cart-dialog" style="display: none; width: 300px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.3); z-index: 1000;">
-                <div class="dialog-content">
-                    <h4><strong>Thêm Vào Giỏ Hàng</strong></h4>
-                    <h6 id="dialogBookTitle">Tên sách</h6>
-                    <p>Giá: <span id="dialogBookPrice"></span>VND</p>
-                    <label for="quantity">Số lượng:</label>
-                    <input type="number" id="quantity" value="1" min="1" onchange="updateTotal()" />
-                    <p>Thành tiền: <span id="totalPrice"></span>VND</p>
-                    <div class="dialog-actions">
-                        <button type="button" onclick="confirmAddToCart()" style="background-color: green">Thêm vào giỏ hàng</button>
-                        <button type="button" onclick="closeCartDialog()">Hủy</button>
-                    </div>
-                </div>
-            </div>
-
             <asp:Button ID="btnAddToCart" runat="server" Style="display: none" OnClick="btnAddToCart_Click" />
             <asp:HiddenField ID="hfMaSach_AddToCart" runat="server" />
             <asp:HiddenField ID="hfQuantity_AddToCart" runat="server" />
@@ -386,33 +359,12 @@
             alert("Đặt mua sách mã: " + maSach + "\nSố lượng: " + soLuong + "\nĐịa chỉ: " + diaChi);
             closeModal();
         }
-        function openCartDialog(maSach, tenSach, donGia) {
-            document.getElementById('dialogBookTitle').innerText = tenSach;
-            document.getElementById('dialogBookPrice').innerText = donGia;
-            document.getElementById('quantity').value = 1;
-            document.getElementById('totalPrice').innerText = parseInt(donGia).toLocaleString();
 
-            // Gán dữ liệu cho hidden
+        function addToCart(maSach) {
             document.getElementById('<%= hfMaSach_AddToCart.ClientID %>').value = maSach;
-
-            document.getElementById('cartDialog').style.display = 'block';
-        }
-
-        function closeCartDialog() {
-            document.getElementById('cartDialog').style.display = 'none';
-        }
-
-        function updateTotal() {
-            var price = parseInt(document.getElementById('dialogBookPrice').innerText);
-            var qty = parseInt(document.getElementById('quantity').value);
-            document.getElementById('totalPrice').innerText = (price * qty).toLocaleString();
-        }
-
-        function confirmAddToCart() {
-            var qty = parseInt(document.getElementById('quantity').value);
-            document.getElementById('<%= hfQuantity_AddToCart.ClientID %>').value = qty;
-            document.getElementById('<%= btnAddToCart.ClientID %>').click();
-        }
+           document.getElementById('<%= hfQuantity_AddToCart.ClientID %>').value = 1;
+           document.getElementById('<%= btnAddToCart.ClientID %>').click();
+       }
 
     </script>
 </body>

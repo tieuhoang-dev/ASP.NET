@@ -138,6 +138,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Genre.ascx" />
     <Content Include="GioHang.ascx" />
+    <Content Include="GioHang.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Header.ascx" />
     <Content Include="Login.aspx" />
@@ -200,6 +201,7 @@
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="search.ascx" />
     <Content Include="Site.Master" />
+    <Content Include="TacGia.aspx" />
     <Content Include="TopSellingBooks.ascx" />
     <Content Include="User_Info.aspx" />
     <Content Include="ViewSwitcher.ascx" />
@@ -281,6 +283,13 @@
     <Compile Include="GioHang.ascx.designer.cs">
       <DependentUpon>GioHang.ascx</DependentUpon>
     </Compile>
+    <Compile Include="GioHang.aspx.cs">
+      <DependentUpon>GioHang.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GioHang.aspx.designer.cs">
+      <DependentUpon>GioHang.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -334,6 +343,13 @@
     </Compile>
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
+    </Compile>
+    <Compile Include="TacGia.aspx.cs">
+      <DependentUpon>TacGia.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TacGia.aspx.designer.cs">
+      <DependentUpon>TacGia.aspx</DependentUpon>
     </Compile>
     <Compile Include="TopSellingBooks.ascx.cs">
       <DependentUpon>TopSellingBooks.ascx</DependentUpon>

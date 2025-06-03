@@ -108,7 +108,7 @@
 </style>
 
 <div class="books-wrapper">
-    <asp:Repeater ID="rptBooks" runat="server">
+<asp:Repeater ID="rptBooks" runat="server">
 <ItemTemplate>
     <a href='<%# Eval("MaSach", "BookDetail.aspx?ms={0}") %>' style="text-decoration: none; color: inherit;">
         <div class="book-card">
@@ -143,12 +143,11 @@
                 </asp:LinkButton>
                 
                  <asp:LinkButton runat="server"
-                     CssClass="btn-add-to-cart"
-                     data-masach='<%# Eval("MaSach") %>'
-                     data-tensach='<%# Eval("Ten_sach").ToString().Replace("\"", "\\\"") %>'
-                     data-dongia='<%# String.Format("{0:0}", Eval("Don_gia")) %>'>
-                     <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
-                 </asp:LinkButton>
+                    CssClass="btn-add-to-cart"
+                    OnClientClick='<%# "addToCart(\"" + Eval("MaSach") + "\"); return false;" %>'>
+                    <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
+                </asp:LinkButton>
+
         </div>
             </div>
         </div>
@@ -167,15 +166,16 @@
                 });
             });
 
-            document.querySelectorAll('.btn-add-to-cart').forEach(btn => {
-                btn.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const maSach = this.getAttribute('data-masach');
-                    const tenSach = this.getAttribute('data-tensach');
-                    const donGia = parseInt(this.getAttribute('data-dongia'));
-                    openCartDialog(maSach, tenSach, donGia);
+            document.addEventListener('DOMContentLoaded', function () {
+                document.querySelectorAll('.btn-add-to-cart').forEach(btn => {
+                    btn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const maSach = this.getAttribute('data-masach');
+                        addToCart(maSach);
+                    });
                 });
             });
-        });
+        }
+        
     </script>
 </div>

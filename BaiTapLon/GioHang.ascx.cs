@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
-using System.Web.UI;
 using System.Web.UI.WebControls;
-using BaiTapLon.Models;
 
 namespace BaiTapLon
 {
@@ -17,13 +18,22 @@ namespace BaiTapLon
 
         private void BindGioHang()
         {
-            List<CartItem> gioHang = Session["Cart"] as List<CartItem>;
+            List<string> gioHang = Session["Cart"] as List<string>;
 
             if (gioHang == null || gioHang.Count == 0)
             {
                 rptGioHang.Visible = false;
                 lblEmpty.Visible = true;
-                lblTongTien.Text = "0 VNĐ";
+                lnkXemGioHang.Visible = false;
+                return;
+            }
+
+            DataTable dt = GetBookDetails(gioHang);
+
+            if (dt.Rows.Count == 0)
+            {
+                rptGioHang.Visible = false;
+                lblEmpty.Visible = true;
                 lnkXemGioHang.Visible = false;
                 return;
             }
@@ -32,12 +42,37 @@ namespace BaiTapLon
             lblEmpty.Visible = false;
             lnkXemGioHang.Visible = true;
 
-            rptGioHang.DataSource = gioHang;
+            rptGioHang.DataSource = dt;
             rptGioHang.DataBind();
 
-            // Tính tổng tiền
-            decimal tongTien = gioHang.Sum(item => item.DonGia * item.SoLuong);
-            lblTongTien.Text = string.Format("{0:N0} VNĐ", tongTien);
+        }
+
+        private DataTable GetBookDetails(List<string> maSachList)
+        {
+            DataTable dt = new DataTable();
+
+            if (maSachList == null || maSachList.Count == 0)
+                return dt;
+
+            string connStr = ConfigurationManager.ConnectionStrings["QLbansachConnectionString"].ConnectionString;
+
+            string query = $"SELECT Ms, Ten_sach, Don_gia, Hinh_minh_hoa FROM SACH WHERE Ms IN ({string.Join(",", maSachList.Select((s, i) => $"@Ms{i}"))})";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            using (SqlCommand cmd = new SqlCommand(query, conn))
+            {
+                for (int i = 0; i < maSachList.Count; i++)
+                {
+                    cmd.Parameters.AddWithValue($"@Ms{i}", maSachList[i]);
+                }
+
+                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                {
+                    da.Fill(dt);
+                }
+            }
+
+            return dt;
         }
 
         protected void rptGioHang_ItemCommand(object source, RepeaterCommandEventArgs e)
@@ -45,19 +80,15 @@ namespace BaiTapLon
             if (e.CommandName == "Xoa")
             {
                 string maSachXoa = e.CommandArgument.ToString();
-                List<CartItem> gioHang = Session["Cart"] as List<CartItem>;
+                List<string> gioHang = Session["Cart"] as List<string>;
 
-                if (gioHang != null)
+                if (gioHang != null && gioHang.Contains(maSachXoa))
                 {
-                    CartItem itemXoa = gioHang.FirstOrDefault(x => x.MaSach == maSachXoa);
-                    if (itemXoa != null)
-                    {
-                        gioHang.Remove(itemXoa);
-                        Session["Cart"] = gioHang;
-                    }
+                    gioHang.Remove(maSachXoa);
+                    Session["Cart"] = gioHang;
                 }
 
-                Response.Redirect("~/Default.aspx");
+                Response.Redirect(Request.RawUrl);
             }
         }
     }

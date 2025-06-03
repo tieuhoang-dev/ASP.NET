@@ -99,15 +99,15 @@
             <ItemTemplate>
                 <div class="cart-item">
                     <div class="item-header">
-                        <%# Eval("TenSach") %> x <%# Eval("SoLuong") %>
+                        <%# Eval("Ten_sach") %> 
                     </div>
                     <div class="item-sub">
-                        <%# string.Format("{0:N0} VNĐ", Eval("DonGia")) %>
+                        <%# string.Format("{0:N0} VNĐ", Eval("Don_gia")) %>
                     </div>
                     <div class="item-actions">
                         <asp:LinkButton ID="btnXoa" runat="server"
                             CommandName="Xoa"
-                            CommandArgument='<%# Eval("MaSach") %>'
+                            CommandArgument='<%# Eval("Ms") %>'
                             Text="Xóa"
                             OnClientClick="return confirm('Bạn có chắc muốn xóa không?');" />
                     </div>
@@ -119,11 +119,8 @@
     </div>
 
     <div class="giohang-footer-fixed">
-        <div class="giohang-total">
-            Tổng tiền: <asp:Label ID="lblTongTien" runat="server" Text="0 VNĐ" />
-        </div>
         <div class="giohang-link">
-            <asp:HyperLink ID="lnkXemGioHang" runat="server" NavigateUrl="~/ChiTietGioHang.aspx" Text="Xem toàn bộ giỏ hàng" />
+            <asp:HyperLink ID="lnkXemGioHang" runat="server" NavigateUrl="~/GioHang.aspx" Text="Xem toàn bộ giỏ hàng" />
         </div>
     </div>
 </div>
