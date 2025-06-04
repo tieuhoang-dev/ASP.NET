@@ -187,10 +187,14 @@ namespace BaiTapLon
         {
             TinhTongTien();
         }
-        // Phía trên giữ nguyên như bạn đã có...
 
         protected void btnDatMua_Click(object sender, EventArgs e)
         {
+            string soNha = txtSoNha.Text.Trim();
+            string phuongXa = Request.Form["ddlPhuongXa"] ?? "";
+            string quanHuyen = Request.Form["ddlQuanHuyen"] ?? "";
+            string tinhThanh = Request.Form["ddlTinhThanh"] ?? "";
+
             string user_id = Session["user_id"]?.ToString();
             if (string.IsNullOrEmpty(user_id))
             {
@@ -205,10 +209,6 @@ namespace BaiTapLon
                 ScriptManager.RegisterStartupScript(this, GetType(), "loginFail", loginFailscript, true);
                 return;
             }
-            string soNha = txtSoNha.Text.Trim();
-            string phuongXa = txtPhuongXa.Text.Trim();
-            string quanHuyen = txtQuanHuyen.Text.Trim();
-            string tinhThanh = txtTinhThanh.Text.Trim();
 
             string diaChiGiaoHang = $"{soNha}, {phuongXa}, {quanHuyen}, {tinhThanh}";
             if (string.IsNullOrEmpty(diaChiGiaoHang))
@@ -252,14 +252,14 @@ namespace BaiTapLon
             // Gọi stored procedure để lưu đơn hàng
             string connStr = ConfigurationManager.ConnectionStrings["QLbansachConnectionString"].ConnectionString;
             using (SqlConnection conn = new SqlConnection(connStr))
-            using (SqlCommand cmd = new SqlCommand("DatDonHang_TheoMkh", conn))
+            using (SqlCommand cmd = new SqlCommand("dbo.DatDonHang_TheoMkh", conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Mkh", maKhachHang);
                 var tvpParam = cmd.Parameters.AddWithValue("@DanhSachSach", dtSachMua);
                 tvpParam.SqlDbType = SqlDbType.Structured;
                 tvpParam.TypeName = "dbo.SachMuaType";
-
+                cmd.Parameters.AddWithValue("@DiaChiGiaoHang", diaChiGiaoHang);
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }

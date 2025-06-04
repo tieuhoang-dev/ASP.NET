@@ -69,31 +69,31 @@ namespace BaiTapLon
         protected global::System.Web.UI.WebControls.TextBox txtSoNha;
 
         /// <summary>
-        /// txtPhuongXa control.
+        /// ddlTinhThanh control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPhuongXa;
+        protected global::System.Web.UI.HtmlControls.HtmlSelect ddlTinhThanh;
 
         /// <summary>
-        /// txtQuanHuyen control.
+        /// ddlQuanHuyen control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtQuanHuyen;
+        protected global::System.Web.UI.HtmlControls.HtmlSelect ddlQuanHuyen;
 
         /// <summary>
-        /// txtTinhThanh control.
+        /// ddlPhuongXa control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTinhThanh;
+        protected global::System.Web.UI.HtmlControls.HtmlSelect ddlPhuongXa;
 
         /// <summary>
         /// btnDatMua control.

@@ -253,15 +253,78 @@
                         <asp:Label ID="lblTongTien" runat="server"></asp:Label>
                     </div>
                     <div class="address-grid">
-                        <asp:TextBox ID="txtSoNha" runat="server" placeholder="Số nhà, đường..."></asp:TextBox>
-                        <asp:TextBox ID="txtPhuongXa" runat="server" placeholder="Phường/Xã..."></asp:TextBox>
-                        <asp:TextBox ID="txtQuanHuyen" runat="server" placeholder="Quận/Huyện..."></asp:TextBox>
-                        <asp:TextBox ID="txtTinhThanh" runat="server" placeholder="Tỉnh/Thành phố..."></asp:TextBox>
+                        <asp:TextBox ID="txtSoNha" runat="server" placeholder="Số nhà, đường..." />
+                        <select id="ddlTinhThanh" runat="server" class="form-select" style="padding: 8px; font-size:16px;">
+                            <option value="">-- Chọn Tỉnh/Thành phố --</option>
+                        </select>
+                        <select id="ddlQuanHuyen" runat="server" class="form-select" style="padding: 8px; font-size:16px;" disabled>
+                            <option value="">-- Chọn Quận/Huyện --</option>
+                        </select>
+                        <select id="ddlPhuongXa" runat="server" class="form-select" style="padding: 8px; font-size:16px;" disabled>
+                            <option value="">-- Chọn Phường/Xã --</option>
+                        </select>
                     </div>
+
                     <asp:Button ID="btnDatMua" runat="server" Text="Đặt Mua" OnClick="btnDatMua_Click" />
                 </div>
             </div>
         </div>
+        <script>
+            $(document).ready(function() {
+                const apiBase = 'https://provinces.open-api.vn/api';
+
+                function loadTinhThanh() {
+                    $.getJSON(apiBase + '/p', function(data) {
+                        data.forEach(function(tinh) {
+                            $('#ddlTinhThanh').append(new Option(tinh.name, tinh.code));
+                        });
+                    });
+                }
+
+                function loadQuanHuyen(tinhCode) {
+                    $('#ddlQuanHuyen').empty().append('<option value="">-- Chọn Quận/Huyện --</option>');
+                    $('#ddlPhuongXa').empty().append('<option value="">-- Chọn Phường/Xã --</option>').prop('disabled', true);
+                    if (!tinhCode) {
+                        $('#ddlQuanHuyen').prop('disabled', true);
+                        return;
+                    }
+                    $('#ddlQuanHuyen').prop('disabled', false);
+                    $.getJSON(apiBase + `/p/${tinhCode}?depth=2`, function(data) {
+                        data.districts.forEach(function(quan) {
+                            $('#ddlQuanHuyen').append(new Option(quan.name, quan.code));
+                        });
+                    });
+                }
+
+                function loadPhuongXa(quanCode) {
+                    $('#ddlPhuongXa').empty().append('<option value="">-- Chọn Phường/Xã --</option>');
+                    if (!quanCode) {
+                        $('#ddlPhuongXa').prop('disabled', true);
+                        return;
+                    }
+                    $('#ddlPhuongXa').prop('disabled', false);
+                    $.getJSON(apiBase + `/d/${quanCode}?depth=2`, function(data) {
+                        data.wards.forEach(function(phuong) {
+                            $('#ddlPhuongXa').append(new Option(phuong.name, phuong.code));
+                        });
+                    });
+                }
+
+                // Event khi chọn tỉnh/thành
+                $('#ddlTinhThanh').change(function() {
+                    const tinhCode = $(this).val();
+                    loadQuanHuyen(tinhCode);
+                });
+
+                // Event khi chọn quận/huyện
+                $('#ddlQuanHuyen').change(function() {
+                    const quanCode = $(this).val();
+                    loadPhuongXa(quanCode);
+                });
+
+                loadTinhThanh();
+            });
+        </script>
     </form>
 </body>
 </html>

@@ -10,7 +10,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .book-detail-container {
-            max-width: 1300px; 
+            max-width: 1300px;
             margin: 70px auto 40px;
             display: flex;
             gap: 25px;
@@ -19,7 +19,7 @@
             padding: 25px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             font-family: Arial, sans-serif;
-            min-width: 325px; 
+            min-width: 325px;
             align-items: flex-start;
         }
 
@@ -51,7 +51,7 @@
             gap: 6px;
         }
 
-        #buyNowModal, #cartModal {
+        #buyNowModal {
             display: none;
             position: fixed;
             top: 50%; left: 50%;
@@ -84,10 +84,17 @@
         .modal-content .actions {
             margin-top: 20px;
         }
+        #buyNowModal select.form-select {
+            height: 38px;
+            padding: 6px 12px;
+            box-sizing: border-box;
+            vertical-align: middle;
+        }
     </style>
 </head>
 <body>
     <form id="form1" runat="server">
+         <asp:ScriptManager runat="server" ID="ScriptManager1" />
         <asp:PlaceHolder ID="phHeader" runat="server" />
 
         <div class="book-detail-container">
@@ -107,27 +114,8 @@
                 <asp:LinkButton ID="btnShowOrderModal" runat="server" CssClass="btn btn-success btn-open-modal" OnClientClick="showOrderModal(); return false;">
                     <i class="fas fa-credit-card"></i> Đặt hàng ngay
                 </asp:LinkButton>
-                <asp:LinkButton ID="btnShowCartModal" runat="server" CssClass="btn btn-primary btn-open-modal" OnClientClick="showCartModal(); return false;">
-                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng
-                </asp:LinkButton>
-            </div>
-        </div>
-
-        <!-- Modal Giỏ hàng -->
-        <div id="cartModal">
-            <div class="modal-content">
-                <h3>Thêm vào giỏ hàng</h3>
-                <h6 id="cartBookTitle"></h6>
-                <p>Giá: <span id="cartBookPrice"></span> VNĐ</p>
-                <label for="cartQuantity">Số lượng:</label>
-                <input type="number" id="cartQuantity" class="form-control" value="1" min="1" />
-                <p>Thành tiền: <strong id="cartTotalPrice"></strong> VNĐ</p>
-                <div class="actions text-end mt-3">
-                    <asp:HiddenField ID="hfQuantityCart" runat="server" />
-                    <asp:HiddenField ID="hfMaSachCart" runat="server" />
-                    <asp:Button ID="btnAddToCart" runat="server" Text="Thêm vào giỏ hàng" CssClass="btn btn-success" OnClick="btnAddToCart_Click" />
-                    <button type="button" class="btn btn-secondary" onclick="closeCartModal()">Hủy</button>
-                </div>
+                <asp:Button ID="btnAddToCart" runat="server" Text="Thêm vào giỏ hàng" CssClass="btn btn-primary btn-open-modal" OnClick="btnAddToCart_Click" />
+                <asp:HiddenField ID="hfMaSach_AddToCart" runat="server" />
             </div>
         </div>
 
@@ -143,8 +131,26 @@
                 <div><strong>Đơn giá:</strong> <span id="lblOrderDonGia" style="color:#d9534f; font-weight:bold;"></span> VNĐ</div><br />
                 <label for="txtQuantityOrder">Số lượng:</label>
                 <asp:TextBox ID="txtQuantityOrder" runat="server" CssClass="form-control" Text="1" />
-                <label for="txtAddressOrder">Địa chỉ giao hàng:</label>
-                <asp:TextBox ID="txtAddressOrder" runat="server" CssClass="form-control" />
+                <label>Địa chỉ giao hàng:</label>
+                <div class="row">
+                    <div class="col-12 mb-2">
+                        <label for="txtSoNha">Số nhà:</label>
+                        <asp:TextBox ID="txtSoNha" runat="server" CssClass="form-control" />
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label for="ddlTinhTP">Tỉnh / Thành phố:</label>
+                        <select id="ddlTinhTP" class="form-select" name="ddlTinhTP"></select>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <label for="ddlQuanHuyen">Quận / Huyện:</label>
+                        <select id="ddlQuanHuyen" class="form-select" name="ddlQuanHuyen" disabled></select>
+                    </div>
+                    <div class="col-md-3 mb-2 d-flex flex-column ">
+                        <label for="ddlPhuongXa">Phường / Xã:</label>
+                        <select id="ddlPhuongXa" class="form-select" name="ddlPhuongXa" ></select>
+                    </div>
+                </div>
+
                 <label>Phương thức thanh toán:</label>
                 <div>
                     <input type="radio" id="cod" name="paymentMethod" value="COD" checked />
@@ -161,70 +167,127 @@
             </div>
         </div>
 
-        <div id="modalOverlay" onclick="closeModal(); closeCartModal();"></div>
+        <div id="modalOverlay" onclick="closeModal();"></div>
     </form>
 
     <script type="text/javascript">
-        function showCartModal() {
-            const title = $('#<%= lblTenSach.ClientID %>').text();
-            const priceText = $('#<%= lblDonGia.ClientID %>').text();
-            const price = parseInt(priceText.replace(/[^\d]/g, '')) || 0;
+        let provincesData = [];
+        let districtsData = [];
+        let wardsData = [];
 
-            $('#cartBookTitle').text(title);
-            $('#cartBookPrice').text(price.toLocaleString());
-            $('#cartQuantity').val(1);
-            $('#cartTotalPrice').text(price.toLocaleString());
-            $('#<%= hfMaSachCart.ClientID %>').val('<%= Request.QueryString["ms"] ?? "" %>');
-
-            $('#cartModal').show();
-            $('#modalOverlay').show();
+        function loadProvinces() {
+            $.getJSON('https://provinces.open-api.vn/api/p/')
+                .done(function (data) {
+                    provincesData = data;
+                    $('#ddlTinhTP').empty().append('<option value="">-- Chọn Tỉnh/Thành phố --</option>');
+                    data.forEach(function (province) {
+                        $('#ddlTinhTP').append(`<option value="${province.code}">${province.name}</option>`);
+                    });
+                }).fail(function () {
+                    alert('Không tải được dữ liệu Tỉnh/Thành phố!');
+                });
         }
 
-        function closeCartModal() {
-            $('#cartModal').hide();
-            $('#modalOverlay').hide();
+        function loadDistricts(provinceCode) {
+            if (!provinceCode) {
+                $('#ddlQuanHuyen').prop('disabled', true).empty();
+                $('#ddlPhuongXa').prop('disabled', true).empty();
+                return;
+            }
+            $.getJSON(`https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`)
+                .done(function (data) {
+                    districtsData = data.districts || [];
+                    $('#ddlQuanHuyen').prop('disabled', false).empty().append('<option value="">-- Chọn Quận/Huyện --</option>');
+                    $('#ddlPhuongXa').prop('disabled', true).empty();
+                    districtsData.forEach(function (district) {
+                        $('#ddlQuanHuyen').append(`<option value="${district.code}">${district.name}</option>`);
+                    });
+                }).fail(function () {
+                    alert('Không tải được dữ liệu Quận/Huyện!');
+                });
         }
 
-        $('#cartQuantity').on('input', function () {
-            const price = parseInt($('#cartBookPrice').text().replace(/[^\d]/g, '')) || 0;
-            const qty = parseInt($(this).val());
-            $('#cartTotalPrice').text(!isNaN(qty) && qty > 0 ? (price * qty).toLocaleString() : '0');
-        });
+        function loadWards(districtCode) {
+            if (!districtCode) {
+                $('#ddlPhuongXa').prop('disabled', true).empty();
+                return;
+            }
+            $.getJSON(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`)
+                .done(function (data) {
+                    wardsData = data.wards || [];
+                    $('#ddlPhuongXa').prop('disabled', false).empty().append('<option value="">-- Chọn Phường/Xã --</option>');
+                    wardsData.forEach(function (ward) {
+                        $('#ddlPhuongXa').append(`<option value="${ward.name}">${ward.name}</option>`);
+                    });
+                }).fail(function () {
+                    alert('Không tải được dữ liệu Phường/Xã!');
+                });
+        }
 
-        $('#<%= btnAddToCart.ClientID %>').click(function (e) {
-            e.preventDefault();
-            const qty = parseInt($('#cartQuantity').val()) || 1;
-            $('#<%= hfQuantityCart.ClientID %>').val(qty);
-            __doPostBack('<%= btnAddToCart.UniqueID %>', '');
-        });
+        function resetAddressFields() {
+            $('#txtSoNha').val('');
+            $('#ddlTinhTP').val('');
+            $('#ddlQuanHuyen').empty().prop('disabled', true);
+            $('#ddlPhuongXa').empty().prop('disabled', true);
+        }
 
         function showOrderModal() {
             const title = $('#<%= lblTenSach.ClientID %>').text();
-            const priceText = $('#<%= lblDonGia.ClientID %>').text();
-            const price = parseInt(priceText.replace(/[^\d]/g, '')) || 0;
+        const priceText = $('#<%= lblDonGia.ClientID %>').text();
+        const price = parseInt(priceText.replace(/[^\d]/g, '')) || 0;
 
-            $('#lblOrderBookTitle').text(title);
-            $('#lblOrderMaSach').text('<%= Request.QueryString["ms"] ?? "" %>');
-            $('#lblOrderDonGia').text(price.toLocaleString());
-            $('#<%= hfMaSachOrder.ClientID %>').val('<%= Request.QueryString["ms"] ?? "" %>');
+        $('#lblOrderBookTitle').text(title);
+        $('#lblOrderMaSach').text('<%= Request.QueryString["ms"] ?? "" %>');
+        $('#lblOrderDonGia').text(price.toLocaleString());
+        $('#<%= hfMaSachOrder.ClientID %>').val('<%= Request.QueryString["ms"] ?? "" %>');
 
-            $('#<%= txtQuantityOrder.ClientID %>').val("1");
-            $('#<%= txtAddressOrder.ClientID %>').val("");
-            $('#lblThanhTien').text(price.toLocaleString() + "đ");
+        $('#<%= txtQuantityOrder.ClientID %>').val("1");
 
-            $('#buyNowModal').show();
-            $('#modalOverlay').show();
+        resetAddressFields();
+        loadProvinces();
 
-            $('#<%= txtQuantityOrder.ClientID %>').off('input').on('input', function () {
+        $('#lblThanhTien').text(price.toLocaleString() + "đ");
+
+        $('#buyNowModal').show();
+        $('#modalOverlay').show();
+
+        $('#<%= txtQuantityOrder.ClientID %>').off('input').on('input', function () {
                 const qty = parseInt($(this).val());
                 $('#lblThanhTien').text(!isNaN(qty) && qty >= 1 ? (price * qty).toLocaleString() + "đ" : "0đ");
             });
         }
 
+        $(document).ready(function () {
+            // Khi chọn Tỉnh/TP thì load Quận/Huyện
+            $('#ddlTinhTP').on('change', function () {
+                const provinceCode = $(this).val();
+                loadDistricts(provinceCode);
+                $('#ddlPhuongXa').empty().prop('disabled', true);
+            });
+
+            // Khi chọn Quận/Huyện thì load Phường/Xã
+            $('#ddlQuanHuyen').on('change', function () {
+                const districtCode = $(this).val();
+                loadWards(districtCode);
+            });
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('openModal') === 'true') {
+                showOrderModal();
+
+                urlParams.delete('openModal');
+                const newUrl = window.location.pathname + '?' + urlParams.toString();
+                window.history.replaceState({}, '', newUrl);
+            }
+        });
+
         function closeModal() {
+            $('#ddlTinhTP, #ddlQuanHuyen, #ddlPhuongXa').prop('disabled', false);
             $('#buyNowModal').hide();
             $('#modalOverlay').hide();
         }
+
     </script>
+
 </body>
 </html>

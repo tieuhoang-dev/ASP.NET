@@ -11,7 +11,7 @@
         font-family: 'Segoe UI', sans-serif;
         display: flex;
         flex-direction: column;
-        height: 350px; 
+        height: 325px; 
     }
 
     .giohang-title {

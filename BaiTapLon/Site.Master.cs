@@ -109,6 +109,10 @@ namespace BaiTapLon
         }
         protected void btnConfirmOrder_Click(object sender, EventArgs e)
         {
+            string soNha = txtSoNha.Text;
+            string tinh = Request.Form["ddlTinhTP"];
+            string quan = Request.Form["ddlQuanHuyen"];
+            string phuong = Request.Form["ddlPhuongXa"];
             string maSach = hfMaSach.Value;
             if (string.IsNullOrEmpty(maSach))
             {
@@ -139,8 +143,8 @@ namespace BaiTapLon
                 return;
             }
 
-            string diaChiGiaoHang = txtAddress.Text.Trim();
-            if (string.IsNullOrEmpty(diaChiGiaoHang))
+            string fullAddress = $"{soNha}, {phuong}, {quan}, {tinh}";
+            if (string.IsNullOrEmpty(fullAddress))
             {
                 ScriptManager.RegisterStartupScript(this, GetType(), "addressFail",
                     "alert('Vui lòng nhập địa chỉ giao hàng');", true);
@@ -154,13 +158,14 @@ namespace BaiTapLon
 
             string connStr = ConfigurationManager.ConnectionStrings["QLbansachConnectionString"].ConnectionString;
             using (SqlConnection conn = new SqlConnection(connStr))
-            using (SqlCommand cmd = new SqlCommand("DatDonHang_TheoMkh", conn))
+            using (SqlCommand cmd = new SqlCommand("dbo.DatDonHang_TheoMkh ", conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Mkh", maKhachHang);
                 var tvpParam = cmd.Parameters.AddWithValue("@DanhSachSach", dtSachMua);
                 tvpParam.SqlDbType = SqlDbType.Structured;
                 tvpParam.TypeName = "dbo.SachMuaType";
+                cmd.Parameters.AddWithValue("@DiaChiGiaoHang", fullAddress);
 
                 conn.Open();
                 cmd.ExecuteNonQuery();

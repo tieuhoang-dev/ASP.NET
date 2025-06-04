@@ -27,7 +27,7 @@
         /* BỐ CỤC CHÍNH */
         .main-content {
             display: flex;
-            height: 1200px;
+            height: 1245px;
             gap: 20px;
             padding: 55px 20px;
             box-sizing: border-box;
@@ -251,45 +251,70 @@
                 </div>
             </div>
             <!-- Dialog mua hàng  -->
-            <div id="buyNowModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.3); z-index: 1000; width: 400px;">
-                <div class="modal-content">
-                    <h3>Mua sách</h3>
+            <div id="buyNowModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 16px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.3); z-index: 1000; width: 360px;">
+                <div class="modal-content" style="display: flex; flex-direction: column; gap: 10px;">
+                    <h3 style="margin-bottom: 8px;">Mua sách</h3>
 
                     <asp:HiddenField ID="hfMaSach" runat="server" />
-                    <label>Tên sách:</label>
-                    <span id="lblTenSach">Sách ABC</span>
 
-                    <label>Mã sách:</label>
-                    <span id="lblMaSach">123</span>
-
-                    <div>
-                        <strong>Đơn giá:</strong> <span id="lblDonGia" style="color: #d9534f; font-weight: bold;"></span>VNĐ
+                    <div style="display: flex; justify-content: space-between;">
+                        <label style="width: 35%;">Tên sách:</label>
+                        <span id="lblTenSach" style="width: 60%; text-align: right;">Sách ABC</span>
                     </div>
 
-                    <label>Số lượng:</label>
-                    <asp:TextBox ID="txtQuantity" runat="server" Text="1" CssClass="form-control" />
+                    <div style="display: flex; justify-content: space-between;">
+                        <label style="width: 35%;">Mã sách:</label>
+                        <span id="lblMaSach" style="width: 60%; text-align: right;">123</span>
+                    </div>
+
+                    <div>
+                        <strong>Đơn giá:</strong> <span id="lblDonGia" style="color: #d9534f; font-weight: bold;"></span> VNĐ
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <label style="width: 40%;">Số lượng:</label>
+                        <asp:TextBox ID="txtQuantity" runat="server" Text="1" CssClass="form-control" Style="width: 80px; text-align: right;" />
+                    </div>
 
                     <label>Địa chỉ giao hàng:</label>
-                    <asp:TextBox ID="txtAddress" runat="server" TextMode="SingleLine" CssClass="form-control" />
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <div>
+                            <label for="txtSoNha">Số nhà:</label>
+                            <asp:TextBox ID="txtSoNha" runat="server" CssClass="form-control" />
+                        </div>
+                        <div style="display: flex; gap: 4px;">
+                            <div style="flex: 1;">
+                                <label for="ddlTinhTP">Tỉnh / TP:</label>
+                                <select id="ddlTinhTP" class="form-select" name="ddlTinhTP" style="width: 100%;"></select>
+                            </div>
+                            <div style="flex: 1;">
+                                <label for="ddlQuanHuyen">Quận/Huyện:</label>
+                                <select id="ddlQuanHuyen" class="form-select" name="ddlQuanHuyen" disabled style="width: 90%;"></select>
+                            </div>
+                            <div style="flex: 1;">
+                                <label for="ddlPhuongXa">Phường / Xã:</label>
+                                <select id="ddlPhuongXa" class="form-select" name="ddlPhuongXa" style="width: 100%;"></select>
+                            </div>
+                        </div>
+                    </div>
 
                     <label>Phương thức thanh toán:</label>
                     <div>
                         <input type="radio" id="cod" name="paymentMethod" value="COD" checked />
                         <label for="cod">Thanh toán khi nhận hàng</label><br />
                         <input type="radio" id="bank" name="paymentMethod" value="Bank" disabled />
-                        <label for="bank" style="opacity: 0.5; cursor: not-allowed;">Chuyển khoản(Tạm thời không khả dụng)</label>
+                        <label for="bank" style="opacity: 0.5; cursor: not-allowed;">Chuyển khoản (Chưa khả dụng)</label>
                     </div>
 
                     <label>Thành tiền:</label>
                     <span id="lblThanhTien">0đ</span>
 
-                    <div class="actions">
+                    <div class="actions" style="display: flex; justify-content: flex-end; gap: 8px;">
                         <asp:Button ID="btnConfirmOrder" runat="server" Text="Mua" CssClass="btn-confirm" OnClick="btnConfirmOrder_Click" />
                         <button type="button" class="btn-cancel" onclick="closeModal()">Hủy</button>
                     </div>
                 </div>
             </div>
-
             <div id="modalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"
                 onclick="closeModal()">
             </div>
@@ -305,6 +330,9 @@
     </asp:PlaceHolder>
 
     <script type="text/javascript">
+        let provincesData = [];
+        let districtsData = [];
+        let wardsData = [];
         function toggleUserMenu() {
             var menu = document.getElementById('userMenu');
             if (menu.classList.contains('show-menu')) {
@@ -365,7 +393,76 @@
            document.getElementById('<%= hfQuantity_AddToCart.ClientID %>').value = 1;
            document.getElementById('<%= btnAddToCart.ClientID %>').click();
        }
+        function loadProvinces() {
+            $.getJSON('https://provinces.open-api.vn/api/p/')
+                .done(function (data) {
+                    provincesData = data;
+                    $('#ddlTinhTP').empty().append('<option value="">-- Chọn Tỉnh/Thành phố --</option>');
+                    data.forEach(function (province) {
+                        $('#ddlTinhTP').append(`<option value="${province.code}">${province.name}</option>`);
+                    });
+                }).fail(function () {
+                    alert('Không tải được dữ liệu Tỉnh/Thành phố!');
+                });
+        }
 
+        function loadDistricts(provinceCode) {
+            if (!provinceCode) {
+                $('#ddlQuanHuyen').prop('disabled', true).empty();
+                $('#ddlPhuongXa').prop('disabled', true).empty();
+                return;
+            }
+            $.getJSON(`https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`)
+                .done(function (data) {
+                    districtsData = data.districts || [];
+                    $('#ddlQuanHuyen').prop('disabled', false).empty().append('<option value="">-- Chọn Quận/Huyện --</option>');
+                    $('#ddlPhuongXa').prop('disabled', true).empty();
+                    districtsData.forEach(function (district) {
+                        $('#ddlQuanHuyen').append(`<option value="${district.code}">${district.name}</option>`);
+                    });
+                }).fail(function () {
+                    alert('Không tải được dữ liệu Quận/Huyện!');
+                });
+        }
+
+        function loadWards(districtCode) {
+            if (!districtCode) {
+                $('#ddlPhuongXa').prop('disabled', true).empty();
+                return;
+            }
+            $.getJSON(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`)
+                .done(function (data) {
+                    wardsData = data.wards || [];
+                    $('#ddlPhuongXa').prop('disabled', false).empty().append('<option value="">-- Chọn Phường/Xã --</option>');
+                    wardsData.forEach(function (ward) {
+                        $('#ddlPhuongXa').append(`<option value="${ward.name}">${ward.name}</option>`);
+                    });
+                }).fail(function () {
+                    alert('Không tải được dữ liệu Phường/Xã!');
+                });
+        }
+
+        function resetAddressFields() {
+            $('#txtSoNha').val('');
+            $('#ddlTinhTP').val('');
+            $('#ddlQuanHuyen').empty().prop('disabled', true);
+            $('#ddlPhuongXa').empty().prop('disabled', true);
+        }
+
+        $(document).ready(function () {
+            loadProvinces();
+
+            $('#ddlTinhTP').on('change', function () {
+                const provinceCode = $(this).val();
+                loadDistricts(provinceCode);
+                $('#ddlPhuongXa').empty().prop('disabled', true);
+            });
+
+            $('#ddlQuanHuyen').on('change', function () {
+                const districtCode = $(this).val();
+                loadWards(districtCode);
+            });
+        });
     </script>
 </body>
 </html>

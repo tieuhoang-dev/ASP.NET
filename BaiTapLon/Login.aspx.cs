@@ -55,6 +55,17 @@ namespace BaiTapLon
                             Session["ReturnUrl"] = null; 
                         }
 
+                        if (!string.IsNullOrEmpty(returnUrl) && returnUrl.Contains("BookDetail.aspx"))
+                        {
+                            if (!returnUrl.Contains("openModal=true"))
+                            {
+                                if (returnUrl.Contains("?"))
+                                    returnUrl += "&openModal=true";
+                                else
+                                    returnUrl += "?openModal=true";
+                            }
+                        }
+
                         if (!string.IsNullOrEmpty(returnUrl))
                         {
                             Response.Redirect(returnUrl);

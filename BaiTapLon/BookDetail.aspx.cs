@@ -21,6 +21,11 @@ namespace BaiTapLon
             var HeaderControl = (Header)LoadControl("~/Header.ascx");
             phHeader.Controls.Clear();
             phHeader.Controls.Add(HeaderControl);
+
+            if (!IsPostBack && Request.QueryString["openModal"] == "true")
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "openModal", "showOrderModal();", true);
+            }
         }
 
         private void LoadBookDetail(string maSach)
@@ -37,6 +42,7 @@ namespace BaiTapLon
                 SqlDataReader reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
+                    hfMaSach_AddToCart.Value = maSach;
                     lblTenSach.Text = reader["Ten_sach"].ToString();
                     lblTacGia.Text = reader["DanhSachTacGia"].ToString();
                     lblChuDe.Text = reader["TenChuDe"].ToString();
@@ -60,75 +66,35 @@ namespace BaiTapLon
 
         protected void btnAddToCart_Click(object sender, EventArgs e)
         {
-            string maSach = hfMaSachCart.Value;
-            int soLuong;
-            if (!int.TryParse(hfQuantityCart.Value, out soLuong) || soLuong < 1)
+            string maSach = hfMaSach_AddToCart.Value;
+            if (string.IsNullOrEmpty(maSach)) return;
+
+            List<string> cart = Session["Cart"] as List<string> ?? new List<string>();
+
+            string currentUrl = Request.RawUrl;
+
+            if (!cart.Contains(maSach))
             {
-                soLuong = 1;
-            }
+                cart.Add(maSach);
+                Session["Cart"] = cart;
 
-            if (string.IsNullOrEmpty(maSach))
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Không lấy được mã sách để thêm vào giỏ hàng!');", true);
-                return;
-            }
-
-            string connStr = ConfigurationManager.ConnectionStrings["QLbansachConnectionString"].ConnectionString;
-            CartItem item = null;
-
-            using (SqlConnection conn = new SqlConnection(connStr))
-            using (SqlCommand cmd = new SqlCommand("sp_LayThongTinSachTheoMa", conn))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@MaSach", maSach);
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.Read())
-                {
-                    item = new CartItem()
-                    {
-                        MaSach = maSach,
-                        TenSach = reader["Ten_sach"].ToString(),
-                        DonGia = Convert.ToDecimal(reader["Don_gia"]),
-                        SoLuong = soLuong,
-                        HinhMinhHoa = reader["Hinh_minh_hoa"].ToString()
-                    };
-                }
-                reader.Close();
-            }
-
-            if (item == null)
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Sách không tồn tại hoặc đã bị xóa!');", true);
-                return;
-            }
-
-            List<CartItem> cart = Session["Cart"] as List<CartItem> ?? new List<CartItem>();
-
-            var existingItem = cart.FirstOrDefault(c => c.MaSach == maSach);
-            if (existingItem != null)
-            {
-                existingItem.SoLuong += soLuong;
+                string script = $"alert('Đã thêm sách mã {maSach} vào giỏ hàng!'); window.location='{currentUrl}';";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "addToCartAlert", script, true);
             }
             else
             {
-                cart.Add(item);
+                string script = $"alert('Sách mã {maSach} đã có trong giỏ hàng!'); window.location='{currentUrl}';";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "addToCartDuplicateAlert", script, true);
             }
+        }
 
-            Session["Cart"] = cart;
-            // Hiển thị alert thành công và đóng modal giỏ hàng Bootstrap
-            string script = @"
-        alert('Thêm vào giỏ hàng thành công!');
-        var cartModalEl = document.getElementById('cartModal');
-        var cartModal = bootstrap.Modal.getInstance(cartModalEl);
-        if (cartModal) {
-            cartModal.hide();
-        }
-    ";
-            ScriptManager.RegisterStartupScript(this, GetType(), "cartSuccess", script, true);
-        }
+
         protected void btnConfirmOrder_Click(object sender, EventArgs e)
         {
+            string soNha = txtSoNha.Text;
+            string tinh = Request.Form["ddlTinhTP"];
+            string quan = Request.Form["ddlQuanHuyen"];
+            string phuong = Request.Form["ddlPhuongXa"];
             string maSach = hfMaSachOrder.Value;
             if (string.IsNullOrEmpty(maSach))
             {
@@ -139,14 +105,22 @@ namespace BaiTapLon
             string user_id = Session["user_id"]?.ToString();
             if (string.IsNullOrEmpty(user_id))
             {
-                string loginFailscript = @"
+                var uriBuilder = new UriBuilder(Request.Url);
+                var query = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
+                query["openModal"] = "true";
+                uriBuilder.Query = query.ToString();
+
+                string urlWithOpenModal = uriBuilder.Path + uriBuilder.Query;
+
+                string loginUrl = $"Login.aspx?returnUrl={Server.UrlEncode(urlWithOpenModal)}";
+                string loginFailscript = $@"
                     alert('Vui lòng ĐĂNG NHẬP');
-                    setTimeout(function() {
-                        window.location.href = 'Login.aspx';
-                    }, 1000);
+                    setTimeout(function() {{
+                        window.location.href = '{loginUrl}';
+                    }}, 1000);
                 ";
                 ScriptManager.RegisterStartupScript(this, GetType(), "loginFail", loginFailscript, true);
-                return;
+                return ;
             }
 
             int maKhachHang = int.Parse(user_id);
@@ -158,9 +132,10 @@ namespace BaiTapLon
                     "alert('Vui lòng nhập số lượng hợp lệ');", true);
                 return;
             }
+          
 
-            string diaChiGiaoHang = txtAddressOrder.Text.Trim();
-            if (string.IsNullOrEmpty(diaChiGiaoHang))
+            string fullAddress = $"{soNha}, {phuong}, {quan}, {tinh}";
+            if (string.IsNullOrEmpty(fullAddress))
             {
                 ScriptManager.RegisterStartupScript(this, GetType(), "addressFail",
                     "alert('Vui lòng nhập địa chỉ giao hàng');", true);
@@ -174,38 +149,29 @@ namespace BaiTapLon
 
             string connStr = ConfigurationManager.ConnectionStrings["QLbansachConnectionString"].ConnectionString;
             using (SqlConnection conn = new SqlConnection(connStr))
-            using (SqlCommand cmd = new SqlCommand("DatDonHang_TheoMkh", conn))
+            using (SqlCommand cmd = new SqlCommand("dbo.DatDonHang_TheoMkh ", conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Mkh", maKhachHang);
                 var tvpParam = cmd.Parameters.AddWithValue("@DanhSachSach", dtSachMua);
                 tvpParam.SqlDbType = SqlDbType.Structured;
                 tvpParam.TypeName = "dbo.SachMuaType";
-
+                cmd.Parameters.AddWithValue("@DiaChiGiaoHang", fullAddress);
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
 
-            ScriptManager.RegisterStartupScript(this, GetType(), "successRedirect", @"
+            string reloadUrl = Request.RawUrl;
+            reloadUrl = System.Text.RegularExpressions.Regex.Replace(reloadUrl, @"[&?]openModal=true", "");
+            ScriptManager.RegisterStartupScript(this, GetType(), "successRedirect", $@"
                 alert('Đặt hàng thành công!');
-                var modal = bootstrap.Modal.getInstance(document.getElementById('orderModal'));
-                modal.hide();
-                setTimeout(function() {
-                    window.location.href = 'Default.aspx';
-                }, 1000);
+                setTimeout(function() {{
+                    window.location.href = '{reloadUrl}';
+                }}, 100);
             ", true);
             LoadBookDetail(Request.QueryString["ms"]);
         }
 
     }
 
-
-    public class CartItem
-    {
-        public string MaSach { get; set; }
-        public string TenSach { get; set; }
-        public decimal DonGia { get; set; }
-        public int SoLuong { get; set; }
-        public string HinhMinhHoa { get; set; }
-    }
 }
