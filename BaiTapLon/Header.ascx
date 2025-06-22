@@ -63,6 +63,7 @@
           box-sizing: border-box;
           background-color: rgba(255, 255, 255, 0.5);
           color: #333;
+          margin-left:90px;
         }
 
         .search-input::placeholder {
@@ -87,7 +88,7 @@
           line-height: 28px;
           text-align: center;
           z-index: 10;
-          margin-right: 120px; 
+          margin-right:30px;
 }
         .btn-search::before {
           content: "\f002"; 
@@ -230,7 +231,7 @@
             <li><a href="Default.aspx"><i class="fas fa-home"></i> Trang chủ</a></li>
             <li><a href="Default.aspx"><i class="fas fa-book"></i> Sách</a></li>
             <li><a href="TacGia.aspx"><i class="fas fa-user-pen"></i> Tác giả</a></li>
-            <li><a href="GioHang.aspx"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a></li>
+            <li><a href="Lich_Su_Mua_Hang.aspx"><i class="fas fa-shopping-cart"></i> Lịch Sử Mua Hàng </a></li>
           </ul>
         </div>
 

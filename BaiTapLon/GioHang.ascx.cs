@@ -18,8 +18,8 @@ namespace BaiTapLon
 
         private void BindGioHang()
         {
-            List<string> gioHang = Session["Cart"] as List<string>;
-
+            List<string> gioHang = Session["Cart"] as List<string>;//list dữ liệu chứa mã sách
+            
             if (gioHang == null || gioHang.Count == 0)
             {
                 rptGioHang.Visible = false;
@@ -29,6 +29,7 @@ namespace BaiTapLon
             }
 
             DataTable dt = GetBookDetails(gioHang);
+
 
             if (dt.Rows.Count == 0)
             {
@@ -84,7 +85,7 @@ namespace BaiTapLon
 
                 if (gioHang != null && gioHang.Contains(maSachXoa))
                 {
-                    gioHang.Remove(maSachXoa);
+                    gioHang.RemoveAll(item => item == maSachXoa);
                     Session["Cart"] = gioHang;
                 }
 

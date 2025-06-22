@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Advertisements>
+	<Ad>
+		<ImageUrl>~/images/gearvn.png</ImageUrl>
+		<NavigateUrl>https://gearvn.com/</NavigateUrl>
+		<AlternateText>Chương trình GearVN</AlternateText>
+		<Impressions>40</Impressions>
+		<Keyword>GearVN</Keyword>
+	</Ad>
+	<Ad>
+		<ImageUrl>~/images/vinaphoneKM.png</ImageUrl>
+		<NavigateUrl>https://vnpt.com.vn/</NavigateUrl>
+		<AlternateText>Chương trình giờ vàng Vinaphone</AlternateText>
+		<Impressions>40</Impressions>
+		<Keyword>Vinaphone</Keyword>
+	</Ad>
+	<Ad>
+		<ImageUrl>~/images/viettel.png</ImageUrl>
+		<NavigateUrl>https://vietteltelecom.vn/vx/tin-tuc/chi-tiet/tet-moi-qua-toi-viettel-tri-an-khach-hang-dip-tet-at-ty-voi-loat-uu-dai-xuyen-tet/13221040</NavigateUrl>
+		<AlternateText>Viettel chúc tết 2025</AlternateText>
+		<Impressions>40</Impressions>
+		<Keyword>Viettel</Keyword>
+	</Ad>
+	<Ad>
+		<ImageUrl>~/images/vichy.jpg</ImageUrl>
+		<NavigateUrl>https://www.vichy.com.vn/</NavigateUrl>
+		<AlternateText>Mừng lễ hội Deal Vichy</AlternateText>
+		<Impressions>40</Impressions>
+		<Keyword>Vichy</Keyword>
+	</Ad>
+	<Ad>
+		<ImageUrl>~/images/Grab.jpg</ImageUrl>
+		<NavigateUrl>https://www.grab.com/vn/</NavigateUrl>
+		<AlternateText>Khuyến mãi của Grab</AlternateText>
+		<Impressions>40</Impressions>
+		<Keyword>Grab</Keyword>
+	</Ad>
+	<Ad>
+		<ImageUrl>~/images/Shopee.jpg</ImageUrl>
+		<NavigateUrl>https://shopee.vn/</NavigateUrl>
+		<AlternateText>Khuyến mãi của ShopeeFood</AlternateText>
+		<Impressions>40</Impressions>
+		<Keyword>Shopee</Keyword>
+	</Ad>
+</Advertisements>

@@ -220,7 +220,7 @@
 
         <div class="container">
             <div class="content">
-                <div id="rptGioHangWrapper">
+                <div id="rptGioHangWrapper" style="height:408px;overflow-y:auto;" >
                     <asp:Label runat="server" ID="txttrangthai" Visible="false"></asp:Label>
                     <asp:Repeater ID="rptGioHang" runat="server" OnItemCommand="rptGioHang_ItemCommand">
                         <ItemTemplate>
@@ -269,6 +269,8 @@
                 </div>
             </div>
         </div>
+        <asp:PlaceHolder ID="phFooter" runat="server" />
+
         <script>
             $(document).ready(function() {
                 const apiBase = 'https://provinces.open-api.vn/api';

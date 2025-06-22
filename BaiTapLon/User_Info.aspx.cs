@@ -59,7 +59,7 @@ namespace BaiTapLon
 
         private void loadDonHang(string makh)
         {
-            string sql = "SELECT * FROM V_DON_HANG_TONG_HOP WHERE Mkh = @Mkh";
+            string sql = "SELECT * FROM V_DON_HANG_TONG_HOP WHERE Mkh = @Mkh ORDER BY Ngay_dat_hang DESC";
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["QLbansachConnectionString"].ConnectionString))
             using (SqlCommand cmd = new SqlCommand(sql, conn))
             {

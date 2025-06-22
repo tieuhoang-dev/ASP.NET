@@ -31,26 +31,22 @@ namespace BaiTapLon
             string connectionString = ConfigurationManager.ConnectionStrings["QLbansachConnectionString"].ConnectionString;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                 string query = @"
-            SELECT 
-                S.MaSach, S.Ten_sach, S.Hinh_minh_hoa, S.Don_gia, S.So_lan_xem, S.So_luong_ban, S.MaChuDe,
-                C.Ten_chu_de AS TenChuDe,
-                STRING_AGG(TG.Ten_tac_gia, ', ') AS TenTacGia
-            FROM 
-                vw_ThongTinSach S
-            LEFT JOIN dbo.THAM_GIA TGIA ON S.MaSach = TGIA.Ms
-            LEFT JOIN dbo.TAC_GIA TG ON TG.Mtg = TGIA.Mtg
-            LEFT JOIN dbo.CHU_DE C ON S.MaChuDe = C.Mcd
-            GROUP BY 
-                S.MaSach, S.Ten_sach, S.Hinh_minh_hoa, S.Don_gia, S.So_lan_xem, S.So_luong_ban, S.MaChuDe,
-                C.Ten_chu_de;
-        ";
+                string query = @"
+                    SELECT 
+                        *
+                    FROM 
+                        vw_ThongTinSach S
+                    
+                    ";
+
+               
 
                 SqlDataAdapter da = new SqlDataAdapter(query, conn);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 rptBooks.DataSource = dt;
                 rptBooks.DataBind();
+               
             }
         }
         protected string GetOnClientClick(string maSach, string tenSach, decimal donGia, string functionName)

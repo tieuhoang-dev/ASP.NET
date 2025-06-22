@@ -45,6 +45,13 @@ namespace BaiTapLon
                 phHeader.Controls.Clear();
                 phHeader.Controls.Add(HeaderControl);
 
+                var FooterControl = (Footer)LoadControl("~/Footer.ascx");
+                phFooter.Controls.Clear();
+                phFooter.Controls.Add(FooterControl);
+
+               
+
+
                 Session["searchKeyword"] = null;
                 Session["ChuDeDuocChon"] = null;
             }
@@ -76,6 +83,12 @@ namespace BaiTapLon
                 phHeader.Controls.Clear();
                 phHeader.Controls.Add(HeaderControl);
 
+                var FooterControl = (Footer)LoadControl("~/Footer.ascx");
+                phFooter.Controls.Clear();
+                phFooter.Controls.Add(FooterControl);
+
+                
+
                 Session["ChuDeDuocChon"] = null;
             }
             else
@@ -103,8 +116,12 @@ namespace BaiTapLon
                 var HeaderControl = (Header)LoadControl("~/Header.ascx");
                 phHeader.Controls.Clear();
                 phHeader.Controls.Add(HeaderControl);
-                string userid = Session["user_id"] as string;
-                lblid.Text = userid;
+
+                var FooterControl = (Footer)LoadControl("~/Footer.ascx");
+                phFooter.Controls.Clear();
+                phFooter.Controls.Add(FooterControl);
+
+                
             }
         }
         protected void btnConfirmOrder_Click(object sender, EventArgs e)

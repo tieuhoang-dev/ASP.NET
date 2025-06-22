@@ -140,9 +140,9 @@
 
                 <!-- Cột 2: Danh sách đơn hàng -->
                 <div class="col-md-8">
-                    <div class="card p-4 shadow-sm">
+                    <div class="card p-4 shadow-sm" style="height:600px;overflow-y:auto;">
                         <h4 class="mb-3">Danh Sách Đơn Hàng</h4>
-                        <asp:GridView ID="gvDonHang" runat="server" CssClass="table table-bordered table-hover"
+                        <asp:GridView ID="gvDonHang" runat="server" CssClass="table table-bordered table-hover "
                             AutoGenerateColumns="false">
                             <Columns>
                                 <asp:BoundField DataField="Sdh" HeaderText="Mã Đơn Hàng" />

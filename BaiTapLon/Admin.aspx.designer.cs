@@ -312,6 +312,15 @@ namespace Lab05
         protected global::System.Web.UI.WebControls.DropDownList drl_cd;
 
         /// <summary>
+        /// drl_nxb control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList drl_nxb;
+
+        /// <summary>
         /// txt_tg control.
         /// </summary>
         /// <remarks>
@@ -375,6 +384,15 @@ namespace Lab05
         protected global::System.Web.UI.WebControls.TextBox txt_tacgia;
 
         /// <summary>
+        /// fu_hinh control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fu_hinh;
+
+        /// <summary>
         /// ddl_Theloai control.
         /// </summary>
         /// <remarks>
@@ -384,13 +402,58 @@ namespace Lab05
         protected global::System.Web.UI.WebControls.DropDownList ddl_Theloai;
 
         /// <summary>
-        /// fu_hinh control.
+        /// txtChuDeMoi control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload fu_hinh;
+        protected global::System.Web.UI.WebControls.TextBox txtChuDeMoi;
+
+        /// <summary>
+        /// ddl_NXB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddl_NXB;
+
+        /// <summary>
+        /// pnlNXBMoi control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlNXBMoi;
+
+        /// <summary>
+        /// txtTenNXB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTenNXB;
+
+        /// <summary>
+        /// txtDiaChiNXB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDiaChiNXB;
+
+        /// <summary>
+        /// txtDienThoaiNXB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDienThoaiNXB;
 
         /// <summary>
         /// Btn_addSach control.

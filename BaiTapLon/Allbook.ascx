@@ -110,7 +110,7 @@
 <div class="books-wrapper">
 <asp:Repeater ID="rptBooks" runat="server">
 <ItemTemplate>
-    <a href='<%# Eval("MaSach", "BookDetail.aspx?ms={0}") %>' style="text-decoration: none; color: inherit;">
+    <a href='<%# Eval("Ms", "BookDetail.aspx?ms={0}") %>' style="text-decoration: none; color: inherit;">
         <div class="book-card">
             <div>
             <img src='<%# ResolveUrl("~/Images/") + Eval("Hinh_minh_hoa") %>' alt="Hình sách" />            
@@ -119,7 +119,7 @@
             <div class="book-info">
                 <div>
                     <h4><%# Eval("Ten_sach") %></h4>
-                    <p>Tác giả: <%# Eval("TenTacGia") %></p>
+                    <p>Tác giả: <%# Eval("DanhSachTacGia") %></p>
                     <p>Chủ đề: <%# Eval("TenChuDe") %></p>
                 </div>
                 <div class="book-footer">
@@ -134,8 +134,9 @@
                 </div>
                 </a>
     <div class="book-actions">
+               <asp:Panel ID="pnlButtons" runat="server" Visible='<%# Eval("Trang_Thai").ToString() == "1" %>'>
                <asp:LinkButton runat="server" CssClass="btn-buy-now" 
-                    data-masach='<%# Eval("MaSach") %>' 
+                    data-masach='<%# Eval("Ms") %>' 
                     data-tensach='<%# Eval("Ten_sach").ToString().Replace("\"", "\\\"") %>' 
                     data-dongia='<%# String.Format("{0:0}", Eval("Don_gia")) %>'
                     OnClientClick="openModal(this.getAttribute('data-masach'), this.getAttribute('data-tensach'), this.getAttribute('data-dongia')); return false;">
@@ -144,10 +145,11 @@
                 
                  <asp:LinkButton runat="server"
                     CssClass="btn-add-to-cart"
-                    OnClientClick='<%# "addToCart(\"" + Eval("MaSach") + "\"); return false;" %>'>
+                    OnClientClick='<%# "addToCart(\"" + Eval("Ms") + "\"); return false;" %>'>
                     <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
                 </asp:LinkButton>
-
+                </asp:Panel>
+                <asp:Label ID="lbl_Nkd" runat="server" Text="Ngừng Kinh Doanh" Visible='<%# Eval("Trang_Thai").ToString() != "1" %>' CssClass="text-muted" />
         </div>
             </div>
         </div>
@@ -159,7 +161,7 @@
             document.querySelectorAll('.btn-buy-now').forEach(btn => {
                 btn.addEventListener('click', function (e) {
                     e.preventDefault();
-                    const maSach = this.getAttribute('data-masach');
+                    const maSach = this.getAttribute('data-Ms');
                     const tenSach = this.getAttribute('data-tensach');
                     const donGia = parseInt(this.getAttribute('data-dongia'));
                     openModal(maSach, tenSach, donGia);
@@ -170,7 +172,7 @@
                 document.querySelectorAll('.btn-add-to-cart').forEach(btn => {
                     btn.addEventListener('click', function (e) {
                         e.preventDefault();
-                        const maSach = this.getAttribute('data-masach');
+                        const maSach = this.getAttribute('data-Ms');
                         addToCart(maSach);
                     });
                 });

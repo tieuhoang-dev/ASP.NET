@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="NewestBooks.ascx.cs" Inherits="BaiTapLon.NewestBooks" %>
 
 <style>
-    /* Giữ nguyên CSS bạn đã có */
+    
     #carouselContainer {
         position: relative;
         width: 800px;
@@ -20,13 +20,13 @@
         padding: 10px;
         display: flex;
         gap: 15px;
-        height: 150px;
+        height: 170px;
         align-items: center;
         box-sizing: border-box;
     }
 
     .carousel-item img {
-        height: 100px;
+        height: 150px;
         width: 100px;
         object-fit: cover;
         border-radius: 4px;
@@ -152,19 +152,23 @@
                         </div>
                     </a>
                     <div class="book-actions">
-                        <asp:LinkButton runat="server" CssClass="btn-buy-now" 
+                    <asp:Panel ID="pnlButtons" runat="server" Visible='<%# Eval("Trang_Thai").ToString() == "1" %>'>
+                       <asp:LinkButton runat="server" CssClass="btn-buy-now" 
                             data-masach='<%# Eval("MaSach") %>' 
                             data-tensach='<%# Eval("Ten_sach").ToString().Replace("\"", "\\\"") %>' 
                             data-dongia='<%# String.Format("{0:0}", Eval("Don_gia")) %>'
                             OnClientClick="openModal(this.getAttribute('data-masach'), this.getAttribute('data-tensach'), this.getAttribute('data-dongia')); return false;">
                             <i class="fa fa-credit-card"></i> Mua ngay
                         </asp:LinkButton>
-
-                        <asp:LinkButton runat="server"
+                
+                         <asp:LinkButton runat="server"
                             CssClass="btn-add-to-cart"
                             OnClientClick='<%# "addToCart(\"" + Eval("MaSach") + "\"); return false;" %>'>
                             <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
                         </asp:LinkButton>
+                        </asp:Panel>
+                        <asp:Label ID="lbl_Nkd" runat="server" Text="Ngừng Kinh Doanh " Visible='<%# Eval("Trang_Thai").ToString() != "1" %>' CssClass="text-muted" />
+
                     </div>
                 </div>
             </div>

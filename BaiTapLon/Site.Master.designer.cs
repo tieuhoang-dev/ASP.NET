@@ -69,13 +69,13 @@ namespace BaiTapLon
         protected global::BaiTapLon.GioHang GioHangControl;
 
         /// <summary>
-        /// lblid control.
+        /// QcControl control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblid;
+        protected global::BaiTapLon.Qc2 QcControl;
 
         /// <summary>
         /// phSachBanChay control.
@@ -148,5 +148,14 @@ namespace BaiTapLon
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hfQuantity_AddToCart;
+
+        /// <summary>
+        /// phFooter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder phFooter;
     }
 }

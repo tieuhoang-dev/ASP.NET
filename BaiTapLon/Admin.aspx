@@ -4,10 +4,262 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Admin</title>
-        <link href="Admin.css" rel="stylesheet" type="text/css" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
 
+        .treeview {
+            width: 200px;
+            float: left;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px;
+            background: white;
+        }
+
+            .treeview ul {
+                list-style: none;
+                padding-left: 10px;
+                margin: 0;
+            }
+
+            .treeview li {
+                margin: 15px 0;
+                font-weight: bold;
+                cursor: pointer;
+                color: #333;
+                transition: 0.3s;
+            }
+
+                .treeview li:hover {
+                    color: #007BFF;
+                    transform: translateX(5px);
+                }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            background: white;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            max-height: 620px;
+            overflow-y: auto;
+        }
+
+        .btn {
+            margin: 0 5px 15px 0;
+            cursor: pointer;
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+            .btn:hover {
+                background-color: #0056b3;
+            }
+
+        table.table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            table.table th, table.table td {
+                padding: 10px;
+                border: 1px solid #ddd;
+                text-align: left;
+            }
+
+            table.table th {
+                background-color: #007BFF;
+                color: white;
+            }
+
+        a {
+            color: #007BFF;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+            a:hover {
+                text-decoration: underline;
+            }
+
+        #Panel1, #Panel2, #Panel_suasach {
+            display: none;
+            position: fixed;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 450px;
+            background-color: white;
+            padding: 25px 30px;
+            border: 2px solid #007BFF;
+            border-radius: 10px;
+            z-index: 9999;
+            box-shadow: 0 0 20px rgba(0,0,0,0.25);
+        }
+
+        .modal-header {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-weight: bold;
+            color: red;
+            cursor: pointer;
+            font-size: 22px;
+            user-select: none;
+        }
+
+        .modal-footer {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"], select {
+            width: 100%;
+            padding: 8px 10px;
+            margin: 6px 0 14px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        button, input[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+            button:hover, input[type="submit"]:hover {
+                background-color: #0056b3;
+            }
+
+            button[type="button"] {
+                background-color: #6c757d;
+            }
+
+                button[type="button"]:hover {
+                    background-color: #565e64;
+                }
+        .input {
+            width: 90%;
+            padding: 6px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .btn {
+            padding: 6px 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+            .btn:hover {
+                background-color: #0056b3;
+            }
+        .btn-active {
+            color: #007bff; 
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-disabled {
+            color: gray;
+            cursor: default;
+            pointer-events: none;
+            opacity: 0.5; 
+        }
+        #Panel3.modal-wide {
+            display: none;
+            position: fixed;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 910px; 
+            background-color: white;
+            padding: 0;
+            border: 2px solid #007BFF;
+            border-radius: 10px;
+            z-index: 9999;
+            box-shadow: 0 0 20px rgba(0,0,0,0.25);
+            max-height: 90vh;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 18px;
+            background: white;
+            border-bottom: 1px solid #ccc;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        .modal-body-two-column {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1 1 auto;
+        }
+
+        .modal-left, .modal-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #ccc;
+            background: #f8f8f8;
+            text-align: right;
+            position: sticky;
+            bottom: 0;
+            z-index: 1;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            color: red;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+    </style>
     <script>
+
         function openEditModal(mkh, hoten, diachi, dienthoai, ngaysinh, gioitinh, email) {
             document.getElementById("hfMkh").value = mkh;
             document.getElementById("txtHoTen").value = hoten;
@@ -75,6 +327,13 @@
         function confirmHuy(ma) {
             return confirm("Bạn thật sự muốn hủy đơn hàng #" + ma + "?");
         }
+        function showModal(id) {
+            document.getElementById(id).style.display = 'block';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
     </script>
 </head>
 <body>
@@ -106,7 +365,11 @@
                         <asp:BoundField DataField="Dia_chi" HeaderText="Địa chỉ" />
                         <asp:BoundField DataField="Dien_thoai" HeaderText="Điện thoại" />
                         <asp:BoundField DataField="Ngay_sinh" HeaderText="Ngày sinh" DataFormatString="{0:yyyy-MM-dd}" />
-                        <asp:BoundField DataField="Gioi_tinh" HeaderText="Giới tính" />
+                        <asp:TemplateField HeaderText="Giới tính">
+                            <ItemTemplate>
+                                <%# (bool)Eval("Gioi_tinh") ? "Nam" : "Nữ" %>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                         <asp:BoundField DataField="Email" HeaderText="Email" />
                         <asp:TemplateField HeaderText="Thao tác">
                             <ItemTemplate>
@@ -141,7 +404,7 @@
             <div style="max-height: 500px; overflow-y: auto;">
             <asp:GridView ID="Grv_Sach" runat="server" AutoGenerateColumns="false" CssClass="table">
                 <Columns>
-                    <asp:BoundField DataField="MaSach" HeaderText="Mã Sách " />
+                    <asp:BoundField DataField="Ms" HeaderText="Mã Sách " />
                     <asp:BoundField DataField="Ten_sach" HeaderText="Tên Sách" />
                     <asp:TemplateField HeaderText="Đơn Giá (VND)">
                         <ItemTemplate>
@@ -151,7 +414,7 @@
                     <asp:BoundField DataField="Mo_ta" HeaderText="Mô Tả" />
                     <asp:BoundField DataField="TenChuDe" HeaderText="Thể Loại" />
                     <asp:BoundField DataField="Ngay_cap_nhat" HeaderText="Ngày Cập Nhật" DataFormatString="{0:dd-MM-yyyy}" />
-                    <asp:BoundField DataField="TenTacGia" HeaderText="Tác Giả" />
+                    <asp:BoundField DataField="DanhSachTacGia" HeaderText="Tác Giả" />
                     <asp:TemplateField HeaderText="Số Lượng Bán">
                         <ItemTemplate>
                             <%# String.Format("{0:N0} ", Eval("So_luong_ban")) %>
@@ -162,14 +425,14 @@
                     <ItemTemplate>
                         <a href="javascript:void(0)" 
                            onclick='OpenEditBookModal(
-                                "<%# Eval("MaSach") %>", 
+                                "<%# Eval("Ms") %>", 
                                 "<%# Eval("Ten_sach").ToString().Replace("\"", "\\\"") %>", 
-                                "<%# Eval("TenTacGia").ToString().Replace("\"", "\\\"") %>", 
+                                "<%# Eval("DanhSachTacGia").ToString().Replace("\"", "\\\"") %>", 
                                 "<%# Eval("Mo_ta").ToString().Replace("\"", "\\\"") %>", 
                                 "<%# Eval("Don_gia") %>"
                             )'><i class="fas fa-edit"></i></a> |<asp:LinkButton ID="lnkXoa" CssClass="fa fa-trash" runat="server" 
-                            CommandArgument='<%# Eval("MaSach") %>'
-                            OnClientClick='<%# "return confirmDelete(" + Eval("MaSach") + ", \"" + Eval("Ten_sach") + "\")" %>'
+                            CommandArgument='<%# Eval("Ms") %>'
+                            OnClientClick='<%# "return confirmDelete(" + Eval("Ms") + ", \"" + Eval("Ten_sach") + "\")" %>'
                             OnClick="btnXoaSach_Click" />
                     </ItemTemplate>
                 </asp:TemplateField>
@@ -204,14 +467,14 @@
                         <!-- Nút xác nhận giao hàng -->
                         <asp:LinkButton ID="lnkGiaoHang" runat="server"
                             CommandArgument='<%# Eval("Sdh") %>'
-                            OnClientClick='<%# Convert.ToInt32(Eval("Da_giao_hang")) == 0 ? "return confirmGiao(\"Xác nhận đơn hàng #" + Eval("Sdh") + " đã được giao?\")" : "return false;" %>'
+                            OnClientClick='<%# Convert.ToInt32(Eval("Da_giao_hang")) == 0 ? "return confirmGiao(\"" + Eval("Sdh") + "\")" : "return false;" %>'
                             OnClick="btnXacNhanGiao_Click"
                             CssClass='<%# Convert.ToInt32(Eval("Da_giao_hang")) == 0 ? "fa fa-truck btn-active" : "fa fa-truck btn-disabled" %>' />
                         |
                         <!-- Nút hủy đơn hàng -->
                         <asp:LinkButton ID="lnkHuyDon" runat="server"
                             CommandArgument='<%# Eval("Sdh") %>'
-                            OnClientClick='<%# Convert.ToInt32(Eval("Da_giao_hang")) == 0 ? "return confirmHuy(\"Bạn chắc muốn HỦY đơn hàng #" + Eval("Sdh") + "?\")" : "return false;" %>'
+                            OnClientClick='<%# Convert.ToInt32(Eval("Da_giao_hang")) == 0 ? "return confirmHuy(\"" + Eval("Sdh") + "?\")" : "return false;" %>'
                             OnClick="btnHuyDon_Click"
                             CssClass='<%# Convert.ToInt32(Eval("Da_giao_hang")) == 0 ? "fa fa-trash btn-active" : "fa fa-trash btn-disabled" %>' />
                     </ItemTemplate>
@@ -268,40 +531,62 @@
             <asp:TextBox ID="txt_mt" runat="server" placeholder="Mô Tả" ClientIDMode="Static" TextMode="MultiLine" Rows="5" Columns="58"/><br />
             <asp:DropDownList ID="drl_cd" runat="server" ClientIDMode="Static">
             </asp:DropDownList><br />
-            <asp:TextBox ID="txt_tg" runat="server" placeholder="Tác Giả " ClientIDMode="Static" /><br />
+            <asp:DropDownList ID="drl_nxb" runat="server" ClientIDMode="Static">
+            </asp:DropDownList><br />
+            <asp:TextBox ID="txt_tg" runat="server" placeholder="Tác Giả:Vai Trò " ClientIDMode="Static" /><br />
             <asp:Button ID="btn_save" runat="server" Text="Lưu" CssClass="btn" OnClick="btnSave1_Click" />
             <button type="button" onclick="closeModal('Panel_suasach')">Hủy</button>
         </div>
         <asp:HiddenField ID="hfSection" runat="server" ClientIDMode="Static" />
         <!-- Modal Thêm Sách -->
-        <div id="Panel3">
-    <div class="modal-header">
-        Thêm Sách  
-        <span class="close-btn" onclick="closeModal('Panel3')">×</span>
-    </div>
+       <div id="Panel3" class="modal-wide">
+            <div class="modal-header">
+                <h4>Thêm Sách</h4>
+                <span class="close-btn" onclick="closeModal('Panel3')">×</span>
+            </div>
 
-    <asp:TextBox ID="txt_tensach" runat="server" placeholder="Tên Sách" CssClass="input" /><br />
+            <div class="modal-body-two-column">
+                <!-- Cột trái -->
+                <div class="modal-left">
+                    <asp:TextBox ID="txt_tensach" runat="server" CssClass="form-control" Placeholder="Tên sách" />
 
-    <asp:TextBox ID="txt_dongia" runat="server" placeholder="Đơn Giá" CssClass="input" /><br />
+                    <asp:TextBox ID="txt_dongia" runat="server" CssClass="form-control" Placeholder="Đơn giá"/>
 
-    <asp:TextBox ID="txt_mota" runat="server" placeholder="Mô Tả" 
-        TextMode="MultiLine" Rows="5" Columns="58" CssClass="input" /><br />
+                    <asp:TextBox ID="txt_mota" runat="server" TextMode="MultiLine" Rows="6" CssClass="form-control" Placeholder="Mô tả" />
 
-    <asp:TextBox ID="txt_tacgia" runat="server" placeholder="Tác Giả" 
-        ClientIDMode="Static" CssClass="input" /><br />
+                    <label></label>
+                    <asp:TextBox ID="txt_tacgia" runat="server" CssClass="form-control"
+                        Placeholder="Tác giả:Vai trò" />
 
-    <asp:DropDownList ID="ddl_Theloai" runat="server" CssClass="input">
-    </asp:DropDownList><br />
+                    <label>Hình minh họa:</label>
+                    <asp:FileUpload ID="fu_hinh" runat="server" CssClass="form-control" />
+                </div>
 
-    <label>Hình minh họa:</label><br />
-    <asp:FileUpload ID="fu_hinh" runat="server" CssClass="input" /><br /><br />
+                <!-- Cột phải -->
+                <div class="modal-right">
+                    <label>Chủ đề:</label>
+                    <asp:DropDownList ID="ddl_Theloai" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddl_Theloai_SelectedIndexChanged" />
+                    <asp:TextBox ID="txtChuDeMoi" runat="server" CssClass="form-control mb-2" Placeholder="Chủ đề mới" Visible="false" />
 
-    <div class="modal-footer">
-        <asp:Button ID="Btn_addSach" runat="server" Text="Thêm" 
-            CssClass="btn" OnClick="btnThem_Click" />
-        <button type="button" onclick="closeModal('Panel3')">Hủy</button>
-    </div>
-</div>
+                    <label>Nhà xuất bản:</label>
+                    <asp:DropDownList ID="ddl_NXB" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddl_NXB_SelectedIndexChanged" />
+
+                    <asp:Panel ID="pnlNXBMoi" runat="server" Visible="false">
+                        <asp:TextBox ID="txtTenNXB" runat="server" CssClass="form-control mb-1" placeholder="Tên NXB" />
+                        <asp:TextBox ID="txtDiaChiNXB" runat="server" CssClass="form-control mb-1" placeholder="Địa chỉ" />
+                        <asp:TextBox ID="txtDienThoaiNXB" runat="server" CssClass="form-control mb-2" placeholder="Điện thoại" />
+                    </asp:Panel>
+
+                    
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <asp:Button ID="Btn_addSach" runat="server" Text="Thêm" CssClass="btn btn-primary" OnClick="btnThem_Click" />
+                <button type="button" class="btn btn-secondary" onclick="closeModal('Panel3')">Hủy</button>
+            </div>
+        </div>
+
 
     </form>
 </body>

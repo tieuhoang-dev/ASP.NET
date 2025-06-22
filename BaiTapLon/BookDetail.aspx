@@ -118,6 +118,7 @@
                 <asp:HiddenField ID="hfMaSach_AddToCart" runat="server" />
             </div>
         </div>
+        <asp:PlaceHolder ID="phFooter" runat="server" />
 
         <!-- Modal Mua ngay -->
         <div id="buyNowModal">

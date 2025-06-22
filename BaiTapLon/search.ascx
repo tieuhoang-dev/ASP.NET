@@ -63,19 +63,22 @@
                     </div>
                     </a>
                     <div class="book-actions">
-                   <asp:LinkButton runat="server" CssClass="btn-buy-now" 
-                        data-masach='<%# Eval("MaSach") %>' 
-                        data-tensach='<%# Eval("Ten_sach").ToString().Replace("\"", "\\\"") %>' 
-                        data-dongia='<%# String.Format("{0:0}", Eval("Don_gia")) %>'
-                        OnClientClick="openModal(this.getAttribute('data-masach'), this.getAttribute('data-tensach'), this.getAttribute('data-dongia')); return false;">
-                        <i class="fa fa-credit-card"></i> Mua ngay
-                    </asp:LinkButton>
-            
-                     <asp:LinkButton runat="server"
-                        CssClass="btn-add-to-cart"
-                        OnClientClick='<%# "addToCart(\"" + Eval("MaSach") + "\"); return false;" %>'>
-                        <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
-                    </asp:LinkButton>
+                       <asp:Panel ID="pnlButtons" runat="server" Visible='<%# Eval("Trang_Thai").ToString() == "1" %>'>
+                       <asp:LinkButton runat="server" CssClass="btn-buy-now" 
+                            data-masach='<%# Eval("MaSach") %>' 
+                            data-tensach='<%# Eval("Ten_sach").ToString().Replace("\"", "\\\"") %>' 
+                            data-dongia='<%# String.Format("{0:0}", Eval("Don_gia")) %>'
+                            OnClientClick="openModal(this.getAttribute('data-masach'), this.getAttribute('data-tensach'), this.getAttribute('data-dongia')); return false;">
+                            <i class="fa fa-credit-card"></i> Mua ngay
+                        </asp:LinkButton>
+                
+                         <asp:LinkButton runat="server"
+                            CssClass="btn-add-to-cart"
+                            OnClientClick='<%# "addToCart(\"" + Eval("MaSach") + "\"); return false;" %>'>
+                            <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
+                        </asp:LinkButton>
+                        </asp:Panel>
+                        <asp:Label ID="lbl_Nkd" runat="server" Text="Ngừng Kinh Doanh" Visible='<%# Eval("Trang_Thai").ToString() != "1" %>' CssClass="text-muted" />
                 </div>
                 </div>
             </div>
@@ -87,7 +90,7 @@
             document.querySelectorAll('.btn-buy-now').forEach(btn => {
                 btn.addEventListener('click', function (e) {
                     e.preventDefault();
-                    const maSach = this.getAttribute('data-masach');
+                    const maSach = this.getAttribute('data-MaSach');
                     const tenSach = this.getAttribute('data-tensach');
                     const donGia = parseInt(this.getAttribute('data-dongia'));
                     openModal(maSach, tenSach, donGia);
@@ -98,7 +101,7 @@
                 document.querySelectorAll('.btn-add-to-cart').forEach(btn => {
                     btn.addEventListener('click', function (e) {
                         e.preventDefault();
-                        const maSach = this.getAttribute('data-masach');
+                        const maSach = this.getAttribute('data-MaSach');
                         addToCart(maSach);
                     });
                 });

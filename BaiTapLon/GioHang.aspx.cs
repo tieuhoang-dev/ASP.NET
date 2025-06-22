@@ -23,6 +23,10 @@ namespace BaiTapLon
             var HeaderControl = (Header)LoadControl("~/Header.ascx");
             phHeader.Controls.Clear();
             phHeader.Controls.Add(HeaderControl);
+
+            var FooterControl = (Footer)LoadControl("~/Footer.ascx");
+            phFooter.Controls.Clear();
+            phFooter.Controls.Add(FooterControl);
         }
 
         private void LoadGioHang()
@@ -179,7 +183,6 @@ namespace BaiTapLon
 
             Session["Cart"] = gioHang;
 
-            // Tính lại tổng tiền
             TinhTongTien();
         }
 
@@ -195,10 +198,9 @@ namespace BaiTapLon
             string quanHuyen = Request.Form["ddlQuanHuyen"] ?? "";
             string tinhThanh = Request.Form["ddlTinhThanh"] ?? "";
 
-            string user_id = Session["user_id"]?.ToString();
+            string user_id = Session["user_id"]?.ToString();//đăng nhập phải lưu user-id 
             if (string.IsNullOrEmpty(user_id))
             {
-                // Ghi nhớ để quay lại sau khi đăng nhập
                 Session["ReturnUrl"] = "GioHang.aspx";
                 string loginFailscript = @"
             alert('Vui lòng ĐĂNG NHẬP');

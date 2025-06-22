@@ -22,6 +22,10 @@ namespace BaiTapLon
             phHeader.Controls.Clear();
             phHeader.Controls.Add(HeaderControl);
 
+            var FooterControl = (Footer)LoadControl("~/Footer.ascx");
+            phFooter.Controls.Clear();
+            phFooter.Controls.Add(FooterControl);
+
             if (!IsPostBack && Request.QueryString["openModal"] == "true")
             {
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "openModal", "showOrderModal();", true);
@@ -57,7 +61,7 @@ namespace BaiTapLon
                     }
                     else
                     {
-                        imgBook.ImageUrl = ResolveUrl("~/Images/default.jpg"); // ảnh mặc định
+                        imgBook.ImageUrl = ResolveUrl("~/Images/default.jpg"); 
                     }
                 }
                 reader.Close();
